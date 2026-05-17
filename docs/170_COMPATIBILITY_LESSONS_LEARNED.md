@@ -1,11 +1,11 @@
 ---
 document_id: DOC-170
 title: "Compatibility Lessons Learned"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-170
 normative_status: Informative
 source: "Generalized AI-assisted coding SOP source text"
@@ -1209,3 +1209,10 @@ Status: Open
 10. Every solved compatibility problem should become a reusable prevention rule.
 
 Software Package Installs
+
+## REV-002 Compatibility Lessons
+
+- Keep local audit commands and CI commands aligned so offline users and GitHub users test the same thing.
+- Treat GitHub branch practices as documentation artifacts, not only code branches.
+- Keep release zips deterministic enough for review and stable enough for old-school handoff.
+- Do not assume repository settings are enforced by checked-in files; branch protection and secret scanning require maintainer setup.

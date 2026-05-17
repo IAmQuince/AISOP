@@ -1,11 +1,11 @@
 ---
 document_id: DOC-070
 title: "SOP: ZIP Package Review and Handoff"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-070
 normative_status: Informative
 source: "Generalized AI-assisted coding SOP source text"
@@ -806,3 +806,7 @@ This SOP is what turns a pile of AI-generated code into a maintainable engineeri
 Appendix
 
 Lessona Learned
+
+## REV-002 Extension: GitHub-Compatible Zip Handoff
+
+Zip handoff remains valid after GitHub adoption. The release package should be generated from the repository root and verified with `tools/release_package.py` so that the zip basename and internal root folder match.

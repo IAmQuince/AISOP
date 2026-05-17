@@ -1,11 +1,11 @@
 ---
 document_id: DOC-005
 title: "Product Requirements"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-005
 normative_status: Normative
 source: "Generalized AI-assisted coding SOP source text"
@@ -135,3 +135,38 @@ The machine-readable requirement catalog is also stored at:
 `requirements/requirements_catalog.json`
 
 That JSON file is derived from the requirement list above and is intended as a simple example of machine-readable requirement indexing.
+
+## REV-002 Product Requirements
+
+REQ-REPO-001 GitHub-facing repository README
+: The package shall include a root `README.md` suitable for GitHub visitors and shall direct users to the package start-here workflow.
+
+REQ-REPO-002 Repository hygiene files
+: The package shall include `.gitignore`, `.gitattributes`, and `.editorconfig`.
+
+REQ-REPO-003 GitHub collaboration files
+: The package shall include `.github/` issue templates, a pull request template, and baseline workflows.
+
+REQ-CI-001 Local/CI audit parity
+: The GitHub CI workflow shall call the same all-audits command available to zip-package recipients.
+
+REQ-REL-001 Archive/root name match
+: Release packaging shall verify that the zip basename and internal root folder name match.
+
+REQ-SEC-001 Security policy
+: The package shall include `SECURITY.md` defining reporting and no-secrets expectations.
+
+REQ-SEC-002 Lightweight secret scan
+: The package shall include a local secret-pattern scan that writes a copy/pasteable report.
+
+REQ-SAFE-001 Safety baseline
+: The package shall include `SAFETY.md` defining safety classes and baseline live-control rules.
+
+REQ-LIC-001 License decision gate
+: The package shall include an explicit license-decision gate before public reuse is claimed.
+
+REQ-GOV-001 Practice-space doctrine
+: The package shall document AISOP as a branchable, auditable space of practices.
+
+REQ-AI-001 AI agent handoff protocol
+: The package shall include instructions for AI-assisted revision that require file inspection, revision updates, audit execution, and feature preservation.

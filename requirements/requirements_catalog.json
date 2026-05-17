@@ -1,8 +1,8 @@
 {
-  "package_id": "20260502_01_ai_sop_reference_package",
-  "version": "0.1.0",
-  "revision": "REV-001",
-  "last_updated": "2026-05-02",
+  "package_id": "20260516_00_seed",
+  "version": "0.2.0",
+  "revision": "REV-002",
+  "last_updated": "2026-05-16",
   "requirements": [
     {
       "id": "REQ-PKG-001",
@@ -114,6 +114,116 @@
       "status": "Implemented",
       "verification": "TEST-LIMIT-001",
       "the_machine-readable_requirement_catalog_is_also_stored_at": ""
+    },
+    {
+      "id": "REQ-REPO-001",
+      "title": "GitHub-facing repository README",
+      "requirement": "The package shall include a root `README.md` suitable for GitHub visitors and shall direct users to the package start-here workflow.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REPO-001"
+    },
+    {
+      "id": "REQ-REPO-002",
+      "title": "Repository hygiene files",
+      "requirement": "The package shall include `.gitignore`, `.gitattributes`, and `.editorconfig`.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REPO-002"
+    },
+    {
+      "id": "REQ-REPO-003",
+      "title": "GitHub collaboration files",
+      "requirement": "The package shall include `.github/` issue templates, a pull request template, and baseline workflows.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REPO-003"
+    },
+    {
+      "id": "REQ-CI-001",
+      "title": "Local/CI audit parity",
+      "requirement": "The GitHub CI workflow shall call the same all-audits command available to zip-package recipients.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-CI-001"
+    },
+    {
+      "id": "REQ-REL-001",
+      "title": "Archive/root name match",
+      "requirement": "Release packaging shall verify that the zip basename and internal root folder name match.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REL-001"
+    },
+    {
+      "id": "REQ-SEC-001",
+      "title": "Security policy",
+      "requirement": "The package shall include `SECURITY.md` defining reporting and no-secrets expectations.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-SEC-001"
+    },
+    {
+      "id": "REQ-SEC-002",
+      "title": "Lightweight secret scan",
+      "requirement": "The package shall include a local secret-pattern scan that writes a copy/pasteable report.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-SEC-002"
+    },
+    {
+      "id": "REQ-SAFE-001",
+      "title": "Safety baseline",
+      "requirement": "The package shall include `SAFETY.md` defining safety classes and baseline live-control rules.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-SAFE-001"
+    },
+    {
+      "id": "REQ-LIC-001",
+      "title": "License decision gate",
+      "requirement": "The package shall include an explicit license-decision gate before public reuse is claimed.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-LIC-001"
+    },
+    {
+      "id": "REQ-GOV-001",
+      "title": "Practice-space doctrine",
+      "requirement": "The package shall document AISOP as a branchable, auditable space of practices.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-GOV-001"
+    },
+    {
+      "id": "REQ-AI-001",
+      "title": "AI agent handoff protocol",
+      "requirement": "The package shall include instructions for AI-assisted revision that require file inspection, revision updates, audit execution, and feature preservation.",
+      "rationale": "Added for REV-002 GitHub practice-space readiness.",
+      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-AI-001"
     }
   ]
 }

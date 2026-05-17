@@ -1,11 +1,11 @@
 ---
 document_id: DOC-020
 title: "AI Collaboration Operating Instructions"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-020
 normative_status: Informative
 source: "Generalized AI-assisted coding SOP source text"
@@ -304,3 +304,9 @@ If you are uncertain, say what you need:
 * screenshots;
 * expected versus actual behavior.
 Do not guess past the available evidence when a diagnostic or file inspection would answer the question.
+
+## REV-002 AI Collaboration Requirements
+
+When an AI agent updates this package or a downstream package, it should work from the actual files, not from remembered structure. The agent should preserve existing features unless removal is explicitly requested, update revisions on touched controlled documents, update traceability when requirements change, and run the diagnostic/audit harness before delivery.
+
+For the full protocol, see `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md`.

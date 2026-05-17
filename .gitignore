@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build/release outputs
+dist/
+build/
+*.egg-info/
+
+# Local/editor/OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+*.bak
+.idea/
+.vscode/
+
+# Generated local logs
+*.log

@@ -1,0 +1,21 @@
+name: Package regression
+description: Report feature loss, file loss, or audit drift between packages
+title: "[Regression]: "
+labels: [regression]
+body:
+  - type: input
+    id: from_version
+    attributes:
+      label: Previous package/revision
+  - type: input
+    id: to_version
+    attributes:
+      label: Current package/revision
+  - type: textarea
+    id: lost
+    attributes:
+      label: Missing or changed capability
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence, reports, or file paths

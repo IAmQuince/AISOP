@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000-CHANGELOG
 title: "Changelog"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-CHANGELOG
 normative_status: Informative
 source: "Generalized AI-assisted coding SOP source text"
@@ -32,3 +32,28 @@ source: "Generalized AI-assisted coding SOP source text"
 ## 0.0.1 / REV-000 / 2026-05-02
 
 - Initial cleaned generalized markdown seed package.
+
+## 0.2.0 / REV-002 - 2026-05-16
+
+### Added
+
+- GitHub-ready repository substrate: `README.md`, `.gitignore`, `.gitattributes`, `.editorconfig`, `.github/` templates, CI workflows, and Dependabot configuration.
+- Practice-space doctrine explaining AISOP as a branchable, auditable space of practices rather than only a static package.
+- Security, safety, support, contribution, attribution, and license-decision documents.
+- Release-package tooling to preserve old-school zip handoff while supporting GitHub releases.
+- Repository-health, traceability, archive-name, secret-scan, manifest-update, and all-audits tools.
+- Baseline REV-001 audit reports preserved under `reports/baseline/`.
+
+### Changed
+
+- Package identity updated to `20260516_00_seed`.
+- Package version updated from `0.1.0` to `0.2.0`.
+- Touched existing controlled documents updated to `REV-002`.
+- README workflow updated to describe both zip handoff and GitHub repository use.
+- Requirement catalog expanded for repository, CI, release, safety, security, license, and governance requirements.
+
+### Risk notes
+
+- License remains intentionally unresolved and is treated as a release gate.
+- GitHub repository settings such as branch protection cannot be fully enforced from files alone and require maintainer setup.
+- Local secret scan is a lightweight preflight, not a complete security review.

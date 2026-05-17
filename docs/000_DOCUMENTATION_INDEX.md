@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000
 title: "Documentation Index"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000
 normative_status: Informative
 source: "Generalized AI-assisted coding SOP source text"
@@ -58,3 +58,16 @@ These markdown files were generated from the uploaded AISOP text source and ligh
 - `docs/270_PYDROID_ANDROID_PYTHON_AND_AI_CODING_WORKFLOW_GUIDE.md`
 - `docs/280_NETWORKING_IP_ADDRESSES_COMMAND_LINE_FILE_TRANSFER_GUIDE.md`
 - `docs/290_GUI_DEVELOPMENT_PLATFORM_AND_DESIGN_GUIDE.md`
+
+## REV-002 GitHub / Practice-Space Documents
+
+- `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md` - explains the branchable practice-space model.
+- `docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md` - explains how to convert an audited zip package into a GitHub repository.
+- `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md` - keeps GitHub releases and zip trading aligned.
+- `docs/110_SECURITY_AND_SAFETY_BASELINE_SOP.md` - defines baseline safety/security gates.
+- `docs/120_CONTRIBUTION_REVIEW_AND_ISSUE_WORKFLOW_SOP.md` - defines issues, PRs, and review gates.
+- `docs/130_PRODUCT_LAUNCH_READINESS_CHECKLIST.md` - defines minimum product launch readiness checks.
+- `docs/140_LICENSE_IP_AND_ATTRIBUTION_DECISION_GUIDE.md` - guides license and attribution decisions.
+- `docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md` - explains local and CI audits.
+- `docs/160_MAINTAINER_PLAYBOOK.md` - gives maintainer routines.
+- `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` - defines how to work with AI agents without losing package discipline.

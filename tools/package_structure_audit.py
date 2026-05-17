@@ -12,6 +12,7 @@ REPORT_DIR = PACKAGE_ROOT / 'reports'
 REPORT_PATH = REPORT_DIR / 'package_structure_audit_report.txt'
 
 REQUIRED_ROOT_FILES = [
+    'README.md',
     'README_START_HERE.md',
     'CHANGELOG.md',
     'FEATURE_INVENTORY.md',
@@ -20,9 +21,13 @@ REQUIRED_ROOT_FILES = [
     'WORKPLAN_CURRENT_RUN.md',
     'PACKAGE_MANIFEST.md',
     'REQUIREMENTS_TRACEABILITY_MATRIX.md',
+    'CONTRIBUTING.md',
+    'SECURITY.md',
+    'SAFETY.md',
+    'LICENSE_DECISION_REQUIRED.md',
 ]
 
-REQUIRED_DIRS = ['docs', 'tools', 'tests', 'reports', 'src', 'requirements', 'config']
+REQUIRED_DIRS = ['docs', 'tools', 'tests', 'reports', 'src', 'requirements', 'config', '.github']
 REQUIRED_FRONTMATTER_KEYS = [
     'document_id', 'title', 'version', 'revision', 'status',
     'last_updated', 'package_id', 'machine_reference_prefix', 'normative_status'
@@ -102,6 +107,8 @@ def main():
     doc_ids = {}
     for path in sorted(PACKAGE_ROOT.rglob('*.md')):
         rel = path.relative_to(PACKAGE_ROOT).as_posix()
+        if rel.startswith('.github/'):
+            continue
         text = read_text(path)
         fm = parse_frontmatter(text)
         if not fm:
@@ -181,6 +188,8 @@ def main():
     hits = []
     for path in sorted(PACKAGE_ROOT.rglob('*.md')):
         rel = path.relative_to(PACKAGE_ROOT).as_posix()
+        if rel.startswith('.github/'):
+            continue
         text = read_text(path)
         for pat in PERSONAL_REFERENCE_PATTERNS:
             if re.search(pat, text):

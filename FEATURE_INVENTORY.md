@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000-FEATURE-INVENTORY
 title: "Feature Inventory"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-FEATURE-INVENTORY
 normative_status: Normative
 source: "Generalized AI-assisted coding SOP source text"
@@ -79,3 +79,35 @@ Description: Includes root docs, `docs/`, `tools/`, `tests/`, `reports/`, `requi
 Status: Current
 Preserve: Yes
 Verification: TEST-PKG-001
+
+## REV-002 Feature Additions
+
+FEAT-010 GitHub-ready repository substrate
+: Adds root repository files, `.github/` templates, CI workflow stubs, and repository bootstrap documentation.
+
+FEAT-011 AISOP practice-space doctrine
+: Documents GitHub branches, issues, pull requests, and releases as mechanisms for exploring and comparing practices.
+
+FEAT-012 Dual zip/GitHub release workflow
+: Preserves local zip-package handoff while preparing for GitHub tags and downloadable releases.
+
+FEAT-013 Security and safety baseline
+: Adds security policy, safety classification, local secret scan, and release-gate language.
+
+FEAT-014 License and attribution decision gate
+: Adds explicit license-decision blocking file and attribution/notice workflow.
+
+FEAT-015 Repository health audit
+: Adds a runnable audit for GitHub/community/repository-readiness files.
+
+FEAT-016 Release packaging tool
+: Adds deterministic release zip generation and dry-run verification.
+
+FEAT-017 AI agent handoff protocol
+: Adds explicit rules for handing the package to AI without feature loss or interface drift.
+
+FEAT-018 Contribution and review workflow
+: Adds issue templates, pull request checklist, and contribution SOP.
+
+FEAT-019 Expanded requirements traceability
+: Adds requirements and tests covering GitHub readiness, release discipline, safety, security, and licensing.

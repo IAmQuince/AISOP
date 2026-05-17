@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000-README
 title: "AI-Assisted Coding SOP Reference Package"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-README
 normative_status: Normative
 source: "Generalized AI-assisted coding SOP source text"
@@ -69,3 +69,24 @@ Generated reports are written to `reports/`.
 Status: Draft reference package.
 
 This is a structured seed, not a finished production application.
+
+## REV-002 GitHub and Practice-Space Update
+
+This revision keeps local zip handoff as a first-class workflow while adding a GitHub-ready repository layer.
+
+The package now demonstrates and documents the transition:
+
+```text
+local zip package -> audited package -> GitHub repository -> practice branch -> tagged release -> downloadable zip package
+```
+
+For the practice-space concept, read `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md`.
+For repository bootstrapping, read `docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md`.
+For release and zip handoff, read `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md`.
+
+Additional commands:
+
+```bash
+python tools/run_all_audits.py
+python tools/release_package.py
+```

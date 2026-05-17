@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000-KNOWN-LIMITATIONS
 title: "Known Limitations"
-version: 0.1.0
-revision: REV-001
+version: 0.2.0
+revision: REV-002
 status: DRAFT-REFERENCE
-last_updated: 2026-05-02
-package_id: 20260502_01_ai_sop_reference_package
+last_updated: 2026-05-16
+package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-KNOWN-LIMITATIONS
 normative_status: Normative
 source: "Generalized AI-assisted coding SOP source text"
@@ -36,3 +36,12 @@ Title: No external dependency validation
 Description: The package does not download or validate the current status of all third-party tools described in the guides.
 Impact: Users should verify installer sources and package versions when applying the instructions.
 Status: Current
+
+## REV-002 Known Limitations
+
+- The package includes a license decision gate, but no final open-source license has been selected.
+- GitHub branch protection, secret scanning, repository visibility, and release permissions require maintainer configuration outside the file tree.
+- The local secret scan is intentionally lightweight and does not replace GitHub security features or professional security review.
+- CI workflows are provided as baseline examples and may need adjustment for downstream projects with dependencies.
+- The package is a practice seed and teaching artifact, not a complete production product.
+- Hardware-control safety rules are baseline doctrine only; downstream live-control projects need project-specific hazard review.
