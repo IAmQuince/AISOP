@@ -1,0 +1,56 @@
+REPO HEALTH AUDIT REPORT
+========================================================================
+timestamp: 2026-05-16 23:49:51
+package_root: /mnt/data/aisop_work/20260516_00_seed
+
+REQUIRED REPOSITORY FILES
+------------------------------------------------------------------------
+PASS README.md
+PASS README_START_HERE.md
+PASS CONTRIBUTING.md
+PASS SECURITY.md
+PASS SAFETY.md
+PASS SUPPORT.md
+PASS CODE_OF_CONDUCT.md
+PASS NOTICE.md
+PASS LICENSE_DECISION_REQUIRED.md
+PASS CITATION.cff
+PASS .gitignore
+PASS .gitattributes
+PASS .editorconfig
+PASS .github/PULL_REQUEST_TEMPLATE.md
+PASS .github/dependabot.yml
+PASS .github/workflows/ci.yml
+PASS .github/workflows/package_audit.yml
+PASS .github/workflows/release_dry_run.yml
+PASS .github/ISSUE_TEMPLATE/bug_report.yml
+PASS .github/ISSUE_TEMPLATE/feature_request.yml
+PASS .github/ISSUE_TEMPLATE/documentation_update.yml
+PASS .github/ISSUE_TEMPLATE/safety_or_security_review.yml
+PASS .github/ISSUE_TEMPLATE/package_regression.yml
+PASS docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md
+PASS docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md
+PASS docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md
+PASS docs/110_SECURITY_AND_SAFETY_BASELINE_SOP.md
+PASS docs/120_CONTRIBUTION_REVIEW_AND_ISSUE_WORKFLOW_SOP.md
+PASS docs/130_PRODUCT_LAUNCH_READINESS_CHECKLIST.md
+PASS docs/140_LICENSE_IP_AND_ATTRIBUTION_DECISION_GUIDE.md
+PASS docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md
+PASS docs/160_MAINTAINER_PLAYBOOK.md
+PASS docs/165_AI_AGENT_HANDOFF_PROTOCOL.md
+
+CONTENT CHECKS
+------------------------------------------------------------------------
+PASS README.md contains 'README_START_HERE.md'
+PASS README.md contains 'space of practices'
+PASS README.md contains 'GitHub'
+PASS docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md contains 'practice space'
+PASS docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md contains 'zip package'
+PASS .github/workflows/ci.yml contains 'run_all_audits.py'
+PASS SECURITY.md contains 'No-secrets'
+PASS SAFETY.md contains 'SAFE-CLASS-3'
+PASS LICENSE_DECISION_REQUIRED.md contains 'not licensed for public reuse'
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS

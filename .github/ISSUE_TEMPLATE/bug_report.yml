@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a defect or regression
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Package/repository version
+  - type: input
+    id: branch
+    attributes:
+      label: Branch or release
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+  - type: textarea
+    id: reports
+    attributes:
+      label: Audit report excerpts

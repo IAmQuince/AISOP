@@ -1,0 +1,14 @@
+RELEASE PACKAGE REPORT
+========================================================================
+timestamp: 2026-05-16 23:49:58
+package_root: /mnt/data/aisop_work/20260516_00_seed
+archive: /mnt/data/aisop_work/20260516_00_seed/dist/20260516_00_seed.zip
+dry_run: True
+file_count: 90
+
+PASS dry run file discovery completed
+PASS archive basename would be 20260516_00_seed.zip with internal root 20260516_00_seed/
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS

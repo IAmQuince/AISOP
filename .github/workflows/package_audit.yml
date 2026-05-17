@@ -1,0 +1,16 @@
+name: Package Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python tools/package_structure_audit.py
+      - run: python tools/repo_health_audit.py
+      - run: python tests/smoke_test.py

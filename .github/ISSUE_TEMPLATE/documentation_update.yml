@@ -1,0 +1,17 @@
+name: Documentation update
+description: Improve or correct documentation
+title: "[Docs]: "
+labels: [documentation]
+body:
+  - type: input
+    id: document
+    attributes:
+      label: Document path or ID
+  - type: textarea
+    id: issue
+    attributes:
+      label: Problem or missing information
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed change

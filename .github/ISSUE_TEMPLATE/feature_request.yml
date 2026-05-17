@@ -1,0 +1,21 @@
+name: Feature request
+description: Propose a new capability or practice branch
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: value
+    attributes:
+      label: Value and use case
+  - type: textarea
+    id: practice
+    attributes:
+      label: Practice-space branch or example proposed
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirement IDs or new requirement proposal
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and mitigations

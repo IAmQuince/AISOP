@@ -1,0 +1,22 @@
+name: Safety or security review
+description: Raise a safety, security, or release-blocking concern
+title: "[Safety/Security]: "
+labels: [safety, security]
+body:
+  - type: dropdown
+    id: class
+    attributes:
+      label: Area
+      options:
+        - Safety
+        - Security
+        - Licensing/IP
+        - Release gate
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested mitigation
