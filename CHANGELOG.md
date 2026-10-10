@@ -2,9 +2,9 @@
 document_id: DOC-000-CHANGELOG
 title: "Changelog"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-10
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-CHANGELOG
 normative_status: Informative
@@ -57,3 +57,14 @@ source: "Generalized AI-assisted coding SOP source text"
 - License remains intentionally unresolved and is treated as a release gate.
 - GitHub repository settings such as branch protection cannot be fully enforced from files alone and require maintainer setup.
 - Local secret scan is a lightweight preflight, not a complete security review.
+
+## Unreleased / REV-003 planning - 2026-10-10
+
+### Added
+
+- `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`: proposed plan for tiered editions built from one source tree, an agent-first entry file, a beginner on-ramp, a multi-edition release flow, and the Phase 0 drift fixes that must land first. Planning document only; no tooling or structure changes in this entry.
+- Index and workplan entries pointing at the gameplan.
+
+### Known drift recorded (not yet fixed)
+
+- `run_all_audits.py` currently fails: the license-decision gate was removed on GitHub but the audits, metadata, and requirements still expect it; `release_package.py` hard-codes the seed root folder name; CI triggers on `main` while the default branch is `master`; runtime reports are committed. All are scheduled for Phase 0 of the gameplan.

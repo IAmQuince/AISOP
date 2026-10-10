@@ -2,9 +2,9 @@
 document_id: DOC-000-WORKPLAN-CURRENT-RUN
 title: "Workplan Current Run"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-10
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-WORKPLAN-CURRENT-RUN
 normative_status: Informative
@@ -45,6 +45,8 @@ This run changes package structure and metadata only. It does not rewrite all lo
 ## Next Recommended Run
 
 Perform a human editorial pass and decide whether to keep the long technical reference guides as one package or split them into a smaller public-facing starter edition plus an expanded technical appendix.
+
+Update 2026-10-10: that decision is now worked out in `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` (tiered editions from one source tree). The next run is its Phase 0: make the audits green in any clone and add an interim agent entry file.
 
 ## REV-002 Workplan: GitHub Practice-Space Upgrade
 

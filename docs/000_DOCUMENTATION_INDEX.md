@@ -2,9 +2,9 @@
 document_id: DOC-000
 title: "Documentation Index"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-10
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000
 normative_status: Informative
@@ -71,3 +71,7 @@ These markdown files were generated from the uploaded AISOP text source and ligh
 - `docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md` - explains local and CI audits.
 - `docs/160_MAINTAINER_PLAYBOOK.md` - gives maintainer routines.
 - `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` - defines how to work with AI agents without losing package discipline.
+
+## REV-003 Planning Documents
+
+- `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` - proposed plan for tiered editions (card, chat kit, method kit, full), an agent-first entry file, and the drift fixes that precede them. Informative until approved; see its section 14 for the decisions it needs.
