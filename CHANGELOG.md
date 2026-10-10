@@ -62,8 +62,12 @@ source: "Generalized AI-assisted coding SOP source text"
 
 ### Added
 
-- `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`: proposed plan for tiered editions built from one source tree, an agent-first entry file, a beginner on-ramp, a multi-edition release flow, and the Phase 0 drift fixes that must land first. Planning document only; no tooling or structure changes in this entry.
+- `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`: proposed plan for tiered editions built from one source tree, an agent-first entry file, a beginner on-ramp, a multi-edition release flow, and the Phase 0 drift fixes that must land first. Revised once (REV-002) after a five-lens adversarial review. Planning document only; no structure changes in this entry.
 - Index and workplan entries pointing at the gameplan.
+
+### Changed
+
+- `PACKAGE_MANIFEST.md` regenerated for the files touched by this entry; the header constants in `tools/manifest_update.py` bumped to match (revision, last_updated). Reading those values from `config/package_metadata.json` is scheduled for Phase 0 of the gameplan.
 
 ### Known drift recorded (not yet fixed)
 
