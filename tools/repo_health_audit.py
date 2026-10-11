@@ -132,6 +132,22 @@ def check_canonical_report(cfg, errors, lines):
                 msg = 'FAIL %s:%d defines a package-report format without citing %s (TEST-RPT-002)' % (rel, i + 1, template)
                 lines.append(msg); errors.append(msg)
 
+
+def check_release_workflow(errors, lines):
+    """TEST-REL-003: release assets are built only after a green audit run of the tagged commit."""
+    path = ROOT / '.github' / 'workflows' / 'release.yml'
+    text = read(path) if path.is_file() else ''
+    audit_at, build_at = text.find('tools/run_all_audits.py'), text.find('tools/build_editions.py zips')
+    checks = [
+        (bool(re.search(r"tags:\s*\[\s*'v\*'\s*\]", text)), 'release.yml runs on v* tags'),
+        (0 <= audit_at < build_at, 'release.yml runs run_all_audits.py before build_editions.py zips'),
+        ('GITHUB_REF_NAME' in text and "'v' + v" in text, 'release.yml checks the tag against the configured version'),
+    ]
+    for ok, label in checks:
+        if ok: lines.append('PASS %s' % label)
+        else:
+            msg = 'FAIL %s (TEST-REL-003)' % label; lines.append(msg); errors.append(msg)
+
 def main():
     errors=[]; lines=[]
     REPORT.parent.mkdir(exist_ok=True)
@@ -155,6 +171,8 @@ def main():
     check_ci_branch(cfg, errors, lines)
     lines += ['','CANONICAL FINAL PACKAGE REPORT','-'*72]
     check_canonical_report(cfg, errors, lines)
+    lines += ['','RELEASE WORKFLOW','-'*72]
+    check_release_workflow(errors, lines)
     lines += ['','RUNTIME REPORTS','-'*72]
     check_runtime_reports(errors, lines)
     lines += ['','SUMMARY','-'*72,'SUMMARY: %s' % ('FAIL' if errors else 'PASS')]

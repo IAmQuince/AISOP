@@ -404,6 +404,26 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-EX-001"
+    },
+    {
+      "id": "REQ-ED-004",
+      "title": "Edition release assets",
+      "requirement": "Every edition zip shall be named `<package_id>` or `<package_id>_<edition>` with a single root folder of the same name, contain EDITION_INFO.md at that root, and reproduce the content checksum recorded in EDITIONS_CHECKSUMS.txt when rebuilt from the same tree.",
+      "rationale": "Added for REV-003 (docs/300 phase 3).",
+      "acceptance_test": "`tests/smoke_test.py` builds the release assets twice into temporary folders, requires identical content checksums, and checks each zip's single root and EDITION_INFO.md; `python tools/release_package.py --edition all` runs `archive_name_audit.py` on each zip it writes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-004"
+    },
+    {
+      "id": "REQ-REL-003",
+      "title": "Assets only from a green audit",
+      "requirement": "Release assets shall be built only from a green `run_all_audits.py` run of the tagged commit, and the tag shall equal `v` plus the configured `version`.",
+      "rationale": "Added for REV-003 (docs/300 phase 3).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies that `.github/workflows/release.yml` runs on `v*` tags, checks the tag against the configured version, and runs `run_all_audits.py` before `build_editions.py zips`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REL-003"
     }
   ]
 }

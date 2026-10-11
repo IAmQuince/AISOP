@@ -68,6 +68,7 @@
     ".github/workflows/ci.yml",
     ".github/workflows/package_audit.yml",
     ".github/workflows/release_dry_run.yml",
+    ".github/workflows/release.yml",
     ".github/ISSUE_TEMPLATE/bug_report.yml",
     ".github/ISSUE_TEMPLATE/feature_request.yml",
     ".github/ISSUE_TEMPLATE/documentation_update.yml",

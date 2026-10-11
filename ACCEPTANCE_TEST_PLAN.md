@@ -186,3 +186,9 @@ TEST-TPL-001 Template parity, placeholders, and caps
 
 TEST-EX-001 Example registration and lite audit
 : `python tools/package_structure_audit.py` fails on an unregistered folder under `examples/` or a registered root without its identity; `tests/smoke_test.py` runs `python tools/aisop_check.py --root examples/hello_aisop --run` and requires SUMMARY: PASS. Requirement: REQ-EX-001.
+
+TEST-ED-004 Edition zips: naming, EDITION_INFO, reproducible content
+: `tests/smoke_test.py` builds the release assets twice into temporary folders, requires identical content checksums, and checks each zip's single root and EDITION_INFO.md; `python tools/release_package.py --edition all` runs `archive_name_audit.py` on each zip it writes. Requirement: REQ-ED-004.
+
+TEST-REL-003 Release workflow order
+: `python tools/repo_health_audit.py` verifies that `.github/workflows/release.yml` runs on `v*` tags, checks the tag against the configured version, and runs `run_all_audits.py` before `build_editions.py zips`. Requirement: REQ-REL-003.

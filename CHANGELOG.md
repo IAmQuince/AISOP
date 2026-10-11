@@ -168,3 +168,18 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - `docs/170`, `180`, `185`, `190`, and `195` re-fenced, one guide per isolated change: every code sample, record template, folder tree, and diagram is now in a closed, language-tagged fence (17, 53, 42, 62, and 45 blocks), numbered section titles became Markdown headings (13, 59, 40, 66, and 44), and each guide gained a `## TL;DR`. `170`, `180`, and `185` gained one sentence saying their named projects or hardware are examples, not requirements. No other wording changed: a word-level comparison against the previous revision, excluding the TL;DR, shows zero removed words and only those label sentences added (21, 6, and 23 words; 0 for `190` and `195`).
 - `fence_parity_pending` is now empty: every Markdown file has balanced fences (REQ-DOC-004 without exceptions).
 - The `170` TL;DR names the downstream harness as `./tools/diagnostic_harness.py`.
+
+## Unreleased / REV-003 Phase 3 - 2026-10-11
+
+### Added
+
+- `tools/bump_release.py`: rewrites `package_id` and `version` in config, the requirement catalog, `CITATION.cff`, and every document header (example packages keep their own identity); never touches `revision` or `last_updated`; `--check` reports disagreements.
+- `.github/workflows/release.yml`: on a `v*` tag, checks the tag against the configured version, runs every audit, builds the edition assets only after a green run, checks each archive, and attaches the assets with the runner's `gh` CLI (no third-party action). `gh release create` is the documented manual fallback (DECISION-009).
+- REQ-ED-004 / TEST-ED-004 (edition zips: naming, EDITION_INFO.md, reproducible content checksums) and REQ-REL-003 / TEST-REL-003 (assets only from a green audit), FEAT-038.
+
+### Changed
+
+- `tools/release_package.py` is a thin wrapper over `build_editions.py`: `--edition full|method|chatkit|all`, root from `package_id`, and `archive_name_audit.py` on every archive it writes. The Full zip now carries EDITION_INFO.md like the others.
+- `docs/100` describes the edition release procedure (bump, build, audit, cold-agent log, tag, verify) without hard-coding the package name; `docs/160` gained the tag step and the quarterly routine (Phase 4).
+- `release_dry_run.yml` checks every edition's naming.
+- `docs/000_USER_GUIDE_OVERVIEW.md` moved from tier 2 to tier 3 under the RISK-002 policy ("raise the tier, not the budget"): after Phase 3 the Method Kit stood at 98% of 524,288 bytes, and the overview's content is covered for newcomers by `docs/001`, `docs/002`, and `docs/020`.

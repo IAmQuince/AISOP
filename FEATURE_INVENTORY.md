@@ -151,3 +151,6 @@ FEAT-040 Templates for every stage
 
 FEAT-042 Worked example and lite audit
 : `examples/hello_aisop/` (a complete minimal package with a numbered-section script and the docs/050 flags) and `tools/aisop_check.py`, the single-file checker users copy into their own packages. Verification: TEST-EX-001.
+
+FEAT-038 Multi-edition release flow
+: `build_editions.py zips` and `release_package.py --edition all` write the Card, Chat Kit, Method Kit and Full assets with EDITIONS_CHECKSUMS.txt; `bump_release.py` moves the package identity; `.github/workflows/release.yml` publishes them on a `v*` tag after a green audit. Verification: TEST-ED-004.

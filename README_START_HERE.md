@@ -25,9 +25,9 @@ AISOP is a set of working procedures for building software with an AI assistant 
 The first message to give your AI, per edition:
 
 <!-- GENERATED:BEGIN openers | by tools/build_editions.py from config/editions.json; edit the source, not this region -->
-- **Chat Kit** (folder `20260516_00_seed_chatkit/`, or a git clone for Full): "I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'."
-- **Method Kit** (folder `20260516_00_seed_method/`, or a git clone for Full): "Read AGENTS.md and follow its first-five-minutes protocol."
-- **Full** (folder `20260516_00_seed/`, or a git clone for Full): "Read AGENTS.md and follow its first-five-minutes protocol."
+- **Chat Kit** (folder `20260516_00_seed_chatkit/`): "I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'."
+- **Method Kit** (folder `20260516_00_seed_method/`): "Read AGENTS.md and follow its first-five-minutes protocol."
+- **Full** (folder `20260516_00_seed/`, or a git clone): "Read AGENTS.md and follow its first-five-minutes protocol."
 <!-- GENERATED:END openers -->
 
 ## Reading order

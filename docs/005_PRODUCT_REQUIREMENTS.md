@@ -228,3 +228,9 @@ REQ-TPL-001 Templates
 
 REQ-EX-001 Registered example package
 : Example packages shall be registered in `example_packages` in `config/package_metadata.json`, declare `package_role: example` and their own `package_id` in their README_START_HERE.md, use `DOC-EX-` document IDs, and pass `tools/aisop_check.py` (the standard-library lite audit for downstream packages) including their own smoke test. Priority: Must. Status: Implemented. Verification: TEST-EX-001.
+
+REQ-ED-004 Edition release assets
+: Every edition zip shall be named `<package_id>` or `<package_id>_<edition>` with a single root folder of the same name, contain EDITION_INFO.md at that root, and reproduce the content checksum recorded in EDITIONS_CHECKSUMS.txt when rebuilt from the same tree. Priority: Must. Status: Implemented. Verification: TEST-ED-004.
+
+REQ-REL-003 Assets only from a green audit
+: Release assets shall be built only from a green `run_all_audits.py` run of the tagged commit, and the tag shall equal `v` plus the configured `version`. Priority: Must. Status: Implemented. Verification: TEST-REL-003.

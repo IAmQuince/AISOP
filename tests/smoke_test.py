@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import zipfile
 from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
@@ -200,6 +201,26 @@ def check_chat_kit_contents(rep, tmp):
               "AISOP's own CHANGELOG.md and KNOWN_LIMITATIONS.md are not in the kit")
 
 
+def check_edition_zips(rep, tmp):
+    """TEST-ED-004: every edition zip is named for its single root, carries EDITION_INFO.md, and its
+    content checksums reproduce across two independent builds."""
+    rep.section('EDITION ZIPS (TEST-ED-004)')
+    sums = []
+    for run in ('a', 'b'):
+        out = Path(tmp) / ('zips_' + run)
+        code, _ = run_tool(PACKAGE_ROOT, 'tools/build_editions.py', 'zips', '--out', str(out))
+        rep.check(code == 0, 'build run %s writes the release assets' % run)
+        lines = read_text(out / 'EDITIONS_CHECKSUMS.txt').splitlines() if (out / 'EDITIONS_CHECKSUMS.txt').is_file() else []
+        sums.append([l.split()[:5] for l in lines if l and not l.startswith('#')])
+    rep.check(bool(sums[0]) and sums[0] == sums[1], 'content checksums reproduce (%d assets)' % len(sums[0]))
+    for zip_path in sorted((Path(tmp) / 'zips_a').glob('*.zip')):
+        with zipfile.ZipFile(str(zip_path)) as archive:
+            names = archive.namelist()
+        root = zip_path.stem
+        rep.check(zip_roots(zip_path) == [root] and '%s/EDITION_INFO.md' % root in names,
+                  '%s: single root %s/ with EDITION_INFO.md' % (zip_path.name, root))
+
+
 def main():
     rep = Report()
     rep.lines += ['PACKAGE SMOKE TEST REPORT', '=' * 72,
@@ -218,6 +239,7 @@ def main():
             check_negative_cases(rep, tmp)
             check_method_kit_self_audit(rep, tmp)
             check_chat_kit_contents(rep, tmp)
+            check_edition_zips(rep, tmp)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
     rep.lines += ['', 'SUMMARY: %s' % ('FAIL' if rep.failures else 'PASS')]

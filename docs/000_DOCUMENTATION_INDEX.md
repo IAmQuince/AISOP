@@ -78,7 +78,6 @@ Every document carries a `tier`: the lowest edition that includes it. Editions a
 | `SUPPORT.md` | Support Guide | Informative | S | Where to ask questions and what information to include. |
 | `WORKPLAN_CURRENT_RUN.md` | Workplan Current Run | Informative | M | Scope and status of the current and previous runs, plus the decision log for REV-003. |
 | `docs/000_DOCUMENTATION_INDEX.md` | Documentation Index | Informative | M | Generated map of every AISOP document by tier, with status, size class, and a one-line summary. |
-| `docs/000_USER_GUIDE_OVERVIEW.md` | AI-Assisted Coding User Guide Overview | Informative | S | Short philosophy of the method: how a person and an AI plan, code, package, and hand off work. |
 | `docs/005_PRODUCT_REQUIREMENTS.md` | Product Requirements | Normative | M | The authoritative list of REQ-* requirements for this package; the only requirements source besides the JSON catalog. |
 | `docs/030_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md` | Concept Development and Requirements Brief | Informative | M | SOP and form for the concept brief written before any code: identity, users, workflows, requirements, acceptance. |
 | `docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md` | SOP: Monolithic Planning Document | Informative | M | SOP for one large planning document designed to be split later into requirements, specs, and registers. |
@@ -103,6 +102,7 @@ Every document carries a `tier`: the lowest edition that includes it. Editions a
 
 | Document | Title | Status | Size | Summary |
 |---|---|---|---|---|
+| `docs/000_USER_GUIDE_OVERVIEW.md` | AI-Assisted Coding User Guide Overview | Informative | S | Short philosophy of the method (superseded for newcomers by docs/001, 002 and 020): how a person and an AI plan, code, package, and hand off work. |
 | `docs/010_WINDOWS_SOFTWARE_DOWNLOAD_AND_INSTALLATION_GUIDE.md` | Windows Software Download and Installation Guide | Informative | L | Domain guide: downloading, installing, and verifying Windows programs, drivers, runtimes, and vendor tools. |
 | `docs/055_MONOLITHIC_PROTOTYPE_CODE_EXAMPLE.md` | Monolithic Prototype Code Example | Informative | L | Long annotated example of a monolithic Python prototype that follows docs/050. |
 | `docs/170_COMPATIBILITY_LESSONS_LEARNED.md` | Compatibility Lessons Learned | Informative | L | Domain guide: compatibility lessons for legacy Windows, Python 2.7, Raspberry Pi, displays, and offline machines. |

@@ -120,7 +120,8 @@ def render_start_here_openers(tree, cfg, eds):
         if e.get('kind') == 'card':
             continue
         folder = cfg['package_id'] + e.get('zip_suffix', '')
-        lines.append('- **%s** (folder `%s/`, or a git clone for Full): "%s"' % (e['title'], folder, eds.opener(e['name'])))
+        where = 'folder `%s/`%s' % (folder, ', or a git clone' if e['name'] == 'full' else '')
+        lines.append('- **%s** (%s): "%s"' % (e['title'], where, eds.opener(e['name'])))
     return '\n'.join(lines) + '\n'
 
 

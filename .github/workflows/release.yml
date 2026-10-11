@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Tag matches the configured version
+        run: python -c "import json,os,sys; v=json.load(open('config/package_metadata.json'))['version']; t=os.environ['GITHUB_REF_NAME']; sys.exit(0 if t == 'v' + v else 'tag %s does not match config version %s' % (t, v))"
+      - name: Run all audits (assets are built only from a green run)
+        run: python tools/run_all_audits.py
+      - name: Build edition assets
+        run: python tools/build_editions.py zips
+      - name: Check every archive
+        run: for z in dist/*.zip; do python tools/archive_name_audit.py "$z"; done
+      - name: Create the release and attach the assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME" dist/*
+          --title "AISOP $GITHUB_REF_NAME"
+          --notes "Assets: AISOP_CARD.md, the Chat Kit, Method Kit and Full zips, and EDITIONS_CHECKSUMS.txt. See CHANGELOG.md and docs/004_EDITIONS_AND_UPGRADE_PATH.md."
