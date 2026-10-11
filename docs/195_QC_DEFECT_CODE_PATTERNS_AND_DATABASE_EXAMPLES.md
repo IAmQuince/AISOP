@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-195
 normative_status: Informative
+tier: 3
+summary: "Domain guide: code and SQLite schema patterns for defect capture, evidence, and review workflows."
+topics: [qc, sqlite, code-patterns, evidence]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

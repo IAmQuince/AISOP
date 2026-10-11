@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-250
 normative_status: Informative
+tier: 3
+summary: "Domain guide: using LabJack U3 and U6 devices from Python with the legacy UD driver stack."
+topics: [labjack, u3, u6, daq]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

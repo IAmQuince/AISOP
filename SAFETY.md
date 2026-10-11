@@ -2,12 +2,14 @@
 document_id: DOC-000-SAFETY
 title: "Safety Baseline"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-SAFETY
 normative_status: Normative
+tier: 2
+summary: "Safety classes and the baseline rules for software that controls hardware."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

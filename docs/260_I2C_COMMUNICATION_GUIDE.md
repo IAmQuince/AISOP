@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-260
 normative_status: Informative
+tier: 3
+summary: "Domain guide: I2C wiring, addressing, and code on Raspberry Pi, Arduino, ESP32, and Pico."
+topics: [i2c, sensors, embedded]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

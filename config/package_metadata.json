@@ -41,6 +41,7 @@
   "report_canonical_source": "docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md",
   "report_template_citers": [
     "AGENTS.md",
+    "docs/001_AISOP_CORE_RULES.md",
     "docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md",
     "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md",
     "docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md",
@@ -53,5 +54,73 @@
     "docs/185_DAQ_CONTROL_CODE_PATTERNS_AND_THREADING.md",
     "docs/190_INLINE_QC_DEFECT_DETECTION_AND_ANALYSIS_DOCTRINE.md",
     "docs/195_QC_DEFECT_CODE_PATTERNS_AND_DATABASE_EXAMPLES.md"
+  ],
+  "required_repository_files": [
+    "README.md",
+    "README_START_HERE.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "SAFETY.md",
+    "SUPPORT.md",
+    "CODE_OF_CONDUCT.md",
+    "NOTICE.md",
+    "CITATION.cff",
+    ".gitignore",
+    ".gitattributes",
+    ".editorconfig",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/dependabot.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/package_audit.yml",
+    ".github/workflows/release_dry_run.yml",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
+    ".github/ISSUE_TEMPLATE/feature_request.yml",
+    ".github/ISSUE_TEMPLATE/documentation_update.yml",
+    ".github/ISSUE_TEMPLATE/safety_or_security_review.yml",
+    ".github/ISSUE_TEMPLATE/package_regression.yml",
+    "docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md",
+    "docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md",
+    "docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md",
+    "docs/110_SECURITY_AND_SAFETY_BASELINE_SOP.md",
+    "docs/120_CONTRIBUTION_REVIEW_AND_ISSUE_WORKFLOW_SOP.md",
+    "docs/130_PRODUCT_LAUNCH_READINESS_CHECKLIST.md",
+    "docs/140_LICENSE_IP_AND_ATTRIBUTION_DECISION_GUIDE.md",
+    "docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md",
+    "docs/160_MAINTAINER_PLAYBOOK.md",
+    "docs/165_AI_AGENT_HANDOFF_PROTOCOL.md"
+  ],
+  "content_checks": [
+    [
+      "README.md",
+      "README_START_HERE.md"
+    ],
+    [
+      "README.md",
+      "space of practices"
+    ],
+    [
+      "README.md",
+      "GitHub"
+    ],
+    [
+      "docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md",
+      "practice space"
+    ],
+    [
+      "docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md",
+      "zip package"
+    ],
+    [
+      ".github/workflows/ci.yml",
+      "run_all_audits.py"
+    ],
+    [
+      "SECURITY.md",
+      "No-secrets"
+    ],
+    [
+      "SAFETY.md",
+      "SAFE-CLASS-3"
+    ]
   ]
 }

@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-WORKPLAN-CURRENT-RUN
 normative_status: Informative
+tier: 2
+summary: "Scope and status of the current and previous runs, plus the decision log for REV-003."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -105,10 +107,14 @@ Decisions from `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` section 14. The pla
 | DECISION-012 | Normative status of method SOPs and root files | Adopted (recommendation) | `docs/001` and `AGENTS.md` Normative; `030`-`070` stay Informative; non-procedure root files demoted in Phase 1. |
 | DECISION-013 | Manual acceptance testing per release | Adopted (recommendation) | Two cold-agent runs and one scripted cold-chat run, logged under `reports/baseline/`. |
 | DECISION-014 | Method Kit headroom | Adopted (recommendation) | Keep 409,600 bytes; raise to 524,288 only through the RISK-002 process if the Phase 2 dry build exceeds 90%. |
-| QUESTION-001 | Chat products and zip upload | Open (owner) | Needs the owner's own tests; recorded in `docs/004` when answered. |
+| QUESTION-001 | Chat products and zip upload | Open (owner) | Needs the owner's own tests; recorded in the editions guide (docs/004) when answered. |
 | QUESTION-002 | Agentic tools the owner uses | Open (owner) | Determines the pointer list and the TEST-ENTRY-004 tool pair. |
 
 ### Execution notes (REV-003)
 
 - EXEC-001: Phase slices were developed as separate commits on one working branch, because the executing session could push to a single branch only. The plan's `practice/rev003-<slice>` branch names are not used for this run.
 - EXEC-002: Document revisions follow the repository's existing convention: a controlled document touched during the REV-003 program carries `revision: REV-003` (as REV-002 did), with `last_updated` set to the change date.
+- EXEC-003: `AGENTS.md` and the pointer files are tier 2. `docs/300` section 8.1 says tier 0, but section 5.1 lists `AGENTS.md` only in the Method Kit; tier 0 would put it into the Chat Kit, which has no audit tools for its protocol (`docs/166` section 4).
+- EXEC-004: PRIN-010 (one check, one owner) wins over the section 7.4 table where they overlap: the cross-tier rule is the per-edition reference resolution in `build_editions.py --check`, and `edition_audit.py` resolves references only in the tree it audits.
+- EXEC-005: The Chat Kit unique-basename rule exempts registered example packages (the worked example has its own README_START_HERE.md); EDITION_INFO.md tells flat uploaders to send the example in a separate message.
+- EXEC-006: DECISION-012 applied: six root files demoted to Informative; `CODE_OF_CONDUCT.md` kept Normative because it is a conduct policy.

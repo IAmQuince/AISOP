@@ -2,12 +2,14 @@
 document_id: DOC-README-SRC
 title: "Source Folder Placeholder"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-README-SRC
 normative_status: Informative
+tier: 2
+summary: "Placeholder for source code in packages built from this seed."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -20,6 +20,8 @@ REPORT = ROOT / 'reports' / 'run_all_audits_report.txt'
 COMMANDS = [
     ['tools/package_structure_audit.py'],
     ['tools/repo_health_audit.py'],
+    ['tools/edition_audit.py'],
+    ['tools/build_editions.py', '--check'],
     ['tests/smoke_test.py'],
     ['tools/requirements_trace_audit.py'],
     ['tools/secret_scan_lite.py'],

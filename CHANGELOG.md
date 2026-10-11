@@ -4,10 +4,12 @@ title: "Changelog"
 version: 0.2.0
 revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-CHANGELOG
 normative_status: Informative
+tier: 2
+summary: "What changed in each AISOP revision, newest program entries last, including the REV-003 phases."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -106,3 +108,35 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - Content commit (revisioned): repaired the four sentences in `docs/270` corrupted by citation-tool residue and a split word; finished the truncated ping-sweep example in `docs/280`; fixed the `os.rename` overwrite bug on Windows in `docs/055` (uses `os.replace` where available); `project/logging.py` renamed to `logging_utils.py` in `docs/050` and `055` (the old name shadows the standard library); removed chat phrasing from `docs/030`, `070`, `185`, `190`; DRIFT-008 reconciled in the method documents (`FEATURE-nnn` to `FEAT-nnn`, `ACCEPT-nnn` to `TEST-XXX-nnn`, `test_reports/` to `reports/`, and a numbering note in `030`, `040`, `060`, `070` separating a project's own `docs/NNN` numbers from AISOP's); `docs/205` marked "proposed, not shipped".
 - Added the fence-parity check to `package_structure_audit.py` (REQ-DOC-004 / TEST-DOC-004). The five domain guides that still need full re-fencing (`docs/170`, `180`, `185`, `190`, `195`) are listed in `fence_parity_pending` and reported as WARN until Phase 5.
 - Revisions bumped on every touched document.
+
+## Unreleased / REV-003 Phase 1 - 2026-10-11
+
+### Added
+
+- `docs/001_AISOP_CORE_RULES.md` (tier 0, Normative): the AISOP card, the single source of the core rules (REQ-ED-003, FEAT-037).
+- `config/editions.json`: the four editions (Card, Chat Kit, Method Kit, Full) with tiers, byte budgets, `max_files`, include globs, openers, pointer list, commands, and link-check lists (REQ-ED-002, FEAT-036).
+- `tools/build_editions.py` with `tools/_aisop_editions.py` and `tools/_aisop_generators.py`: `entry`, `index`, `all`, `zips`, `stage`, and `--check`. Staged editions get their own `EDITION_INFO.md`, index, and manifest, so the audits pass inside an unzipped Method Kit (REQ-ENTRY-003, FEAT-035).
+- `tools/edition_audit.py`: references in the tree, `AGENTS.md` size/identity/status, the rules-block cap, pointer files, card labels versus the report template, header package_id consistency, and cold-agent-log and superseded-tier warnings (REQ-ENTRY-001/002, REQ-LINK-001, FEAT-034, FEAT-039).
+- The real `AGENTS.md` (tier 2, Normative; sections per `docs/300` 8.1) with GENERATED `rules` and `commands` regions; generated `CLAUDE.md` and `GEMINI.md` pointers; generated `docs/index.json` and `docs/000_DOCUMENTATION_INDEX.md`.
+- `docs/166_EDITIONS_AND_TIERS_SOP.md` (Normative): tiers, membership, generated content, edition markers, budgets, release assets, repository layout, and check ownership.
+- TEST-ENTRY-004 (cold-agent test) defined; KNOWN_LIMITATIONS LIMIT-005 to LIMIT-007.
+
+### Changed
+
+- Every document header gained `tier` and `summary` (domain guides also `topics`); both keys are required (REQ-ED-001).
+- Demoted to Informative (records and orientation, not procedure or policy): `NOTICE.md`, `SUPPORT.md`, `README.md`, `README_START_HERE.md`, `KNOWN_LIMITATIONS.md`, `FEATURE_INVENTORY.md`. `CODE_OF_CONDUCT.md` stays Normative as a conduct policy (DECISION-012).
+- `package_structure_audit.py` and `repo_health_audit.py` read their lists from `config/package_metadata.json`; the structure audit uses the shared parser and the git-ignore-aware walk.
+- `run_all_audits.py` runs `edition_audit.py` and `build_editions.py --check`.
+- `tests/smoke_test.py`: index validity, two negative cases on a copy of the tree (a hand-edited GENERATED region; a deleted `tier:`), and a staged Method Kit that must pass its own audits.
+- `docs/165` keeps the handoff bundle and defers agent duties to `AGENTS.md` sections 5-10; `docs/150`, `docs/160`, `CONTRIBUTING.md`, and the pull request template name `build_editions.py`.
+- Tier-1 documents mark citations of tier-2 files "(method edition)"; downstream-project paths are written `./tools/...`.
+
+### Deviations from docs/300 (recorded in the Decision Log)
+
+- `AGENTS.md` is tier 2, not tier 0 (section 5.1 versus 8.1).
+- The cross-tier rule is enforced once, by per-edition reference resolution in `build_editions.py --check`; `edition_audit.py` resolves references only in the tree it audits.
+- The Chat Kit unique-basename rule exempts registered example packages.
+
+### Known state
+
+- The Method Kit is at about 96% of its 409,600-byte budget before Phase 2 content; DECISION-014 applies at the Phase 2 dry build.

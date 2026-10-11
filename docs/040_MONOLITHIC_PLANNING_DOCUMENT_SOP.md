@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-040
 normative_status: Informative
+tier: 2
+summary: "SOP for one large planning document designed to be split later into requirements, specs, and registers."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-210
 normative_status: Informative
+tier: 3
+summary: "Domain guide: setting up Raspberry Pi, Arduino, ESP32, and Pico projects and their libraries."
+topics: [raspberry-pi, arduino, esp32, embedded]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-200
 normative_status: Informative
+tier: 3
+summary: "Domain guide: downloading, transferring, and installing packages, and using the command shell, across machines."
+topics: [downloads, installation, command-line, offline]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

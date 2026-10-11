@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-010
 normative_status: Informative
+tier: 3
+summary: "Domain guide: downloading, installing, and verifying Windows programs, drivers, runtimes, and vendor tools."
+topics: [windows, installation, drivers, labjack, python]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-README-REPORTS
 normative_status: Informative
+tier: 2
+summary: "What the reports folder holds: runtime reports (not committed) and committed baseline evidence."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

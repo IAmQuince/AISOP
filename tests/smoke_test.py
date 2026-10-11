@@ -8,6 +8,7 @@ the gates are re-run every time instead of being trusted from a past log.
 from __future__ import print_function
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -20,8 +21,14 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PACKAGE_ROOT / 'tools'))
 
 from _aisop_common import iter_package_files, load_config, read_text, rel_posix, zip_roots  # noqa: E402
+from _aisop_editions import Tree  # noqa: E402
 
 REPORT_PATH = PACKAGE_ROOT / 'reports' / 'smoke_test_report.txt'
+# Set while the smoke test runs the audits inside a staged edition, so the
+# nested smoke test does not stage editions again.
+NESTED_ENV = 'AISOP_SMOKE_NESTED'
+INDEX_KEYS = ['path', 'document_id', 'title', 'size_class', 'tier', 'normative_status', 'topics', 'summary',
+              'read_order']
 
 
 class Report(object):
@@ -101,6 +108,72 @@ def check_release_root_any_folder(rep, tmp):
               'release tool warns that the working-copy folder differs from the release root')
 
 
+def check_entry_and_index(rep):
+    """TEST-ENTRY-001 presence and TEST-ENTRY-003 index validity: one record per document, in order."""
+    rep.section('ENTRY FILE AND INDEX')
+    rep.check((PACKAGE_ROOT / 'AGENTS.md').is_file(), 'AGENTS.md present')
+    try:
+        index = json.loads(read_text(PACKAGE_ROOT / 'docs' / 'index.json'))
+    except (OSError, ValueError) as exc:
+        rep.check(False, 'docs/index.json loads as JSON: %r' % exc)
+        return
+    records = index.get('documents', [])
+    paths = [r.get('path') for r in records]
+    documents = Tree.from_disk(PACKAGE_ROOT).documents()
+    rep.check(sorted(paths) == sorted(documents),
+              'docs/index.json lists every document (%d of %d)' % (len(set(paths) & set(documents)), len(documents)))
+    rep.check(all(list(r.keys()) == INDEX_KEYS for r in records), 'every index record has the documented keys')
+    rep.check([(r['tier'], r['path']) for r in records] == sorted((r['tier'], r['path']) for r in records),
+              'index records are ordered by tier, then path')
+
+
+def negative_case(rep, tmp, name, mutate, command, expect_in_output):
+    """Copy the tree, break one thing, and require the named tool to fail and name the source."""
+    work = copy_package(Path(tmp) / name)
+    mutate(work)
+    code, output = run_tool(work, *command)
+    rep.check(code == 1, '%s: %s exits 1' % (name, ' '.join(command)))
+    rep.check(expect_in_output in output, '%s: failure message names %s' % (name, expect_in_output))
+
+
+def edit_generated_region(work):
+    path = work / 'AGENTS.md'
+    text = read_text(path).replace('1. **Files, not memory.**', '1. **Files, not memory (hand edit).**', 1)
+    path.write_text(text, encoding='utf-8')
+
+
+def delete_tier_key(work):
+    path = work / 'docs' / '050_MONOLITHIC_PROTOTYPE_CODE_SOP.md'
+    text = re.sub(r'(?m)^tier: .*\n', '', read_text(path), count=1)
+    path.write_text(text, encoding='utf-8')
+
+
+def check_negative_cases(rep, tmp):
+    rep.section('NEGATIVE CASES (TEST-ENTRY-003, TEST-ED-001)')
+    negative_case(rep, tmp, 'edited_generated_region', edit_generated_region,
+                  ['tools/build_editions.py', '--check'], 'docs/001_AISOP_CORE_RULES.md')
+    negative_case(rep, tmp, 'missing_tier_key', delete_tier_key,
+                  ['tools/package_structure_audit.py'], 'docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md')
+
+
+def check_method_kit_self_audit(rep, tmp):
+    """TEST-ED-002: the staged Method Kit passes its own audits after unpacking."""
+    rep.section('METHOD KIT SELF-AUDIT (TEST-ED-002)')
+    out = Path(tmp) / 'staged'
+    code, output = run_tool(PACKAGE_ROOT, 'tools/build_editions.py', 'stage', '--edition', 'method', '--out', str(out))
+    rep.check(code == 0, 'stage the method edition')
+    roots = [p for p in out.iterdir()] if out.is_dir() else []
+    if len(roots) != 1:
+        rep.check(False, 'staged method edition has one root folder')
+        return
+    env = dict(os.environ, **{NESTED_ENV: '1'})
+    proc = subprocess.run([sys.executable, 'tools/run_all_audits.py', '--quiet'], cwd=str(roots[0]), env=env,
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+    rep.check(proc.returncode == 0, 'run_all_audits.py passes inside %s/' % roots[0].name)
+    if proc.returncode:
+        rep.lines += ['    ' + line for line in proc.stdout.splitlines() if line.startswith(('FAIL', 'FAILED'))]
+
+
 def main():
     rep = Report()
     rep.lines += ['PACKAGE SMOKE TEST REPORT', '=' * 72,
@@ -108,11 +181,17 @@ def main():
                   'python: %s' % sys.version.split()[0], 'package_root: %s' % PACKAGE_ROOT]
     check_required_documents(rep)
     check_id_counts(rep)
-    tmp = tempfile.mkdtemp(prefix='aisop_smoke_')
-    try:
-        check_release_root_any_folder(rep, tmp)
-    finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+    check_entry_and_index(rep)
+    if os.environ.get(NESTED_ENV):
+        rep.lines += ['', 'SKIP scripted tree-copy cases (already running inside a staged edition)']
+    else:
+        tmp = tempfile.mkdtemp(prefix='aisop_smoke_')
+        try:
+            check_release_root_any_folder(rep, tmp)
+            check_negative_cases(rep, tmp)
+            check_method_kit_self_audit(rep, tmp)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
     rep.lines += ['', 'SUMMARY: %s' % ('FAIL' if rep.failures else 'PASS')]
     rep.lines += ['ERROR: %s' % f for f in rep.failures]
     report = '\n'.join(rep.lines) + '\n'

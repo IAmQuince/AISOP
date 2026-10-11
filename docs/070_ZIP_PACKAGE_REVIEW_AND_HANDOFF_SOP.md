@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-070
 normative_status: Informative
+tier: 2
+summary: "SOP for reviewing, changing, and handing off a zipped package; defines the canonical final package report."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

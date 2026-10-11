@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-TRACEABILITY
 normative_status: Normative
+tier: 2
+summary: "Links every REQ-* requirement to its features, acceptance tests, and primary files."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -58,3 +60,11 @@ This matrix links package requirements to features, tests, and files. It is inte
 | REQ-RPT-002 | FEAT-032 | TEST-RPT-002 | `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`, `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md`, `config/package_metadata.json` | 0c |
 | REQ-PROF-001 | FEAT-033 | TEST-PROF-001 | `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`, `templates/USER_PROFILE_TEMPLATE.md`, `tools/package_structure_audit.py`, `.gitignore` | 0d |
 | REQ-DOC-004 | FEAT-003 (extended) | TEST-DOC-004 | `tools/package_structure_audit.py`, `config/package_metadata.json`, `docs/*.md` | 0e |
+| REQ-ENTRY-001 | FEAT-034 | TEST-ENTRY-001 | `AGENTS.md`, `tools/edition_audit.py` | 1 |
+| REQ-ENTRY-002 | FEAT-034 | TEST-ENTRY-002 | `CLAUDE.md`, `GEMINI.md`, `config/editions.json` | 1 |
+| REQ-ENTRY-003 | FEAT-035 | TEST-ENTRY-003 | `tools/build_editions.py`, `tools/_aisop_generators.py`, `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md` | 1 |
+| REQ-ENTRY-004 | FEAT-034 | TEST-ENTRY-004 | `reports/baseline/cold_agent_test_<package_id>.txt`, `AGENTS.md` | 1 and 4 |
+| REQ-ED-001 | FEAT-036 | TEST-ED-001 | all Markdown documents, `tools/package_structure_audit.py` | 1 |
+| REQ-ED-002 | FEAT-036 | TEST-ED-002 | `config/editions.json`, `tools/build_editions.py`, `tools/_aisop_editions.py` | 1 |
+| REQ-ED-003 | FEAT-037 | TEST-ED-003 | `docs/001_AISOP_CORE_RULES.md`, `tools/edition_audit.py` | 1 |
+| REQ-LINK-001 | FEAT-039 | TEST-LINK-001 | `tools/_aisop_common.py`, `tools/_aisop_editions.py`, `tools/edition_audit.py` | 1 |

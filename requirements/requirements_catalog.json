@@ -294,6 +294,86 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-DOC-004"
+    },
+    {
+      "id": "REQ-ENTRY-001",
+      "title": "Agent entry file",
+      "requirement": "`AGENTS.md` shall exist with a complete Normative document-control header, stay within `agents_file.budget_bytes` (8,192) including its GENERATED regions, cite only existing paths, name no package_id in its body, and state the normative rule and the mode selector (ORIENT, APPLY, MODIFY-AISOP, DOMAIN-LOOKUP).",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` checks size, header identity and status, the absence of other package_id tokens, both GENERATED regions, the mode names, and the requirements-source path; its reference check covers every cited path; `tests/smoke_test.py` checks presence.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-001"
+    },
+    {
+      "id": "REQ-ENTRY-002",
+      "title": "Pointer files",
+      "requirement": "A pointer file shall exist for each tool listed in `pointer_files` in `config/editions.json`; each is generated, carries a document-control header, names `AGENTS.md`, and stays within `pointer_budget_bytes`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` checks each declared pointer for presence, size, header, and the string `AGENTS.md`; `python tools/build_editions.py --check` checks it is fresh.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-002"
+    },
+    {
+      "id": "REQ-ENTRY-003",
+      "title": "Generated content is fresh",
+      "requirement": "Every GENERATED region and file (the `AGENTS.md` regions, pointer files, the card opener, the editions table, `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md`) shall equal a fresh render from its source, and a hand edit shall fail the audits with a message naming the source to edit.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` compares every generated target with a fresh render; `tests/smoke_test.py` edits the `rules` region in a copy of the tree and requires the check to exit 1 naming `docs/001_AISOP_CORE_RULES.md`, and validates `docs/index.json` (every document, documented keys, tier-then-path order).",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-003"
+    },
+    {
+      "id": "REQ-ENTRY-004",
+      "title": "Cold-agent verification per release",
+      "requirement": "Before each release, a cold agent given only the repository and the prompt 'Get up to speed on AISOP' shall reach a running audit within six tool calls and deliver the first-five-minutes report with mode ORIENT, the normative rule stated correctly, and no domain guide opened; the transcript summary is kept as `reports/baseline/cold_agent_test_<package_id>.txt`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1 and 4).",
+      "acceptance_test": "Manual, per release (one tool from Phase 1, two tools from Phase 4): run the prompt in a fresh clone with no other context; record tool and version, date, tool-call count, the minute-5 report, files opened, and a PASS/FAIL verdict in the log; `tools/edition_audit.py` warns when the log for the current package_id is missing.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-004"
+    },
+    {
+      "id": "REQ-ED-001",
+      "title": "Tier and summary in every header",
+      "requirement": "Every Markdown document outside `.github/` shall declare `tier` (0-3) and a one-line `summary` of at most 200 characters in its document-control header; domain guides also declare `topics`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/package_structure_audit.py` requires both keys and validates them; `tests/smoke_test.py` deletes `tier:` from one header in a copy of the tree and requires the audit to exit 1 naming that file.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-001"
+    },
+    {
+      "id": "REQ-ED-002",
+      "title": "Editions declared and built by one tool",
+      "requirement": "Editions shall be declared only in `config/editions.json` (tier cutoff, byte budget, `max_files`, include globs, opener) and staged by one standard-library tool; each staged edition shall stay within budget and the staged Method Kit shall pass its own audits.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` stages every edition in memory and fails on a budget or `max_files` breach or a duplicate Chat Kit basename; `tests/smoke_test.py` stages the Method Kit to a folder and requires `run_all_audits.py` to pass inside it.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-002"
+    },
+    {
+      "id": "REQ-ED-003",
+      "title": "One source for the core rules",
+      "requirement": "`docs/001_AISOP_CORE_RULES.md` shall be the single source of the core rules: Normative, rendered as the card within `card.budget_bytes` (8,192), with a rules block within `card.rules_block_budget_bytes` (4,096) that is generated into `AGENTS.md`, and report labels equal to those of `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` measures the rendered card; `python tools/edition_audit.py` measures the rules block, checks Normative status, and compares the card's fifteen report labels with the template's.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-003"
+    },
+    {
+      "id": "REQ-LINK-001",
+      "title": "References resolve in every edition",
+      "requirement": "Every relative Markdown link and every backticked path under the docs, tools, templates, or examples folders shall resolve in the tree, and in each staged edition except on lines carrying an edition marker for a higher edition; downstream-project paths are written with a leading `./`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` resolves references in the tree being audited; `python tools/build_editions.py --check` resolves them inside each lower staged edition, honouring edition markers and the planning and history lists in `config/editions.json`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-LINK-001"
     }
   ]
 }

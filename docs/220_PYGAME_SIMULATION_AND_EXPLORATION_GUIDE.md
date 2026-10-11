@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-220
 normative_status: Informative
+tier: 3
+summary: "Domain guide: using Pygame for small simulations and exploratory visual tools."
+topics: [pygame, simulation, games]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

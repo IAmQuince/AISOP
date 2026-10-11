@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-005
 normative_status: Normative
+tier: 2
+summary: "The authoritative list of REQ-* requirements for this package; the only requirements source besides the JSON catalog."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -193,3 +195,27 @@ REQ-PROF-001 No personal profile in operating instructions
 
 REQ-DOC-004 Balanced code fences
 : Every Markdown document shall have an even number of lines starting with a code fence, so no document renders as one unterminated code block; documents awaiting re-fencing are listed in `fence_parity_pending` in config and reported as warnings until fixed. Priority: Must. Status: Implemented. Verification: TEST-DOC-004.
+
+REQ-ENTRY-001 Agent entry file
+: `AGENTS.md` shall exist with a complete Normative document-control header, stay within `agents_file.budget_bytes` (8,192) including its GENERATED regions, cite only existing paths, name no package_id in its body, and state the normative rule and the mode selector (ORIENT, APPLY, MODIFY-AISOP, DOMAIN-LOOKUP). Priority: Must. Status: Implemented. Verification: TEST-ENTRY-001.
+
+REQ-ENTRY-002 Pointer files
+: A pointer file shall exist for each tool listed in `pointer_files` in `config/editions.json`; each is generated, carries a document-control header, names `AGENTS.md`, and stays within `pointer_budget_bytes`. Priority: Must. Status: Implemented. Verification: TEST-ENTRY-002.
+
+REQ-ENTRY-003 Generated content is fresh
+: Every GENERATED region and file (the `AGENTS.md` regions, pointer files, the card opener, the editions table, `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md`) shall equal a fresh render from its source, and a hand edit shall fail the audits with a message naming the source to edit. Priority: Must. Status: Implemented. Verification: TEST-ENTRY-003.
+
+REQ-ENTRY-004 Cold-agent verification per release
+: Before each release, a cold agent given only the repository and the prompt 'Get up to speed on AISOP' shall reach a running audit within six tool calls and deliver the first-five-minutes report with mode ORIENT, the normative rule stated correctly, and no domain guide opened; the transcript summary is kept as `reports/baseline/cold_agent_test_<package_id>.txt`. Priority: Must. Status: Implemented. Verification: TEST-ENTRY-004.
+
+REQ-ED-001 Tier and summary in every header
+: Every Markdown document outside `.github/` shall declare `tier` (0-3) and a one-line `summary` of at most 200 characters in its document-control header; domain guides also declare `topics`. Priority: Must. Status: Implemented. Verification: TEST-ED-001.
+
+REQ-ED-002 Editions declared and built by one tool
+: Editions shall be declared only in `config/editions.json` (tier cutoff, byte budget, `max_files`, include globs, opener) and staged by one standard-library tool; each staged edition shall stay within budget and the staged Method Kit shall pass its own audits. Priority: Must. Status: Implemented. Verification: TEST-ED-002.
+
+REQ-ED-003 One source for the core rules
+: `docs/001_AISOP_CORE_RULES.md` shall be the single source of the core rules: Normative, rendered as the card within `card.budget_bytes` (8,192), with a rules block within `card.rules_block_budget_bytes` (4,096) that is generated into `AGENTS.md`, and report labels equal to those of `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`. Priority: Must. Status: Implemented. Verification: TEST-ED-003.
+
+REQ-LINK-001 References resolve in every edition
+: Every relative Markdown link and every backticked path under the docs, tools, templates, or examples folders shall resolve in the tree, and in each staged edition except on lines carrying an edition marker for a higher edition; downstream-project paths are written with a leading `./`. Priority: Must. Status: Implemented. Verification: TEST-LINK-001.

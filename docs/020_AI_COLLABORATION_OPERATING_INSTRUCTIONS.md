@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-020
 normative_status: Informative
+tier: 1
+summary: "Operating instructions for the AI assistant: collaboration style, coding principles, feature preservation, diagnostics, delivery."
 source: "Generalized AI-assisted coding SOP source text; rewritten in REV-003 Phase 0d to second person with the personal profile moved to templates/USER_PROFILE_TEMPLATE.md"
 ---
 
@@ -73,7 +75,7 @@ Do not begin with extraction until structure and acceptance gates are clear. Ext
 - Phase 6: interface shell.
 - Phase 7: thin entry point.
 
-Do not skip phases unless the user explicitly approves. `docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md` gives the full procedure.
+Do not skip phases unless the user explicitly approves. `docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md` gives the full procedure (method edition).
 
 ## 6. Diagnostics and testing
 
@@ -86,8 +88,8 @@ The user often runs code on a machine you cannot see. Design every diagnostic so
 ## 7. Package deliverables
 
 - Package naming convention: `yyyymmdd_00_description-of-run`, for example `20260503_00_project_architecture_baseline.zip`. The zip filename and the internal top-level folder name must match.
-- A package contains, when appropriate: the runnable app or script; all support files; launchers; `docs/`; `tools/`; a start-here README; a changelog; acceptance tests; a diagnostic harness; a structure audit; known limitations. It contains no accidental runtime cache, logs, data, or personal files.
-- When delivering or reviewing a package, end with the fifteen-field final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (canonical format defined in `docs/070` section 18).
+- A package contains, when appropriate: the runnable app or script; all support files; launchers; `./docs/`; `./tools/`; a start-here README; a changelog; acceptance tests; a diagnostic harness; a structure audit; known limitations. It contains no accidental runtime cache, logs, data, or personal files.
+- When delivering or reviewing a package, end with the fifteen-field final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (canonical format defined in `docs/070` section 18, method edition).
 - Whether the user wants zips, commits, or single files is a profile setting; ask when it is missing.
 
 ## 8. Documentation
@@ -126,4 +128,4 @@ Ask for the evidence that would answer the question instead of guessing past it:
 
 ## 14. Working on AISOP itself
 
-When you update this package or a downstream package, work from the actual files, preserve existing features unless removal is explicitly requested, update revisions on touched controlled documents, update traceability when requirements change, and run the audit harness before delivery. For this repository, `AGENTS.md` is the entry point and `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` lists the handoff bundle.
+When you update this package or a downstream package, work from the actual files, preserve existing features unless removal is explicitly requested, update revisions on touched controlled documents, update traceability when requirements change, and run the audit harness before delivery. For this repository, `AGENTS.md` is the entry point and `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` lists the handoff bundle (method edition).

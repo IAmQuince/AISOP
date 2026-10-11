@@ -7,7 +7,9 @@ status: DRAFT-REFERENCE
 last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-FEATURE-INVENTORY
-normative_status: Normative
+normative_status: Informative
+tier: 2
+summary: "Every FEAT-* capability of this package, with status and verification; update it before changing behaviour."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -125,3 +127,18 @@ FEAT-032 Canonical final package report
 
 FEAT-033 Person-neutral operating instructions and profile template
 : `docs/020` rewritten in the second person; preferences moved to `templates/USER_PROFILE_TEMPLATE.md` (six questions plus a fictional example); local `USER_PROFILE.md` git-ignored. Verification: TEST-PROF-001.
+
+FEAT-034 Agent-first entry layer
+: `AGENTS.md` (first-five-minutes protocol, modes, hard rules, delivery) with generated `CLAUDE.md` and `GEMINI.md` pointers, and a per-release cold-agent test. Verification: TEST-ENTRY-001.
+
+FEAT-035 Single-source generator
+: `tools/build_editions.py` (entry, index, all, zips, stage, --check) with `tools/_aisop_editions.py` and `tools/_aisop_generators.py` renders every generated file and region from one source each. Verification: TEST-ENTRY-003.
+
+FEAT-036 Tiered editions from one tree
+: Header `tier` keys and `config/editions.json` define four cumulative editions (Card, Chat Kit, Method Kit, Full) with byte budgets, openers, and file rules; no document is copied. Verification: TEST-ED-001.
+
+FEAT-037 AISOP card
+: `docs/001_AISOP_CORE_RULES.md`: the core rules, minimum package, ID discipline, and fifteen report labels in under 8 KB, usable in any chat with no tooling, and the source of the rules in `AGENTS.md`. Verification: TEST-ED-003.
+
+FEAT-039 Edition-aware link checking
+: Links and backticked repository paths are resolved in the tree and in every staged edition, with `(chat kit edition)`, `(method edition)`, and `(full edition)` markers for deliberate cross-tier citations. Verification: TEST-LINK-001.

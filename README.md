@@ -7,7 +7,9 @@ status: DRAFT-REFERENCE
 last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-GITHUB-README
-normative_status: Normative
+normative_status: Informative
+tier: 2
+summary: "GitHub landing page: what AISOP is, which edition to pick, and the local audit commands."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

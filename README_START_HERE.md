@@ -2,12 +2,14 @@
 document_id: DOC-000-README
 title: "AI-Assisted Coding SOP Reference Package"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-README
-normative_status: Normative
+normative_status: Informative
+tier: 1
+summary: "First file to read in any AISOP package: purpose, reading order, and how to check the package."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -24,10 +26,10 @@ Read these files in order:
 1. `README_START_HERE.md`
 2. `CHANGELOG.md`
 3. `FEATURE_INVENTORY.md`
-4. `docs/005_PRODUCT_REQUIREMENTS.md`
+4. `docs/005_PRODUCT_REQUIREMENTS.md` (method edition)
 5. `ACCEPTANCE_TEST_PLAN.md`
 6. `KNOWN_LIMITATIONS.md`
-7. `docs/000_DOCUMENTATION_INDEX.md`
+7. `docs/000_DOCUMENTATION_INDEX.md` (method edition)
 
 ## Intended Use
 
@@ -80,9 +82,9 @@ The package now demonstrates and documents the transition:
 local zip package -> audited package -> GitHub repository -> practice branch -> tagged release -> downloadable zip package
 ```
 
-For the practice-space concept, read `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md`.
-For repository bootstrapping, read `docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md`.
-For release and zip handoff, read `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md`.
+For the practice-space concept, read `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md` (method edition).
+For repository bootstrapping, read `docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md` (method edition).
+For release and zip handoff, read `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md` (method edition).
 
 Additional commands:
 

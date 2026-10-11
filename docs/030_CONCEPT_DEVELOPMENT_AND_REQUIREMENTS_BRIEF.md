@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-030
 normative_status: Informative
+tier: 2
+summary: "SOP and form for the concept brief written before any code: identity, users, workflows, requirements, acceptance."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-ACCEPTANCE-TEST-PLAN
 normative_status: Normative
+tier: 2
+summary: "Every TEST-* acceptance item, the requirement it verifies, and how to run it."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -151,3 +153,27 @@ TEST-PROF-001 Personal-reference and profile-phrase scan
 
 TEST-DOC-004 Fence parity
 : `python tools/package_structure_audit.py` counts fence lines per Markdown file: odd counts FAIL unless listed in `fence_parity_pending` (WARN), and a listed file that is already balanced FAILs so the list cannot go stale. Requirement: REQ-DOC-004.
+
+TEST-ENTRY-001 Entry file size, identity, and content
+: `python tools/edition_audit.py` checks size, header identity and status, the absence of other package_id tokens, both GENERATED regions, the mode names, and the requirements-source path; its reference check covers every cited path; `tests/smoke_test.py` checks presence. Requirement: REQ-ENTRY-001.
+
+TEST-ENTRY-002 Pointer files present and small
+: `python tools/edition_audit.py` checks each declared pointer for presence, size, header, and the string `AGENTS.md`; `python tools/build_editions.py --check` checks it is fresh. Requirement: REQ-ENTRY-002.
+
+TEST-ENTRY-003 Generated freshness and the hand-edit negative case
+: `python tools/build_editions.py --check` compares every generated target with a fresh render; `tests/smoke_test.py` edits the `rules` region in a copy of the tree and requires the check to exit 1 naming `docs/001_AISOP_CORE_RULES.md`, and validates `docs/index.json` (every document, documented keys, tier-then-path order). Requirement: REQ-ENTRY-003.
+
+TEST-ENTRY-004 Cold-agent test (manual)
+: Manual, per release (one tool from Phase 1, two tools from Phase 4): run the prompt in a fresh clone with no other context; record tool and version, date, tool-call count, the minute-5 report, files opened, and a PASS/FAIL verdict in the log; `tools/edition_audit.py` warns when the log for the current package_id is missing. Requirement: REQ-ENTRY-004.
+
+TEST-ED-001 Tier and summary keys
+: `python tools/package_structure_audit.py` requires both keys and validates them; `tests/smoke_test.py` deletes `tier:` from one header in a copy of the tree and requires the audit to exit 1 naming that file. Requirement: REQ-ED-001.
+
+TEST-ED-002 Edition budgets and the Method Kit self-audit
+: `python tools/build_editions.py --check` stages every edition in memory and fails on a budget or `max_files` breach or a duplicate Chat Kit basename; `tests/smoke_test.py` stages the Method Kit to a folder and requires `run_all_audits.py` to pass inside it. Requirement: REQ-ED-002.
+
+TEST-ED-003 Card budget, rules block, and labels
+: `python tools/build_editions.py --check` measures the rendered card; `python tools/edition_audit.py` measures the rules block, checks Normative status, and compares the card's fifteen report labels with the template's. Requirement: REQ-ED-003.
+
+TEST-LINK-001 Reference resolution
+: `python tools/edition_audit.py` resolves references in the tree being audited; `python tools/build_editions.py --check` resolves them inside each lower staged edition, honouring edition markers and the planning and history lists in `config/editions.json`. Requirement: REQ-LINK-001.

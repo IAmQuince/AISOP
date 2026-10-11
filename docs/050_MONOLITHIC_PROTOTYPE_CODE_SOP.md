@@ -8,6 +8,8 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-050
 normative_status: Informative
+tier: 1
+summary: "SOP for a single-file prototype that stays disciplined: numbered sections, --smoke-test, --diagnostics, safe state."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -246,7 +248,7 @@ Typical future extraction map:
 | Scanning/import/parsing | `project/scanner.py`, `project/parser.py`, or `project/importer.py` |
 | Business logic/actions | `project/actions.py` or `project/services.py` |
 | UI/view rendering | `project/ui/`, `project/views/`, or `project/gui/` |
-| Diagnostics/smoke tests | `project/diagnostics.py`, `tools/diagnostic_harness.py` |
+| Diagnostics/smoke tests | `project/diagnostics.py`, `./tools/diagnostic_harness.py` |
 | Main application/entry point | `main.py` or package launcher |
 
 This lets the prototype become the behavioral seed of the formal project instead of becoming a dead-end script.
@@ -280,4 +282,4 @@ The prototype should be fast to change now, but disciplined enough that it can b
 
 ## 8. Delivery Report
 
-When a prototype run is delivered, end with the canonical final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (defined in `docs/070` section 18), including the `--smoke-test` and `--diagnostics` output in its `Test results` field.
+When a prototype run is delivered, end with the canonical final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (defined in `docs/070` section 18, method edition), including the `--smoke-test` and `--diagnostics` output in its `Test results` field.

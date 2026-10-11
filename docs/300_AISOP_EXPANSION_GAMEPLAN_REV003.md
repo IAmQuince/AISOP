@@ -2,12 +2,15 @@
 document_id: DOC-300
 title: "AISOP Expansion Gameplan (REV-003): Tiered Editions and Agent-First Entry"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-300
 normative_status: Informative
+tier: 3
+summary: "Planning record for REV-003: tiered editions from one tree, agent-first entry, beginner on-ramp, and release flow."
+topics: [planning, editions, roadmap]
 source: "REV-003 planning run: corpus audit of all reference documents, three judged architecture proposals, and a five-lens adversarial review of the draft"
 ---
 

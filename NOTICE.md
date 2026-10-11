@@ -7,7 +7,9 @@ status: DRAFT-REFERENCE
 last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-NOTICE
-normative_status: Normative
+normative_status: Informative
+tier: 1
+summary: "License statement (MIT, see LICENSE.txt) and attribution notes for downstream use."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

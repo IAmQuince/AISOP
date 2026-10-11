@@ -8,6 +8,9 @@ last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-170
 normative_status: Informative
+tier: 3
+summary: "Domain guide: compatibility lessons for legacy Windows, Python 2.7, Raspberry Pi, displays, and offline machines."
+topics: [compatibility, windows-xp, python2, raspberry-pi, lessons]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

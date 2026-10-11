@@ -2,12 +2,14 @@
 document_id: DOC-110
 title: "Security and Safety Baseline SOP"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-110
 normative_status: Normative
+tier: 2
+summary: "Security and safety baseline every package and release must meet, including human review."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

@@ -2,12 +2,14 @@
 document_id: DOC-000-CONTRIBUTING
 title: "Contribution Guide"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-CONTRIBUTING
 normative_status: Normative
+tier: 2
+summary: "What a contributor must run and update before opening a pull request."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 
@@ -18,7 +20,8 @@ AISOP contributions should preserve traceability and avoid feature loss.
 
 ## Required before opening a pull request
 
-- Run `python tools/run_all_audits.py`.
+- Run `python tools/build_editions.py all` to regenerate generated files and regions, then make sure `python tools/build_editions.py --check` and `python tools/run_all_audits.py` pass.
+- Give every new Markdown document a complete document-control header, including `tier` and `summary` (`docs/166_EDITIONS_AND_TIERS_SOP.md`).
 - Update `CHANGELOG.md` for user-visible changes.
 - Update document-control metadata for touched controlled documents.
 - Update `requirements/requirements_catalog.json` when adding, changing, or retiring requirements.
