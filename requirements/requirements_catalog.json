@@ -234,6 +234,36 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-CI-002"
+    },
+    {
+      "id": "REQ-REL-002",
+      "title": "Release root from package_id",
+      "requirement": "The release archive root and basename shall derive from `package_id` in `config/package_metadata.json`, never from the working-copy folder name; edition archives use `<package_id>_<edition>`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tests/smoke_test.py` copies the tree into a folder with another name, runs `tools/release_package.py`, and verifies the archive is `<package_id>.zip` with the single root `<package_id>/`, that `archive_name_audit.py` passes on it, and that the tool warns about the folder-name difference.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REL-002"
+    },
+    {
+      "id": "REQ-RPT-001",
+      "title": "Runtime reports not committed",
+      "requirement": "Runtime audit reports (`reports/*.txt`) shall be git-ignored and untracked; committed audit evidence lives under `reports/baseline/`, snapshotted per release.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies `.gitignore` ignores `reports/*.txt` and, in a git clone, that `git ls-files` lists no top-level `reports/*.txt`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-RPT-001"
+    },
+    {
+      "id": "REQ-MAN-001",
+      "title": "Manifest verified against the tree",
+      "requirement": "`PACKAGE_MANIFEST.md` shall be generated from the git-ignore-aware file list with header values from config, and `tools/manifest_update.py --check` shall run as the last step of `tools/run_all_audits.py`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tools/manifest_update.py --check` exits 0 only when the committed manifest equals a fresh render; `run_all_audits.py` runs it last.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-MAN-001"
     }
   ]
 }

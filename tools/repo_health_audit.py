@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import json, re, sys, time
+import json, re, subprocess, sys, time
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / 'reports' / 'repo_health_audit_report.txt'
@@ -94,6 +94,32 @@ def check_ci_branch(cfg, errors, lines):
         msg = 'FAIL ci.yml on.push.branches %s does not contain default_branch %r (TEST-CI-002)' % (branches, branch)
         lines.append(msg); errors.append(msg)
 
+def tracked_runtime_reports():
+    """Return tracked reports/*.txt (top level only) or None when git is unavailable."""
+    if not (ROOT / '.git').exists():
+        return None
+    try:
+        out = subprocess.run(['git', 'ls-files', 'reports'], cwd=str(ROOT), stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, universal_newlines=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return [f for f in out.splitlines() if re.match(r'^reports/[^/]+\.txt$', f)]
+
+def check_runtime_reports(errors, lines):
+    """TEST-RPT-001: runtime reports are git-ignored and not tracked; baselines stay committed."""
+    ignore = read(ROOT / '.gitignore') if (ROOT / '.gitignore').exists() else ''
+    if 'reports/*.txt' in ignore.splitlines():
+        lines.append('PASS .gitignore ignores reports/*.txt')
+    else:
+        msg = 'FAIL .gitignore does not ignore reports/*.txt (TEST-RPT-001)'; lines.append(msg); errors.append(msg)
+    tracked = tracked_runtime_reports()
+    if tracked is None:
+        lines.append('SKIP git unavailable or not a clone; tracked-report check not applicable')
+    elif tracked:
+        msg = 'FAIL runtime reports are tracked: %s (TEST-RPT-001)' % ', '.join(tracked); lines.append(msg); errors.append(msg)
+    else:
+        lines.append('PASS no runtime reports/*.txt are tracked')
+
 def main():
     errors=[]; lines=[]
     REPORT.parent.mkdir(exist_ok=True)
@@ -115,6 +141,8 @@ def main():
     check_license(cfg, errors, lines)
     lines += ['','CI DEFAULT BRANCH','-'*72]
     check_ci_branch(cfg, errors, lines)
+    lines += ['','RUNTIME REPORTS','-'*72]
+    check_runtime_reports(errors, lines)
     lines += ['','SUMMARY','-'*72,'SUMMARY: %s' % ('FAIL' if errors else 'PASS')]
     for e in errors: lines.append('ERROR: %s' % e)
     text='\n'.join(lines)+'\n'; REPORT.write_text(text, encoding='utf-8'); print(text)

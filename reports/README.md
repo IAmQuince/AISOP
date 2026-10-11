@@ -2,9 +2,9 @@
 document_id: DOC-README-REPORTS
 title: "Reports"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-README-REPORTS
 normative_status: Informative
@@ -13,7 +13,10 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Reports
 
-Generated audit and smoke-test reports are written here.
+Generated audit and smoke-test reports are written here at run time.
+
+- `reports/*.txt` are runtime output. They are git-ignored (REQ-RPT-001) and rewritten on every run, so running the audits never dirties the working tree. Paste them into a conversation or issue as evidence; do not commit them.
+- `reports/baseline/` is committed evidence: one snapshot per release or revision, named `baseline_<revision>_<report>.txt`. `baseline_rev002_run_all_audits_report.txt` is the REV-002 release run; `baseline_rev003_*` files record REV-003 gates.
 
 ## REV-002 Reports
 

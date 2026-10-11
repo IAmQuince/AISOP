@@ -175,3 +175,12 @@ REQ-AI-001 AI agent handoff protocol
 
 REQ-CI-002 CI on the default branch
 : CI shall run on pushes to the default branch named by `default_branch` in `config/package_metadata.json` and on every pull request. Priority: Must. Status: Implemented. Verification: TEST-CI-002.
+
+REQ-REL-002 Release root from package_id
+: The release archive root and basename shall derive from `package_id` in `config/package_metadata.json`, never from the working-copy folder name; edition archives use `<package_id>_<edition>`. Priority: Must. Status: Implemented. Verification: TEST-REL-002.
+
+REQ-RPT-001 Runtime reports not committed
+: Runtime audit reports (`reports/*.txt`) shall be git-ignored and untracked; committed audit evidence lives under `reports/baseline/`, snapshotted per release. Priority: Must. Status: Implemented. Verification: TEST-RPT-001.
+
+REQ-MAN-001 Manifest verified against the tree
+: `PACKAGE_MANIFEST.md` shall be generated from the git-ignore-aware file list with header values from config, and `tools/manifest_update.py --check` shall run as the last step of `tools/run_all_audits.py`. Priority: Must. Status: Implemented. Verification: TEST-MAN-001.

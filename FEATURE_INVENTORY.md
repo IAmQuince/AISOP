@@ -68,7 +68,7 @@ Verification: TEST-SMOKE-001
 
 FEAT-008
 Name: Reports folder
-Description: Stores audit and smoke-test reports under `reports/`.
+Description: Stores audit and smoke-test reports under `reports/`. Extended in REV-003: runtime `reports/*.txt` are git-ignored; committed evidence lives in `reports/baseline/` (TEST-RPT-001).
 Status: Current
 Preserve: Yes
 Verification: TEST-AUDIT-001, TEST-SMOKE-001
@@ -101,7 +101,7 @@ FEAT-015 Repository health audit
 : Adds a runnable audit for GitHub/community/repository-readiness files.
 
 FEAT-016 Release packaging tool
-: Adds deterministic release zip generation and dry-run verification.
+: Adds deterministic release zip generation and dry-run verification. Extended in REV-003: the archive root comes from `package_id`, not the clone folder name (TEST-REL-002).
 
 FEAT-017 AI agent handoff protocol
 : Adds explicit rules for handing the package to AI without feature loss or interface drift.
@@ -116,3 +116,6 @@ FEAT-019 Expanded requirements traceability
 
 FEAT-030 Resolved MIT license and NOTICE consistency
 : `LICENSE.txt` (MIT) is the resolved license, named as `license_file` in `config/package_metadata.json` and in `NOTICE.md`; the repository-health audit checks that the three agree. Supersedes FEAT-014. Verification: TEST-LIC-001.
+
+FEAT-031 Checked package manifest
+: `tools/manifest_update.py` renders `PACKAGE_MANIFEST.md` from config and the shared file walk and verifies it with `--check` inside `run_all_audits.py`. Verification: TEST-MAN-001.

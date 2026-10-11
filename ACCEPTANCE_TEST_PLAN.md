@@ -133,3 +133,12 @@ TEST-AI-001 AI handoff protocol exists
 
 TEST-CI-002 CI push trigger covers the default branch
 : `python tools/repo_health_audit.py` verifies that `on.push.branches` in `.github/workflows/ci.yml` contains the configured `default_branch`. Requirement: REQ-CI-002.
+
+TEST-REL-002 Release from a renamed working copy
+: `python tests/smoke_test.py` copies the tree into a folder with another name, runs `tools/release_package.py`, and verifies the archive is `<package_id>.zip` with the single root `<package_id>/`, that `archive_name_audit.py` passes on it, and that the tool warns about the folder-name difference. Requirement: REQ-REL-002.
+
+TEST-RPT-001 No tracked runtime reports
+: `python tools/repo_health_audit.py` verifies `.gitignore` ignores `reports/*.txt` and, in a git clone, that `git ls-files` lists no top-level `reports/*.txt`. Requirement: REQ-RPT-001.
+
+TEST-MAN-001 Manifest freshness check
+: `python tools/manifest_update.py --check` exits 0 only when the committed manifest equals a fresh render; `run_all_audits.py` runs it last. Requirement: REQ-MAN-001.

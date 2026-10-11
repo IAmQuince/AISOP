@@ -1,7 +1,7 @@
 {
   "package_id": "20260516_00_seed",
   "version": "0.2.0",
-  "revision": "REV-002",
+  "revision": "REV-003",
   "status": "DRAFT-REFERENCE",
   "created": "2026-05-02",
   "purpose": "AISOP seed package and GitHub practice-space reference for AI-assisted product development",
@@ -34,8 +34,7 @@
     "src",
     "requirements",
     "config",
-    ".github",
-    "dist"
+    ".github"
   ],
-  "last_updated": "2026-05-16"
+  "last_updated": "2026-10-11"
 }

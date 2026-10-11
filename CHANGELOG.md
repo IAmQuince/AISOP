@@ -81,3 +81,11 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 
 - DRIFT-001: retired every live reference to the deleted license-decision gate. REQ-LIC-001 and TEST-LIC-001 rewritten under the same IDs: the license file named by `license_file` in `config/package_metadata.json` (`LICENSE.txt`, MIT) must exist and `NOTICE.md` must name it. FEAT-014 marked Superseded by FEAT-030. `README.md`, `NOTICE.md`, `KNOWN_LIMITATIONS.md`, `CITATION.cff` (license field), and `docs/140` updated.
 - DRIFT-003: `ci.yml` now runs on pushes to `master` and `main`; `package_audit.yml` gained the same push trigger. Default branch recorded as `default_branch` in config and documented in `README.md` (DECISION-001). Added REQ-CI-002 / TEST-CI-002, checked by `repo_health_audit.py`.
+
+### 0b. Release root, reports, manifest
+
+- DRIFT-002: `tools/release_package.py` takes the archive root from `package_id` in config (REQ-REL-002 / TEST-REL-002), warns when the working-copy folder name differs, accepts `--name` and `--out`, and writes members sorted with fixed timestamps. `dist` removed from `required_directories`. `run_all_audits.py` spawns `sys.executable` and gained `--quiet`.
+- New `tools/_aisop_common.py`: the shared front-matter parser, git-ignore-aware file walk (works without git, so zip recipients and clone users see the same file list), hashing, and deterministic zip writer.
+- DRIFT-004: `reports/*.txt` and `USER_PROFILE.md` are git-ignored; the six individual runtime reports were untracked and the REV-002 combined run report preserved as `reports/baseline/baseline_rev002_run_all_audits_report.txt` (REQ-RPT-001 / TEST-RPT-001).
+- `tools/manifest_update.py` reads header values from config, uses the shared file walk (so `reports/README.md` and `reports/baseline/` are now listed and git-ignored files never are), emits `normative_status: Informative`, and gained `--check`, which `run_all_audits.py` runs last (REQ-MAN-001 / TEST-MAN-001, FEAT-031).
+- `tests/smoke_test.py` restructured into named checks; it now builds a release from a renamed copy of the tree in a temp directory.
