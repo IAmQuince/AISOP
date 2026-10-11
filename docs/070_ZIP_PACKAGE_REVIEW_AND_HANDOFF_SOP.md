@@ -2,9 +2,9 @@
 document_id: DOC-070
 title: "SOP: ZIP Package Review and Handoff"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-070
 normative_status: Informative
@@ -704,6 +704,7 @@ Next step identified.
 All intentional non-changes documented.
 
 18. Final Package Report Format
+This is the canonical final package report (DECISION-003, REQ-RPT-002). Its fill-in form is `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; every AISOP document that mentions delivery cites that template instead of defining its own format.
 When returning a package, always provide:
 Package:
 Internal folder:
@@ -799,7 +800,7 @@ For quick use, every run should follow this checklist:
 [ ] Run tests again.
 [ ] Generate reports.
 [ ] Repackage with matching folder/zip name.
-[ ] Provide final package report.
+[ ] Provide the final package report (`templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`).
 
 This SOP is what turns a pile of AI-generated code into a maintainable engineering project.
 

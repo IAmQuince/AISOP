@@ -89,3 +89,9 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - DRIFT-004: `reports/*.txt` and `USER_PROFILE.md` are git-ignored; the six individual runtime reports were untracked and the REV-002 combined run report preserved as `reports/baseline/baseline_rev002_run_all_audits_report.txt` (REQ-RPT-001 / TEST-RPT-001).
 - `tools/manifest_update.py` reads header values from config, uses the shared file walk (so `reports/README.md` and `reports/baseline/` are now listed and git-ignored files never are), emits `normative_status: Informative`, and gained `--check`, which `run_all_audits.py` runs last (REQ-MAN-001 / TEST-MAN-001, FEAT-031).
 - `tests/smoke_test.py` restructured into named checks; it now builds a release from a renamed copy of the tree in a temp directory.
+
+### 0c. Interim entry file and canonical report
+
+- DRIFT-006: added an interim `AGENTS.md` (Normative, full header, marked INTERIM; replaced in Phase 1) and a `CLAUDE.md` pointer that imports it.
+- DRIFT-008 / DECISION-003: `docs/070` section 18 declared the canonical fifteen-field final package report; added `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; `docs/020` (ten-item list removed), `050` (new section 8), `060` (section 21 now extends the canonical report with transfer fields), `165`, `040`, and `AGENTS.md` cite it. REQ-RPT-002 / TEST-RPT-002 (FEAT-032), checked by `repo_health_audit.py` with the citer list in config.
+- `WORKPLAN_CURRENT_RUN.md` gained a `## Decision Log` with every section-14 decision and two execution notes.

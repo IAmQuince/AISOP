@@ -142,3 +142,6 @@ TEST-RPT-001 No tracked runtime reports
 
 TEST-MAN-001 Manifest freshness check
 : `python tools/manifest_update.py --check` exits 0 only when the committed manifest equals a fresh render; `run_all_audits.py` runs it last. Requirement: REQ-MAN-001.
+
+TEST-RPT-002 Delivery documents cite the canonical report
+: `python tools/repo_health_audit.py` verifies the template exists, every file in `report_template_citers` (config) cites it, and no other document has a package-report title without citing it. Requirement: REQ-RPT-002.

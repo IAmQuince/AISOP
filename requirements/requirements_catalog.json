@@ -264,6 +264,16 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-MAN-001"
+    },
+    {
+      "id": "REQ-RPT-002",
+      "title": "One canonical final package report",
+      "requirement": "There shall be one final package report format, the fifteen fields of `docs/070` section 18, provided as `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; every document that describes delivery shall cite that template rather than define its own format.",
+      "rationale": "Added for REV-003 (docs/300 phase 0c).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies the template exists, every file in `report_template_citers` (config) cites it, and no other document has a package-report title without citing it.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-RPT-002"
     }
   ]
 }

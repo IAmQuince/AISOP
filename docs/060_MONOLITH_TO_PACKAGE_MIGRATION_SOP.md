@@ -2,9 +2,9 @@
 document_id: DOC-060
 title: "SOP: Monolith-to-Package Migration"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-060
 normative_status: Informative
@@ -1014,43 +1014,18 @@ A monolithic-to-package transfer is accepted only when:
 [ ] Next safe step is documented.
 
 If any required item fails, the package can still be delivered as a partial transfer, but it must be labeled honestly as incomplete.
-21. Formal Package Report After Transfer
-Every transfer package should end with a report:
-Package:
-Internal folder:
-Based on frozen monolith:
+21. Package Report After Transfer
+Every transfer package ends with the canonical fifteen-field final package report (`templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`, defined in `docs/070` section 18). In its `Based on` field, name the frozen monolith. Then add these transfer fields below the fifteen:
 Transfer type:
-Purpose:
-
-Changed files:
-
 Added files:
-
 Removed files:
-
 Behavior changes:
-Feature removals:
 Public interface changes:
 Compatibility shims added:
-
-Tests run:
-Test results:
-
 Diagnostics report:
 Structure audit:
 Feature inventory check:
-
-Known limitations:
-
-Risks:
-Debt added:
-Debt resolved:
-
-Broad refactor performed? Yes/No
-
 Rollback path:
-
-Next recommended step:
 
 22. When the Monolith Can Be Retired
 Do not delete the monolithic prototype immediately after creating the package.

@@ -120,6 +120,41 @@ def check_runtime_reports(errors, lines):
     else:
         lines.append('PASS no runtime reports/*.txt are tracked')
 
+REPORT_TITLE = re.compile(r'(?i)package report')
+REPORT_EXEMPT = {'CHANGELOG.md', 'WORKPLAN_CURRENT_RUN.md', 'docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md'}
+
+def _is_title(line):
+    s = line.strip()
+    return s.startswith('#') or bool(re.match(r'^\d+\.\s', s)) or s.endswith(':')
+
+def check_canonical_report(cfg, errors, lines):
+    """TEST-RPT-002: delivery SOPs cite the one report template; no competing report-format title."""
+    template = cfg.get('report_template', '')
+    if template and (ROOT / template).is_file():
+        lines.append('PASS canonical report template exists: %s' % template)
+    else:
+        msg = 'FAIL canonical report template missing: %r (TEST-RPT-002)' % template; lines.append(msg); errors.append(msg)
+        return
+    for rel in cfg.get('report_template_citers', []):
+        path = ROOT / rel
+        if path.is_file() and template in read(path):
+            lines.append('PASS %s cites %s' % (rel, template))
+        else:
+            msg = 'FAIL %s does not cite %s (TEST-RPT-002)' % (rel, template); lines.append(msg); errors.append(msg)
+    canonical = cfg.get('report_canonical_source', '')
+    for path in sorted(ROOT.rglob('*.md')):
+        rel = path.relative_to(ROOT).as_posix()
+        if rel in REPORT_EXEMPT or rel == template or rel.startswith(('.git/', 'dist/')):
+            continue
+        doc_lines = read(path).splitlines()
+        for i, line in enumerate(doc_lines):
+            if not (REPORT_TITLE.search(line) and _is_title(line)):
+                continue
+            window = '\n'.join(doc_lines[i:i + 4])
+            if rel != canonical and template not in window:
+                msg = 'FAIL %s:%d defines a package-report format without citing %s (TEST-RPT-002)' % (rel, i + 1, template)
+                lines.append(msg); errors.append(msg)
+
 def main():
     errors=[]; lines=[]
     REPORT.parent.mkdir(exist_ok=True)
@@ -141,6 +176,8 @@ def main():
     check_license(cfg, errors, lines)
     lines += ['','CI DEFAULT BRANCH','-'*72]
     check_ci_branch(cfg, errors, lines)
+    lines += ['','CANONICAL FINAL PACKAGE REPORT','-'*72]
+    check_canonical_report(cfg, errors, lines)
     lines += ['','RUNTIME REPORTS','-'*72]
     check_runtime_reports(errors, lines)
     lines += ['','SUMMARY','-'*72,'SUMMARY: %s' % ('FAIL' if errors else 'PASS')]

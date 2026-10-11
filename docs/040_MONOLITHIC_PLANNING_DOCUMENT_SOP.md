@@ -2,9 +2,9 @@
 document_id: DOC-040
 title: "SOP: Monolithic Planning Document"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-040
 normative_status: Informative
@@ -589,7 +589,7 @@ Required tools:
 Required reports:
 Runtime data exclusion:
 Reviewer onboarding:
-Final package report format:
+Final package report format: (the canonical fifteen fields in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`)
 
 This later extracts to:
 docs/160_PACKAGING_AND_HANDOFF_SPEC.md

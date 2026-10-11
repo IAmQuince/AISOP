@@ -184,3 +184,6 @@ REQ-RPT-001 Runtime reports not committed
 
 REQ-MAN-001 Manifest verified against the tree
 : `PACKAGE_MANIFEST.md` shall be generated from the git-ignore-aware file list with header values from config, and `tools/manifest_update.py --check` shall run as the last step of `tools/run_all_audits.py`. Priority: Must. Status: Implemented. Verification: TEST-MAN-001.
+
+REQ-RPT-002 One canonical final package report
+: There shall be one final package report format, the fifteen fields of `docs/070` section 18, provided as `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; every document that describes delivery shall cite that template rather than define its own format. Priority: Must. Status: Implemented. Verification: TEST-RPT-002.

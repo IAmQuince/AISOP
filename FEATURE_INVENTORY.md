@@ -119,3 +119,6 @@ FEAT-030 Resolved MIT license and NOTICE consistency
 
 FEAT-031 Checked package manifest
 : `tools/manifest_update.py` renders `PACKAGE_MANIFEST.md` from config and the shared file walk and verifies it with `--check` inside `run_all_audits.py`. Verification: TEST-MAN-001.
+
+FEAT-032 Canonical final package report
+: `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` is the single fifteen-field delivery report, cited by `AGENTS.md`, `docs/020`, `050`, `060`, `070`, and `165`. Verification: TEST-RPT-002.

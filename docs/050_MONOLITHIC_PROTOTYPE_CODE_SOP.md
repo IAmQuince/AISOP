@@ -2,9 +2,9 @@
 document_id: DOC-050
 title: "SOP: Monolithic Prototype Code"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-050
 normative_status: Informative
@@ -277,3 +277,7 @@ A monolithic prototype is allowed.
 An unstructured monolithic prototype is not.
 
 The prototype should be fast to change now, but disciplined enough that it can become a professional package later without losing features, rewriting from memory, or relying on undocumented assumptions.
+
+## 8. Delivery Report
+
+When a prototype run is delivered, end with the canonical final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (defined in `docs/070` section 18), including the `--smoke-test` and `--diagnostics` output in its `Test results` field.

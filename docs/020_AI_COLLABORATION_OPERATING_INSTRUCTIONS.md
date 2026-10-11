@@ -2,9 +2,9 @@
 document_id: DOC-020
 title: "AI Collaboration Operating Instructions"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-020
 normative_status: Informative
@@ -153,17 +153,7 @@ Every package should include, when appropriate:
 * known limitations;
 * no accidental runtime cache/log/data unless intentionally included;
 * no accidental personal/user media or private files.
-When delivering or reviewing a package, report:
-1. Package name/path.
-2. Internal top-level folder name.
-3. Whether package and folder names match.
-4. Changed files.
-5. Tests run.
-6. Test results.
-7. Known limitations.
-8. Whether features were removed or changed.
-9. Whether a broad refactor occurred.
-10. Recommended next step.
+When delivering or reviewing a package, end with the fifteen-field final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (canonical format defined in `docs/070` section 18).
 Documentation preferences:
 the user values documentation that prevents future confusion and feature drift.
 For professional packages, include:

@@ -2,9 +2,9 @@
 document_id: DOC-165
 title: "AI Agent Handoff Protocol"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-165
 normative_status: Normative
@@ -40,7 +40,7 @@ The agent should:
 4. update revisions on touched controlled files;
 5. update changelog, requirements, tests, and traceability when needed;
 6. run audits after edits;
-7. deliver a zip package and report what passed or failed.
+7. end with the fifteen-field final package report (`templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`) stating what passed or failed, and deliver a zip package when the user asked for a handoff (`docs/070`).
 
 ## Diagnostic harness rule
 

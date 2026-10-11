@@ -4,7 +4,7 @@ title: "Workplan Current Run"
 version: 0.2.0
 revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-WORKPLAN-CURRENT-RUN
 normative_status: Informative
@@ -72,3 +72,31 @@ Convert the package from a local-only SOP seed into a dual-use artifact: a GitHu
 - Secret scan completes.
 - Release dry run passes.
 - Final package zip has matching zip basename and internal root folder.
+
+## Decision Log
+
+Decisions from `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` section 14. The plan proceeds on each recommendation unless the owner says otherwise; "Adopted (recommendation)" means the recommendation was applied during execution and stands until the owner overrides it.
+
+| ID | Decision | Status | Applied as |
+|---|---|---|---|
+| DECISION-001 | Default branch | Adopted (recommendation) | Keep `master`; CI runs on `master` and `main`; `default_branch` in config (0a). |
+| DECISION-002 | Pointer files | Adopted (recommendation) | `CLAUDE.md` and `GEMINI.md`; none for tools that read `AGENTS.md` natively. |
+| DECISION-003 | Canonical final package report | Adopted (recommendation) | `docs/070` section 18, fifteen fields; template `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (0c). |
+| DECISION-004 | New package identity | Adopted (recommendation) | `yyyymmdd_00_aisop` at the first tiered release (Phase 3), not in Phase 0. |
+| DECISION-005 | Owner's real profile | Adopted (recommendation) | Git-ignored `USER_PROFILE.md`; tracked template carries a fictional example only (0b ignore rule, 0d template). |
+| DECISION-006 | `docs/010` and `docs/055` tier | Adopted (recommendation) | Tier 3 for both. |
+| DECISION-007 | Chat Kit target and delivery | Adopted (recommendation) | 120 KB text; zip plus flat upload; per-product facts pending owner tests (QUESTION-001). |
+| DECISION-008 | Worked example flavour | Adopted (recommendation) | Neutral `hello_aisop` file-processing utility. |
+| DECISION-009 | Release-asset upload in CI | Adopted (recommendation) | GitHub workflow on `v*` tags; `gh release upload` documented as the manual fallback. |
+| DECISION-010 | Domain guide location | Adopted (recommendation) | Stay in place with `tier: 3`. |
+| DECISION-011 | Generate the traceability matrix | Deferred (recommendation) | Revisit after Phase 3. |
+| DECISION-012 | Normative status of method SOPs and root files | Adopted (recommendation) | `docs/001` and `AGENTS.md` Normative; `030`-`070` stay Informative; non-procedure root files demoted in Phase 1. |
+| DECISION-013 | Manual acceptance testing per release | Adopted (recommendation) | Two cold-agent runs and one scripted cold-chat run, logged under `reports/baseline/`. |
+| DECISION-014 | Method Kit headroom | Adopted (recommendation) | Keep 409,600 bytes; raise to 524,288 only through the RISK-002 process if the Phase 2 dry build exceeds 90%. |
+| QUESTION-001 | Chat products and zip upload | Open (owner) | Needs the owner's own tests; recorded in `docs/004` when answered. |
+| QUESTION-002 | Agentic tools the owner uses | Open (owner) | Determines the pointer list and the TEST-ENTRY-004 tool pair. |
+
+### Execution notes (REV-003)
+
+- EXEC-001: Phase slices were developed as separate commits on one working branch, because the executing session could push to a single branch only. The plan's `practice/rev003-<slice>` branch names are not used for this run.
+- EXEC-002: Document revisions follow the repository's existing convention: a controlled document touched during the REV-003 program carries `revision: REV-003` (as REV-002 did), with `last_updated` set to the change date.
