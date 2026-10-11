@@ -24,7 +24,8 @@ REQUIRED_ROOT_FILES = [
     'CONTRIBUTING.md',
     'SECURITY.md',
     'SAFETY.md',
-    'LICENSE_DECISION_REQUIRED.md',
+    'LICENSE.txt',
+    'NOTICE.md',
 ]
 
 REQUIRED_DIRS = ['docs', 'tools', 'tests', 'reports', 'src', 'requirements', 'config', '.github']

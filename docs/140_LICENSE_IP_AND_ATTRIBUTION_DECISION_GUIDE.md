@@ -2,9 +2,9 @@
 document_id: DOC-140
 title: "License IP and Attribution Decision Guide"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-140
 normative_status: Normative
@@ -36,6 +36,10 @@ Force explicit decisions before public publication.
 
 ## Required files
 
-- `LICENSE` after decision.
+- `LICENSE` (or `LICENSE.txt`) after decision.
 - `NOTICE.md` for attribution and copied content notes.
-- `LICENSE_DECISION_REQUIRED.md` until resolved.
+- Until the decision is made, a clearly named blocking file (for example `LICENSE_PENDING.md`) that says the work is not yet licensed for reuse.
+
+## This repository
+
+AISOP itself resolved this decision: it is released under the MIT License in `LICENSE.txt`, recorded as `license_file` in `config/package_metadata.json`, and named in `NOTICE.md`. REQ-LIC-001 checks that the three agree.

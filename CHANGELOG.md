@@ -72,3 +72,12 @@ source: "Generalized AI-assisted coding SOP source text"
 ### Known drift recorded (not yet fixed)
 
 - `run_all_audits.py` currently fails: the license-decision gate was removed on GitHub but the audits, metadata, and requirements still expect it; `release_package.py` hard-codes the seed root folder name; CI triggers on `main` while the default branch is `master`; runtime reports are committed. All are scheduled for Phase 0 of the gameplan.
+
+## Unreleased / REV-003 Phase 0 - 2026-10-11
+
+Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were developed as separate commits on one working branch (the session could push to a single branch only), not as separate `practice/rev003-*` branches.
+
+### 0a. License gate and CI branch
+
+- DRIFT-001: retired every live reference to the deleted license-decision gate. REQ-LIC-001 and TEST-LIC-001 rewritten under the same IDs: the license file named by `license_file` in `config/package_metadata.json` (`LICENSE.txt`, MIT) must exist and `NOTICE.md` must name it. FEAT-014 marked Superseded by FEAT-030. `README.md`, `NOTICE.md`, `KNOWN_LIMITATIONS.md`, `CITATION.cff` (license field), and `docs/140` updated.
+- DRIFT-003: `ci.yml` now runs on pushes to `master` and `main`; `package_audit.yml` gained the same push trigger. Default branch recorded as `default_branch` in config and documented in `README.md` (DECISION-001). Added REQ-CI-002 / TEST-CI-002, checked by `repo_health_audit.py`.

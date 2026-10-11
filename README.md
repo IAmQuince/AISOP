@@ -2,9 +2,9 @@
 document_id: DOC-000-GITHUB-README
 title: "AISOP GitHub Repository README"
 version: 0.2.0
-revision: REV-001
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-GITHUB-README
 normative_status: Normative
@@ -44,8 +44,8 @@ Generated reports are written to `reports/`. Release archives are written to `di
 
 ## Repository concept
 
-`main` should represent the stable reference seed. Branches may represent explored practices, variants, hardware families, GUI stacks, domain examples, or safety classes. A useful branch should explain its tradeoffs, linked requirements, audit status, and release notes.
+The default branch is `master` (recorded as `default_branch` in `config/package_metadata.json`); CI runs on pushes to `master` or `main` and on every pull request. The default branch should represent the stable reference seed. Branches may represent explored practices, variants, hardware families, GUI stacks, domain examples, or safety classes. A useful branch should explain its tradeoffs, linked requirements, audit status, and release notes.
 
-## License status
+## License
 
-This seed includes `LICENSE_DECISION_REQUIRED.md`. Do not publish as an open-source repository until the license decision is resolved.
+AISOP is released under the MIT License; see `LICENSE.txt` and `NOTICE.md`.

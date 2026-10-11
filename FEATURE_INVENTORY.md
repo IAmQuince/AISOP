@@ -2,9 +2,9 @@
 document_id: DOC-000-FEATURE-INVENTORY
 title: "Feature Inventory"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-FEATURE-INVENTORY
 normative_status: Normative
@@ -83,7 +83,7 @@ Verification: TEST-PKG-001
 ## REV-002 Feature Additions
 
 FEAT-010 GitHub-ready repository substrate
-: Adds root repository files, `.github/` templates, CI workflow stubs, and repository bootstrap documentation.
+: Adds root repository files, `.github/` templates, CI workflow stubs, and repository bootstrap documentation. Extended in REV-003: CI runs on the configured default branch (`master`) as well as `main` and pull requests (TEST-CI-002).
 
 FEAT-011 AISOP practice-space doctrine
 : Documents GitHub branches, issues, pull requests, and releases as mechanisms for exploring and comparing practices.
@@ -95,7 +95,7 @@ FEAT-013 Security and safety baseline
 : Adds security policy, safety classification, local secret scan, and release-gate language.
 
 FEAT-014 License and attribution decision gate
-: Adds explicit license-decision blocking file and attribution/notice workflow.
+: Adds explicit license-decision blocking file and attribution/notice workflow. Status: Superseded by FEAT-030 in REV-003 (the MIT license was adopted and the blocking file removed).
 
 FEAT-015 Repository health audit
 : Adds a runnable audit for GitHub/community/repository-readiness files.
@@ -111,3 +111,8 @@ FEAT-018 Contribution and review workflow
 
 FEAT-019 Expanded requirements traceability
 : Adds requirements and tests covering GitHub readiness, release discipline, safety, security, and licensing.
+
+## REV-003 Feature Additions
+
+FEAT-030 Resolved MIT license and NOTICE consistency
+: `LICENSE.txt` (MIT) is the resolved license, named as `license_file` in `config/package_metadata.json` and in `NOTICE.md`; the repository-health audit checks that the three agree. Supersedes FEAT-014. Verification: TEST-LIC-001.

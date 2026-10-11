@@ -2,9 +2,9 @@
 document_id: DOC-000-ACCEPTANCE-TEST-PLAN
 title: "Acceptance Test Plan"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-ACCEPTANCE-TEST-PLAN
 normative_status: Normative
@@ -120,11 +120,16 @@ TEST-SEC-002 Secret scan runs
 TEST-SAFE-001 Safety baseline exists
 : Verifies `SAFETY.md` exists and defines safety classes. Requirement: REQ-SAFE-001.
 
-TEST-LIC-001 License decision gate exists
-: Verifies `LICENSE_DECISION_REQUIRED.md` exists and no public-ready license status is claimed. Requirement: REQ-LIC-001.
+TEST-LIC-001 Resolved license present and NOTICE consistent
+: Verifies the license file named in `config/package_metadata.json` (`LICENSE.txt`) exists and contains "MIT License", and that `NOTICE.md` names the license and the file. Command: `python tools/repo_health_audit.py`. Requirement: REQ-LIC-001. (Rewritten in REV-003 under the same ID.)
 
 TEST-GOV-001 Practice-space doctrine exists
 : Verifies `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md` exists and explains branches as practice explorations. Requirement: REQ-GOV-001.
 
 TEST-AI-001 AI handoff protocol exists
 : Verifies `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` exists and requires baseline inspection, audit reports, revision updates, and non-regression discipline. Requirement: REQ-AI-001.
+
+## REV-003 Acceptance Tests
+
+TEST-CI-002 CI push trigger covers the default branch
+: `python tools/repo_health_audit.py` verifies that `on.push.branches` in `.github/workflows/ci.yml` contains the configured `default_branch`. Requirement: REQ-CI-002.

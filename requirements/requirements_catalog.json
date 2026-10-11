@@ -1,8 +1,8 @@
 {
   "package_id": "20260516_00_seed",
   "version": "0.2.0",
-  "revision": "REV-002",
-  "last_updated": "2026-05-16",
+  "revision": "REV-003",
+  "last_updated": "2026-10-11",
   "requirements": [
     {
       "id": "REQ-PKG-001",
@@ -197,10 +197,10 @@
     },
     {
       "id": "REQ-LIC-001",
-      "title": "License decision gate",
-      "requirement": "The package shall include an explicit license-decision gate before public reuse is claimed.",
-      "rationale": "Added for REV-002 GitHub practice-space readiness.",
-      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "title": "Resolved license and notice consistency",
+      "requirement": "The package shall include the resolved license file named by `license_file` in `config/package_metadata.json`, and `NOTICE.md` shall name that license and file.",
+      "rationale": "Rewritten in REV-003 under the same ID: the license-decision gate was retired when the MIT license was adopted.",
+      "acceptance_test": "Run `python tools/repo_health_audit.py`; the license file exists and contains \"MIT License\" and NOTICE.md names it.",
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-LIC-001"
@@ -224,6 +224,16 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-AI-001"
+    },
+    {
+      "id": "REQ-CI-002",
+      "title": "CI on the default branch",
+      "requirement": "CI shall run on pushes to the default branch named by `default_branch` in `config/package_metadata.json` and on every pull request.",
+      "rationale": "Added for REV-003 (docs/300 phase 0a).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies that `on.push.branches` in `.github/workflows/ci.yml` contains the configured `default_branch`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-CI-002"
     }
   ]
 }

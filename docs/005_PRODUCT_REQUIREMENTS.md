@@ -2,9 +2,9 @@
 document_id: DOC-005
 title: "Product Requirements"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-005
 normative_status: Normative
@@ -162,11 +162,16 @@ REQ-SEC-002 Lightweight secret scan
 REQ-SAFE-001 Safety baseline
 : The package shall include `SAFETY.md` defining safety classes and baseline live-control rules.
 
-REQ-LIC-001 License decision gate
-: The package shall include an explicit license-decision gate before public reuse is claimed.
+REQ-LIC-001 Resolved license and notice consistency
+: The package shall include the resolved license file named by `license_file` in `config/package_metadata.json`, and `NOTICE.md` shall name that license and file. (Rewritten in REV-003 under the same ID; the earlier license-decision gate was retired when the MIT license was adopted.)
 
 REQ-GOV-001 Practice-space doctrine
 : The package shall document AISOP as a branchable, auditable space of practices.
 
 REQ-AI-001 AI agent handoff protocol
 : The package shall include instructions for AI-assisted revision that require file inspection, revision updates, audit execution, and feature preservation.
+
+## REV-003 Product Requirements
+
+REQ-CI-002 CI on the default branch
+: CI shall run on pushes to the default branch named by `default_branch` in `config/package_metadata.json` and on every pull request. Priority: Must. Status: Implemented. Verification: TEST-CI-002.

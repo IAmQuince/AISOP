@@ -2,9 +2,9 @@
 document_id: DOC-000-TRACEABILITY
 title: "Requirements Traceability Matrix"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-000-TRACEABILITY
 normative_status: Normative
@@ -43,6 +43,12 @@ This matrix links package requirements to features, tests, and files. It is inte
 | REQ-SEC-001 | TEST-SEC-001 | `SECURITY.md` |
 | REQ-SEC-002 | TEST-SEC-002 | `tools/secret_scan_lite.py` |
 | REQ-SAFE-001 | TEST-SAFE-001 | `SAFETY.md` |
-| REQ-LIC-001 | TEST-LIC-001 | `LICENSE_DECISION_REQUIRED.md`, `NOTICE.md` |
+| REQ-LIC-001 | TEST-LIC-001 | `LICENSE.txt`, `NOTICE.md`, `config/package_metadata.json` |
 | REQ-GOV-001 | TEST-GOV-001 | `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md` |
 | REQ-AI-001 | TEST-AI-001 | `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` |
+
+## REV-003 Traceability Additions
+
+| Requirement ID | Feature(s) | Verification ID | Primary File(s) | Phase |
+|---|---|---|---|---|
+| REQ-CI-002 | FEAT-010 (extended) | TEST-CI-002 | `.github/workflows/ci.yml`, `.github/workflows/package_audit.yml`, `config/package_metadata.json` | 0a |

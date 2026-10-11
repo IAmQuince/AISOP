@@ -5,6 +5,9 @@
   "status": "DRAFT-REFERENCE",
   "created": "2026-05-02",
   "purpose": "AISOP seed package and GitHub practice-space reference for AI-assisted product development",
+  "license_file": "LICENSE.txt",
+  "license_name": "MIT License",
+  "default_branch": "master",
   "required_root_files": [
     "README_START_HERE.md",
     "CHANGELOG.md",
@@ -19,7 +22,7 @@
     "SECURITY.md",
     "SAFETY.md",
     "SUPPORT.md",
-    "LICENSE_DECISION_REQUIRED.md",
+    "LICENSE.txt",
     "NOTICE.md",
     "CODE_OF_CONDUCT.md"
   ],
