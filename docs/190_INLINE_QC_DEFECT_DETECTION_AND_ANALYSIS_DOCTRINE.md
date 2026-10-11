@@ -10,7 +10,7 @@ machine_reference_prefix: DOC-190
 normative_status: Informative
 tier: 3
 summary: "Domain guide: doctrine for inline quality control, defect detection, review, and traceable quality records."
-topics: [qc, defect-detection, traceability, review]
+topics: [qc, defect-detection, traceability, review, ACCEPT-QC-*, DATA-QC-*, DEBT-QC-*, RISK-QC-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

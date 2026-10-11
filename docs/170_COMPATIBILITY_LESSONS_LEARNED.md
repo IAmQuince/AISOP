@@ -10,7 +10,7 @@ machine_reference_prefix: DOC-170
 normative_status: Informative
 tier: 3
 summary: "Domain guide: compatibility lessons for legacy Windows, Python 2.7, Raspberry Pi, displays, and offline machines."
-topics: [compatibility, windows-xp, python2, raspberry-pi, lessons]
+topics: [compatibility, windows-xp, python2, raspberry-pi, lessons, LESSON-*, OPEN-COMPAT-*, RISK-COMPAT-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

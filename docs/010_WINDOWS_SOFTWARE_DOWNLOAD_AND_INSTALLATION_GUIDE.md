@@ -16,6 +16,17 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Windows Software Download and Installation Guide
 
+## TL;DR
+
+- This guide covers downloading, installing, and verifying the Windows programs, IDEs, drivers, runtimes, board managers, and vendor tools that are not installed only through pip.
+- Core rule: download from the official source, install one tool at a time, verify each tool before moving on, and record what worked.
+- Installation is complete only when the tool is verified from the command line, its utility, or attached hardware, not when the installer finishes.
+- Install only what the project needs; avoid driver bundle sites, fake download buttons, repackaged installers, and driver updater utilities.
+- Enable "Add python.exe to PATH" and use `python -m pip install` rather than bare pip.
+- For instruments, install NI-VISA (matching Python bitness) before PyVISA; the first command is a `*IDN?` query, and outputs are enabled only after the safe-state policy is defined.
+- LabJack standing rule: U3/U6/UE9 use the UD driver plus LabJackPython; T4/T7/T8/Digit use LJM plus labjack-ljm/Python_LJM.
+- Install USB serial drivers only if Windows does not detect the device, after identifying the chip (CP210x, CH340/CH341, FTDI).
+
 0. Purpose
 This guide explains how to download, install, and verify the major Windows programs, drivers, runtimes, and vendor tools commonly needed for Python, Raspberry Pi, Arduino, ESP32, Visual Basic/.NET, laboratory instruments, serial devices, LabJack devices, and hardware-control projects.
 This guide focuses on software that is not installed only through pip.

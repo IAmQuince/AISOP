@@ -183,3 +183,10 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - `docs/100` describes the edition release procedure (bump, build, audit, cold-agent log, tag, verify) without hard-coding the package name; `docs/160` gained the tag step and the quarterly routine (Phase 4).
 - `release_dry_run.yml` checks every edition's naming.
 - `docs/000_USER_GUIDE_OVERVIEW.md` moved from tier 2 to tier 3 under the RISK-002 policy ("raise the tier, not the budget"): after Phase 3 the Method Kit stood at 98% of 524,288 bytes, and the overview's content is covered for newcomers by `docs/001`, `docs/002`, and `docs/020`.
+
+## Unreleased / REV-003 Phase 5 (part 2): TL;DRs, topics, ID namespaces - 2026-10-11
+
+- Every remaining domain guide (`docs/010`, `200`, `205`, `210`, `220`, `240`, `250`, `260`, `270`, `280`, `290`) and the prototype example `docs/055` gained a `## TL;DR` of 7-8 bullets drawn only from the guide's own text. Every domain guide now has a summary, topics, and a TL;DR (GATE-5).
+- The bare repeated-filename lines under the H1 of `docs/210`-`290` were deleted (pure deletions; the same kind of stale line removed from `docs/010` and `docs/030` in Phase 0).
+- `docs/055`'s 1,140-line Python example is now inside one `python` fence, so its comments no longer render as headings.
+- Domain-guide-local ID families (for example `RULE-GUI-`, `LESSON-`, `ACCEPT-QC-`, `THREAD-RULE-`) are listed in each guide's `topics` and so in `docs/index.json`; `docs/003` registers the `RULE-`, `LESSON-`, and `ACCEPT-` namespaces (decision: keep, not rename; EXEC-010).

@@ -10,13 +10,22 @@ machine_reference_prefix: DOC-220
 normative_status: Informative
 tier: 3
 summary: "Domain guide: using Pygame for small simulations and exploratory visual tools."
-topics: [pygame, simulation, games]
+topics: [pygame, simulation, games, ACCEPT-PYGAME-*, RULE-PYGAME-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Pygame Simulation and Exploration Guide
 
-220_PYGAME_SIMULATION_AND_EXPLORATION_GUIDE
+## TL;DR
+
+- Purpose: use Pygame to build small interactive laboratories, such as the rain-game simulation, where the user changes parameters and watches what happens; the goal is not just to make games.
+- Use Pygame when the animated simulation canvas is the main interface; for forms, tables, many dialogs, or long-term engineering DAQ interfaces, use PyQt, Tkinter, Kivy, or another GUI framework.
+- Every simulation needs a clear loop: input, update, collide, measure, draw. Use dt-based movement, not frame-based movement, and limit the frame rate with a clock.
+- Treat adjustable parameters as first-class design elements and keep raw simulation state separate from rendered pixels; playful visuals must not prevent measurement and logging.
+- Use simple Rect collision first, count each hit once, and use spatial partitioning when many particles interact with many particles.
+- Log results to CSV, use fixed random seeds (recorded with the results) when comparing scenarios, and add pause, reset, screenshot, and diagnostics early.
+- Modern Pygame dropped Python 2, so XP/Python 2.7 work needs old known-good installers; Pydroid touch and display behavior must be tested on the device.
+
 0. Purpose
 This document explains how we use Pygame as a practical simulation and exploration environment.
 It is based on the style of projects we have built before, including the “rain game” style simulation where:

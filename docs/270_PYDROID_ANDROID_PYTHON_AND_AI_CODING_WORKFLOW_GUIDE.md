@@ -10,13 +10,22 @@ machine_reference_prefix: DOC-270
 normative_status: Informative
 tier: 3
 summary: "Domain guide: Python on Android with Pydroid 3 and an AI-assisted phone coding workflow."
-topics: [android, pydroid, mobile]
+topics: [android, pydroid, mobile, RULE-PYDROID-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Pydroid Android Python and AI Coding Workflow Guide
 
-270_PYDROID_ANDROID_PYTHON_AND_AI_CODING_WORKFLOW_GUIDE
+## TL;DR
+
+- This guide explains how to use Pydroid 3 as a Python development environment on an Android phone or tablet, with AI writing Pydroid-compatible code and the user copying errors back.
+- Pydroid is not desktop Python: paths, permissions, input, and package support differ. Use it for direct, interactive Python and a desktop/laptop for packaging, large systems, and production.
+- Always tell the AI the target is Pydroid 3 on Android, and ask for a single-file first pass with screen-size detection, large touch controls, a Quit button, diagnostics, and an error log file.
+- Prefer Kivy for touch UI and Pygame for game/simulation canvases; avoid PyQt/PySide, desktop paths, and keyboard or mouse assumptions.
+- Install packages one at a time with an import test, and use simulation fallback when hardware, network, or package support is uncertain.
+- Do not block the UI thread with network calls or long calculations; worker threads pass data through a queue that a Kivy Clock callback applies on the main thread.
+- For real hardware, use a Raspberry Pi or ESP32 as the bridge and Pydroid as the viewer/controller. Build in layers; section 37 lists the RULE-PYDROID rules.
+
 0. Purpose
 This document explains how to use Pydroid 3 as a practical Python development environment on an Android phone or tablet.
 The intended workflow is:

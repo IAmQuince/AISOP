@@ -77,3 +77,8 @@ source: "REV-003 Phase 2 (docs/300 section 9.1)"
 | `MODULE-` | planned module | planning documents |
 | `IFACE-` | frozen public interface | `docs/040`, `docs/060` (method edition) |
 | `SAFE-` | safety class (`SAFE-CLASS-0` to `4`) | `SAFETY.md` |
+| `RULE-` | rule inside a domain guide, by area (`RULE-GUI-`, `RULE-LJ-`, ...) | domain guides (full edition) |
+| `LESSON-` | compatibility lesson | `docs/170` (full edition) |
+| `ACCEPT-` | acceptance item inside a domain guide; method documents use `TEST-` | domain guides (full edition) |
+
+Domain guides keep their own local ID families; each guide lists them in the `topics` of its header (and so in `docs/index.json`, method edition).

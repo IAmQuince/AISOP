@@ -10,7 +10,7 @@ machine_reference_prefix: DOC-185
 normative_status: Informative
 tier: 3
 summary: "Domain guide: code patterns for acquisition threads, command queues, historians, shutdown, and safe state."
-topics: [daq, threading, code-patterns, historian, safety]
+topics: [daq, threading, code-patterns, historian, safety, SIM-*, THREAD-RULE-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

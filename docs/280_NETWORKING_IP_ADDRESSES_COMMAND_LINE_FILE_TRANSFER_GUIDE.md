@@ -16,7 +16,16 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Networking, IP Addresses, Command Line, and File Transfer Guide
 
-280_NETWORKING_IP_ADDRESSES_COMMAND_LINE_FILE_TRANSFER_GUIDE
+## TL;DR
+
+- This guide covers practical networking for Raspberry Pi, Windows, PLC, instrument, and local-device projects: IP addresses, subnets, DHCP and static IPs, Windows command line, SSH, SCP, and file sharing.
+- Core rule: verify the network path before debugging software. Check the link, run ipconfig, confirm both IPs share a subnet, ping, test the service port, then check firewall and service.
+- An IP address finds the device and a port finds the service; if ping works but a port test fails, the device exists but the service is not reachable.
+- A DHCP reservation is usually the best middle ground. For direct Ethernet, a static IP on both devices in the same subnet is the most predictable method.
+- Use different subnets for different networks, and do not casually bridge PLC or test-equipment networks to the internet or home Wi-Fi.
+- Before changing a PLC or device IP, record its IP, mask, gateway, name, project file, and how to restore the connection.
+- Run scp from the computer that can reach both the file and the target. Anyone on the network may be able to access a python -m http.server folder while it runs.
+
 0. Purpose
 This guide explains the practical networking skills we repeatedly need for Raspberry Pi, Windows, PLC, Ethernet, Wi-Fi, instrument-control, and local-device projects.
 It covers:

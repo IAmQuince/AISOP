@@ -18,6 +18,16 @@ source: "Generalized AI-assisted coding SOP source text"
 
 Status: proposed, not shipped. AISOP does not include the environment bundle described below; the file and folder lists show what such a bundle would contain if a project builds one.
 
+## TL;DR
+
+- This guide describes a proposed, not shipped, reusable Python environment bundle for AI-assisted coding projects, plus one-line notes on installable third-party libraries and commonly used standard-library modules.
+- The bundle would hold an installer, a diagnostic, and an XP/Python 2.7 reference check under `./tools/`, and profile requirement files under `./requirements/`, if a project builds it.
+- The installer would list profiles, run diagnostics, install a profile such as `modern_core`, or download wheels into a wheelhouse for an offline `pip install --no-index --find-links`.
+- It is not a universal one-click installer for XP, Raspberry Pi, and Pydroid; target environments still matter, and XP/Python 2.7 uses the reference check instead.
+- The library list is best-effort from project history: DAQ/control, LabJack, PyVISA, QC/defect detection, GUI, plotting, Raspberry Pi, Pydroid, CAD/meshing, office files, web/download tools, MIDI/audio, diagnostics, and dev tooling.
+- LabJackPython serves U3/U6-era devices; labjack-ljm serves newer T-series devices.
+- Avoid pathlib for XP/Python 2.7 targets; dataclasses is modern Python only, and enum is too unless backported.
+
 This section defines a reusable Python environment bundle and library reference for AI-assisted coding projects.
 It includes:
 README_START_HERE.md

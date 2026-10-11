@@ -10,7 +10,7 @@ machine_reference_prefix: DOC-180
 normative_status: Informative
 tier: 3
 summary: "Domain guide: doctrine for data-acquisition and control software that drives real hardware safely."
-topics: [hardware, daq, control, safety, gui]
+topics: [hardware, daq, control, safety, gui, ACCEPT-*, DEBT-HW-*, RISK-HW-*, VERIFY-CH-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

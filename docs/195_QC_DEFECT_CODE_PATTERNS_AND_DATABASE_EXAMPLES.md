@@ -10,7 +10,7 @@ machine_reference_prefix: DOC-195
 normative_status: Informative
 tier: 3
 summary: "Domain guide: code and SQLite schema patterns for defect capture, evidence, and review workflows."
-topics: [qc, sqlite, code-patterns, evidence]
+topics: [qc, sqlite, code-patterns, evidence, QC-THREAD-RULE-*, SMOKE-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -10,13 +10,23 @@ machine_reference_prefix: DOC-240
 normative_status: Informative
 tier: 3
 summary: "Domain guide: MIDI hardware, Python MIDI libraries, and computer instrument control."
-topics: [midi, audio, instruments]
+topics: [midi, audio, instruments, RULE-MIDI-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # MIDI, Python, and Computer Instrument-Control Guide
 
-240_MIDI_PYTHON_AND_COMPUTER_INSTRUMENT_CONTROL_GUIDE
+## TL;DR
+
+- Purpose: use MIDI with Python as a general-purpose real-time control protocol between humans, computers, instruments, and software, not only to play notes.
+- MIDI is control data, not audio: a silent keyboard may be sending MIDI with no instrument assigned. Verify ports before debugging musical behavior.
+- Use Mido with python-rtmidi for modern Python work, pygame.midi as a fallback, legacy, or Pygame path, and loopMIDI for simple Windows virtual routing.
+- Always send note_off and include a panic/all-notes-off path; do not route a MIDI output back to its own input unless the program explicitly prevents feedback.
+- Log incoming MIDI before building complex mappings, keep mappings in JSON files, and use a MIDI thread with queues; do not update GUI widgets from the MIDI thread.
+- Never command dangerous hardware directly from a MIDI callback: MIDI input requests actions, and the hardware command thread executes them.
+- Mido channels are zero-based (MIDI channel 1 is channel=0); start with MIDI 1.0, and do not guess whether a TRS MIDI device is Type A or Type B.
+- For XP/legacy systems, use known-good old versions, not current pip assumptions.
+
 0. Purpose
 This document formalizes how we use MIDI with Python and computers.
 It covers:

@@ -10,12 +10,23 @@ machine_reference_prefix: DOC-055
 normative_status: Informative
 tier: 3
 summary: "Long annotated example of a monolithic Python prototype that follows docs/050."
-topics: [prototype, python, example, diagnostics]
+topics: [prototype, python, example, diagnostics, DEBT-PROTO-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Monolithic Prototype Code Example
 
+## TL;DR
+
+- This is a long annotated example of a monolithic Python prototype that follows `docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md`; it is intentionally monolithic for early testing and is not the final architecture.
+- Its header records purpose, status, and limitations, and lists what not to remove without approval: workflows, UI controls, data fields, settings/state persistence, diagnostics, and safe-state/shutdown behavior.
+- The code is split into ten numbered sections, from imports/compatibility to the entry point, each with an extraction target module.
+- Settings (user preferences) are kept separate from state (what the app last did), and JSON is written via a temp file and replace, with a backup.
+- `--smoke-test` and `--diagnostics` give a non-destructive smoke test and a copy/pasteable diagnostic report.
+- Hardware projects must start and fail safe: no auto-enabled outputs, and the placeholder safe-state hook, called on KeyboardInterrupt or unhandled exceptions, must be replaced with real behavior.
+- A debt register and an extraction map close the file: do not extract until a feature inventory, frozen interfaces, smoke tests, diagnostics, and a rollback baseline exist.
+
+```python
 from __future__ import print_function
 
 # =============================================================================
@@ -1156,3 +1167,4 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
+```
