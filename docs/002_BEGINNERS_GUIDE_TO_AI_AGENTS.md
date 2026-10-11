@@ -59,9 +59,9 @@ Each step says what you say, what the AI should produce, how you know it worked,
 ### Step 2: Plan it
 
 - **You say:** prompt 1, "Plan this", with your idea in one or two sentences.
-- **The AI should:** ask a few questions (who uses it, on which computer, what it must do), then write a short concept brief from `templates/CONCEPT_BRIEF_TEMPLATE.md` that lists the must-have features with numbered FEAT IDs. No code yet.
-- **It worked if:** every section of the brief is filled in, and you agree with the feature list.
-- **If not:** say "Fill every section of the concept brief template and list the features with FEAT IDs." Correct anything wrong now; it is cheaper than after coding.
+- **The AI should:** write a short concept brief from `templates/CONCEPT_BRIEF_TEMPLATE.md` that lists the must-have features with numbered FEAT IDs, marks anything it had to guess with "Assumption:", and lists its questions for you under Open questions. No code yet.
+- **It worked if:** every section of the brief is filled in, and you agree with the feature list and the assumptions.
+- **If not:** say "Fill every section of the concept brief template and list the features with FEAT IDs." Correct any wrong assumption or answer an open question in one message now; it is cheaper than after coding.
 
 > **Before step 3: running what the AI gives you.**
 > 1. Install Python from python.org (tick "Add python.exe to PATH" on Windows).

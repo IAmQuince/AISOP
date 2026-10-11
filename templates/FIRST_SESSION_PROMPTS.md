@@ -21,10 +21,11 @@ Copy one prompt at a time and replace the `<...>` parts. Each step is in `docs/0
 
 ```text
 Follow the AISOP rules you were given. My idea: <one or two sentences>.
-Ask me up to five questions about users, target computer, and must-have
-features. Then write a Concept Brief Lite using
-CONCEPT_BRIEF_TEMPLATE.md, and list the must-have features with FEAT IDs (FEAT- plus a three-digit
-number, starting at 001). Do not write code yet.
+Write a Concept Brief Lite using CONCEPT_BRIEF_TEMPLATE.md. Where I have
+not told you something, make a sensible assumption, mark it
+"Assumption:", and put the question you would ask me under Open
+questions. List the must-have features with FEAT IDs (FEAT- plus a
+three-digit number, starting at 001). Do not write code yet.
 ```
 
 ## 2. Prototype this
