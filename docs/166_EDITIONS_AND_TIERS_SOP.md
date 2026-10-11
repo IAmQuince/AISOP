@@ -69,6 +69,10 @@ When an edition nears its budget, raise the tier of a document; do not raise the
 | `AGENTS.md` region `commands` | `commands` in `config/editions.json` | `build_editions.py entry` |
 | `docs/001` region `card-opener` | `openers.card` | `build_editions.py entry` |
 | this document's region `editions-table` | `editions` and `openers` | `build_editions.py entry` |
+| `docs/004` region `editions-table` | `editions` and `openers` | `build_editions.py entry` |
+| `README.md` region `chooser` | `editions`, `openers`, `repository_url`, `package_id` | `build_editions.py entry` |
+| `README_START_HERE.md` regions `openers` and `reading-order` | `openers`; `entry_read_order` and document summaries | `build_editions.py entry` and `index` |
+| `templates/MANUAL_AUDIT_CHECKLIST.md` | the `CHECKS` table in `tools/aisop_check.py` | `build_editions.py entry` |
 | `CLAUDE.md`, `GEMINI.md` | `pointer_files` | `build_editions.py entry` |
 | `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md` | every document-control header | `build_editions.py index` |
 | `PACKAGE_MANIFEST.md` | the package tree | `manifest_update.py` (run by `build_editions.py all`) |
@@ -115,9 +119,9 @@ Each check lives in exactly one tool (PRIN-010 in `docs/300`, full edition).
 
 | Check | Owner |
 |---|---|
-| Required files and folders; complete headers incl. `tier` and `summary`; unique `document_id`; personal-reference and profile scan; code-fence parity | `tools/package_structure_audit.py` |
-| Required repository files and content checks; license; CI default branch; canonical report citations; untracked runtime reports | `tools/repo_health_audit.py` |
+| Required files and folders; complete headers incl. `tier` and `summary`; unique `document_id`; personal-reference and profile scan; code-fence parity; example-package registration | `tools/package_structure_audit.py` |
+| Required repository files and content checks; license; CI default branch; canonical report citations; release workflow order; untracked runtime reports | `tools/repo_health_audit.py` |
 | Generated files fresh; edition budgets, `max_files`, unique basenames; references resolve inside each edition | `tools/build_editions.py --check` |
-| References resolve in the tree; `AGENTS.md` size, identity and status; rules-block cap; pointer files; card labels equal the report template's; header `package_id` consistency; cold-agent log and superseded-tier warnings | `tools/edition_audit.py` |
+| References resolve in the tree; `AGENTS.md` size, identity and status; rules-block cap; pointer files; card labels equal the report template's; header `package_id` consistency; template parity and placeholder IDs; ID citations in tiers 0-1; glossary coverage; size caps; cold-agent log and superseded-tier warnings | `tools/edition_audit.py` |
 | Manifest matches the tree | `tools/manifest_update.py --check` |
-| Index valid and complete; negative cases (an edited generated region, a missing `tier`) make the audits fail | `tests/smoke_test.py` |
+| Index valid and complete; negative cases (an edited generated region, a missing `tier`) make the audits fail; the Method Kit passes its own audits; Chat Kit contents; the example's lite audit; edition zips reproduce; release from a renamed folder | `tests/smoke_test.py` |
