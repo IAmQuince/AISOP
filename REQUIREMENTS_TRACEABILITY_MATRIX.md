@@ -68,3 +68,6 @@ This matrix links package requirements to features, tests, and files. It is inte
 | REQ-ED-002 | FEAT-036 | TEST-ED-002 | `config/editions.json`, `tools/build_editions.py`, `tools/_aisop_editions.py` | 1 |
 | REQ-ED-003 | FEAT-037 | TEST-ED-003 | `docs/001_AISOP_CORE_RULES.md`, `tools/edition_audit.py` | 1 |
 | REQ-LINK-001 | FEAT-039 | TEST-LINK-001 | `tools/_aisop_common.py`, `tools/_aisop_editions.py`, `tools/edition_audit.py` | 1 |
+| REQ-BEG-001 | FEAT-041 | TEST-BEG-001 | `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md`, `docs/003_GLOSSARY.md`, `docs/004_EDITIONS_AND_UPGRADE_PATH.md` | 2 |
+| REQ-TPL-001 | FEAT-040 | TEST-TPL-001 | `templates/`, `docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md`, `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md` | 2 |
+| REQ-EX-001 | FEAT-042 | TEST-EX-001 | `examples/hello_aisop/`, `tools/aisop_check.py`, `tools/package_structure_audit.py` | 2 |

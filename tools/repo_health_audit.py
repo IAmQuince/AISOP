@@ -2,6 +2,7 @@
 from __future__ import print_function
 import json, re, subprocess, sys, time
 from pathlib import Path
+from _aisop_common import iter_package_files
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / 'reports' / 'repo_health_audit_report.txt'
 CONFIG = ROOT / 'config' / 'package_metadata.json'
@@ -98,8 +99,10 @@ REPORT_TITLE = re.compile(r'(?i)package report')
 REPORT_EXEMPT = {'CHANGELOG.md', 'WORKPLAN_CURRENT_RUN.md', 'docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md'}
 
 def _is_title(line):
+    """A Markdown heading, a short numbered title (not a sentence), or a field label ending in ':'."""
     s = line.strip()
-    return s.startswith('#') or bool(re.match(r'^\d+\.\s', s)) or s.endswith(':')
+    numbered_title = bool(re.match(r'^\d+\.\s', s)) and len(s) <= 60 and not s.endswith('.')
+    return s.startswith('#') or numbered_title or s.endswith(':')
 
 def check_canonical_report(cfg, errors, lines):
     """TEST-RPT-002: delivery SOPs cite the one report template; no competing report-format title."""
@@ -116,9 +119,9 @@ def check_canonical_report(cfg, errors, lines):
         else:
             msg = 'FAIL %s does not cite %s (TEST-RPT-002)' % (rel, template); lines.append(msg); errors.append(msg)
     canonical = cfg.get('report_canonical_source', '')
-    for path in sorted(ROOT.rglob('*.md')):
+    for path in iter_package_files():
         rel = path.relative_to(ROOT).as_posix()
-        if rel in REPORT_EXEMPT or rel == template or rel.startswith(('.git/', 'dist/')):
+        if path.suffix != '.md' or rel in REPORT_EXEMPT or rel == template:
             continue
         doc_lines = read(path).splitlines()
         for i, line in enumerate(doc_lines):

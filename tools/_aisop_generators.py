@@ -93,6 +93,57 @@ def render_editions_table(tree, cfg, eds):
     return '\n'.join(rows) + '\n'
 
 
+def _asset_name(cfg, edition):
+    if edition.get('kind') == 'card':
+        return 'AISOP_CARD.md'
+    return cfg['package_id'] + edition.get('zip_suffix', '') + '.zip'
+
+
+def render_readme_chooser(tree, cfg, eds):
+    """README.md: which edition to download, with latest-release links and openers."""
+    base = cfg['repository_url'].rstrip('/')
+    rows = ['| If you use | Get | Size budget | Then type |', '|---|---|---|---|']
+    for e in eds.data['editions']:
+        asset = _asset_name(cfg, e)
+        link = '[%s](%s/releases/latest/download/%s)' % (asset, base, asset)
+        if e['name'] == 'full':
+            link = '`git clone %s.git` or %s' % (base, link)
+        rows.append('| %s | **%s**: %s | %s | %s |' % (_escape_cell(e['audience']), e['title'], link,
+                                                    _budget_text(e), _escape_cell(eds.opener(e['name']))))
+    return '\n'.join(rows) + '\n'
+
+
+def render_start_here_openers(tree, cfg, eds):
+    """README_START_HERE.md: how to tell which edition you hold, and its opener."""
+    lines = []
+    for e in eds.data['editions']:
+        if e.get('kind') == 'card':
+            continue
+        folder = cfg['package_id'] + e.get('zip_suffix', '')
+        lines.append('- **%s** (folder `%s/`, or a git clone for Full): "%s"' % (e['title'], folder, eds.opener(e['name'])))
+    return '\n'.join(lines) + '\n'
+
+
+MANUAL_CHECKLIST = 'templates/MANUAL_AUDIT_CHECKLIST.md'
+
+
+def render_manual_checklist(tree, cfg, eds):
+    """templates/MANUAL_AUDIT_CHECKLIST.md from the CHECKS table in tools/aisop_check.py."""
+    namespace = {'__name__': 'aisop_check_table'}
+    exec(compile(tree.text('tools/aisop_check.py'), 'tools/aisop_check.py', 'exec'), namespace)
+    head = generated_header(cfg, 'DOC-TPL-MANUAL-AUDIT', 'Manual Audit Checklist', 1,
+                            'Check your package by hand, the same checks tools/aisop_check.py runs, when you cannot run Python.',
+                            'the CHECKS table in tools/aisop_check.py')
+    body = ['# Manual Audit Checklist', '', file_banner('the CHECKS table in `tools/aisop_check.py`'), '',
+            'Use this when you cannot run Python. Go through each row in your package folder, write PASS, FAIL, or '
+            'SKIP, and note the evidence (a file name, a line, what you saw). Paste the filled table back to your AI '
+            'as the "how you know it worked" result.', '',
+            '| Check | What to verify by hand | PASS/FAIL/SKIP | Evidence |', '|---|---|---|---|']
+    for check_id, title, manual in namespace['CHECKS']:
+        body.append('| %s %s | %s |  |  |' % (check_id, title, _escape_cell(manual)))
+    return head + '\n'.join(body) + '\n'
+
+
 def make_pointer_render(pointer):
     def render(tree, cfg, eds):
         head = generated_header(cfg, pointer['document_id'], '%s pointer for %s' % (pointer['path'], pointer['tool']),
@@ -196,6 +247,13 @@ def targets(eds):
     ]
     result.append(Target('docs/166_EDITIONS_AND_TIERS_SOP.md', 'editions-table', 'config/editions.json', 'entry',
                          render_editions_table))
+    result.append(Target('docs/004_EDITIONS_AND_UPGRADE_PATH.md', 'editions-table', 'config/editions.json', 'entry',
+                         render_editions_table))
+    result.append(Target('README.md', 'chooser', 'config/editions.json and config/package_metadata.json', 'entry',
+                         render_readme_chooser))
+    result.append(Target('README_START_HERE.md', 'openers', 'config/editions.json', 'entry', render_start_here_openers))
+    result.append(Target(MANUAL_CHECKLIST, None, 'the CHECKS table in tools/aisop_check.py', 'entry',
+                         render_manual_checklist))
     for pointer in eds.data['pointer_files']:
         result.append(Target(pointer['path'], None, 'config/editions.json', 'entry', make_pointer_render(pointer)))
     # Index last: it reads the headers (and sizes) of the files generated above.

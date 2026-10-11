@@ -11,12 +11,12 @@ normative_status: Informative
 tier: 1
 summary: "The canonical fifteen-field report an AI or person gives at the end of every package delivery or substantial change."
 derived_from: DOC-070
-source: "Extracted from docs/070 section 18 (canonical per DECISION-003, REQ-RPT-002)"
+source: "Extracted from docs/070 section 18 (canonical per DECISION-003)"
 ---
 
 # Final Package Report Template
 
-This is the one report format AISOP uses at the end of a delivery (REQ-RPT-002). It comes from `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md` section 18 (method edition); the full documents win on conflict. Copy the block, fill every field, and write `None` or `Not applicable` rather than deleting a field.
+This is the one report format AISOP uses at the end of a delivery. It comes from `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md` section 18 (method edition); the full documents win on conflict. Copy the block, fill every field, and write `None` or `Not applicable` rather than deleting a field.
 
 ## Report
 

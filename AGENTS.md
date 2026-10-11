@@ -44,13 +44,13 @@ Domain guides are informative reference, never requirements: `docs/010`, `docs/0
 11. **Respect the target.** Confirm the language version, operating system and libraries before writing code; never assume modern defaults.
 12. **Safe by default.** Anything that drives hardware starts safe, fails safe, and never acts automatically at startup.
 13. **Gate the phases.** Concept, plan, prototype, package: move on only when the current phase's check passes.
-14. **Report every delivery.** End each substantial reply with the fifteen-field report below and name the AISOP version you follow.
+14. **Report every delivery.** End each substantial reply with the fifteen-field final package report and name the AISOP version you follow.
 <!-- GENERATED:END rules -->
 
 ## 5. First-five-minutes protocol
 
 1. This file is loaded; note the package_id and version in its header.
-2. Run `python tools/run_all_audits.py --quiet`. PASS: trust the tree. FAIL: report the failing tool verbatim and stop structural work; a red audit on a fresh copy is a bug to report, not to work around. If you cannot run commands, say so, check by hand against `docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md`, and do not claim the tree is audited.
+2. Run `python tools/run_all_audits.py --quiet`; it writes only git-ignored `reports/*.txt` and temporary copies outside the tree, so it is safe in every mode. PASS: trust the tree. FAIL: report the failing tool verbatim and stop structural work; a red audit on a fresh copy is a bug to report, not to work around. If you cannot run commands, say so, apply `templates/MANUAL_AUDIT_CHECKLIST.md` by hand, and do not claim the tree is audited.
 3. Read `README_START_HERE.md`, then the leading tier 0-1 records of `docs/index.json` (they come first).
 4. Choose the mode (section 6), load its reading set, and read `USER_PROFILE.md` if it exists.
 5. Report back: AISOP version loaded; audit result (or "could not run"); mode; files read; files intentionally not read; first proposed acceptance-gated step.
@@ -60,9 +60,17 @@ Domain guides are informative reference, never requirements: `docs/010`, `docs/0
 Choose the mode by what the task will change, and state it in one sentence before touching files.
 
 - **ORIENT**: nothing changes (orientation, questions, review). No reading beyond section 5.
-- **APPLY**: files outside this tree change (the user's own project). Read `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`, then only the SOP for the current stage: concept `docs/030`, plan `docs/040`, prototype `docs/050`, migrate `docs/060`, package `docs/070`.
+- **APPLY**: files outside this tree change (the user's own project). Read `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`, then only the one template for the current stage (table below; also in `templates/README.md`), and its SOP only when you reach that stage.
 - **MODIFY-AISOP**: files inside this tree change. Read `docs/165`, `docs/160`, `docs/166`, `docs/120`. Run `python tools/build_editions.py --check` and the audits before delivering; update CHANGELOG, FEATURE_INVENTORY, requirements, and traceability when behaviour changes.
 - **DOMAIN-LOOKUP** is additive: append it to any mode when the task needs a domain guide, and report it as "APPLY + DOMAIN-LOOKUP (docs/185)". Read the index summaries first, open exactly one guide, TL;DR first (full edition).
+
+| Stage | Single template | SOP opened only at that stage |
+|---|---|---|
+| concept | `templates/CONCEPT_BRIEF_TEMPLATE.md` | `docs/030` |
+| plan | `templates/PLANNING_DOCUMENT_TEMPLATE.md` | `docs/040` |
+| prototype | `examples/hello_aisop/hello_aisop.py` as the pattern | `docs/050` |
+| migrate | `templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md` | `docs/060` |
+| package | `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` | `docs/070` |
 
 ## 7. Commands
 

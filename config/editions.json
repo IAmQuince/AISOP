@@ -35,7 +35,7 @@
       "tier": 2,
       "kind": "zip",
       "zip_suffix": "_method",
-      "budget_bytes": 409600,
+      "budget_bytes": 524288,
       "include": [
         ".editorconfig",
         ".gitattributes",
@@ -49,7 +49,8 @@
         "docs/index.json"
       ],
       "audience": "Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides.",
-      "delivery": "<package_id>_method.zip, or a clone with tier-3 files ignored"
+      "delivery": "<package_id>_method.zip, or a clone with tier-3 files ignored",
+      "budget_note": "Raised from 409,600 to 524,288 bytes in REV-003 Phase 2 under DECISION-014 (the Phase 2 dry build measured 473,970 bytes, 116% of the old budget); see CHANGELOG."
     },
     {
       "name": "full",
@@ -116,8 +117,12 @@
     "AGENTS.md",
     "README_START_HERE.md",
     "docs/001_AISOP_CORE_RULES.md",
+    "docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md",
     "docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md",
-    "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md"
+    "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md",
+    "templates/README.md",
+    "docs/003_GLOSSARY.md",
+    "docs/004_EDITIONS_AND_UPGRADE_PATH.md"
   ],
   "cold_agent_log": "reports/baseline/cold_agent_test_{package_id}.txt",
   "link_check": {
@@ -128,6 +133,84 @@
     "history_records": [
       "CHANGELOG.md",
       "WORKPLAN_CURRENT_RUN.md"
+    ]
+  },
+  "size_caps": [
+    {
+      "glob": "docs/001_AISOP_CORE_RULES.md",
+      "max_bytes": 8192
+    },
+    {
+      "glob": "docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md",
+      "max_bytes": 12288
+    },
+    {
+      "glob": "docs/003_GLOSSARY.md",
+      "max_bytes": 6144
+    },
+    {
+      "glob": "docs/004_EDITIONS_AND_UPGRADE_PATH.md",
+      "max_bytes": 5120
+    },
+    {
+      "glob": "templates/*.md",
+      "max_bytes": 4096,
+      "mode": "each",
+      "exclude": [
+        "templates/ID_RECORD_FORMATS.md"
+      ]
+    },
+    {
+      "glob": "templates/ID_RECORD_FORMATS.md",
+      "max_bytes": 6144
+    },
+    {
+      "glob": "templates/**",
+      "max_bytes": 24576,
+      "mode": "total"
+    },
+    {
+      "glob": "examples/hello_aisop/**",
+      "max_bytes": 12288,
+      "mode": "total",
+      "note": "docs/300 section 9.3 says 8 KB; complete headers on seven files cost about 3.3 KB (EXEC-007)"
+    },
+    {
+      "glob": "tools/aisop_check.py",
+      "max_bytes": 10240
+    }
+  ],
+  "glossary": {
+    "path": "docs/003_GLOSSARY.md",
+    "ignore_families": [
+      "SHA",
+      "UTF",
+      "ISO",
+      "RS"
+    ],
+    "terms": [
+      "mode",
+      "ORIENT",
+      "APPLY",
+      "MODIFY-AISOP",
+      "DOMAIN-LOOKUP",
+      "Normative",
+      "Informative",
+      "Monolithic prototype",
+      "Feature inventory",
+      "Intake document",
+      "Document-control header",
+      "System prompt / custom instructions",
+      "Context window",
+      "Drift",
+      "package_id",
+      "Edition",
+      "Tier",
+      "Practice space",
+      "Golden baseline",
+      "Diagnostic harness",
+      "Handoff bundle",
+      "Acceptance gate"
     ]
   }
 }

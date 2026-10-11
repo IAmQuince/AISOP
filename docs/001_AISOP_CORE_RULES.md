@@ -41,7 +41,7 @@ idea -> concept brief -> plan -> prototype -> freeze baseline -> package -> revi
 11. **Respect the target.** Confirm the language version, operating system and libraries before writing code; never assume modern defaults.
 12. **Safe by default.** Anything that drives hardware starts safe, fails safe, and never acts automatically at startup.
 13. **Gate the phases.** Concept, plan, prototype, package: move on only when the current phase's check passes.
-14. **Report every delivery.** End each substantial reply with the fifteen-field report below and name the AISOP version you follow.
+14. **Report every delivery.** End each substantial reply with the fifteen-field final package report and name the AISOP version you follow.
 <!-- AISOP:RULES:END -->
 
 ## Minimum package
@@ -58,7 +58,7 @@ yyyymmdd_00_short-description/
 
 ## IDs
 
-A requirement is `REQ-<AREA>-<NNN>` (for example `REQ-UI-001`), a feature `FEAT-<NNN>`, and an acceptance test `TEST-<AREA>-<NNN>` that names the requirement it checks. Risks, debts, decisions and open questions use `RISK-`, `DEBT-`, `DECISION-` and `QUESTION-`. An ID is never reused: a changed requirement keeps its ID with new text, and a retired one is marked Superseded.
+A requirement is `REQ-<AREA>-<NNN>` (the area is a short code such as UI or DATA), a feature `FEAT-<NNN>`, and an acceptance test `TEST-<AREA>-<NNN>` that names the requirement it checks. Risks, debts, decisions and open questions use `RISK-`, `DEBT-`, `DECISION-` and `QUESTION-`. An ID is never reused: a changed requirement keeps its ID with new text, and a retired one is marked Superseded.
 
 ## Final package report (fifteen fields)
 

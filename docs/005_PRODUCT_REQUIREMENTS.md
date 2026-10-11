@@ -219,3 +219,12 @@ REQ-ED-003 One source for the core rules
 
 REQ-LINK-001 References resolve in every edition
 : Every relative Markdown link and every backticked path under the docs, tools, templates, or examples folders shall resolve in the tree, and in each staged edition except on lines carrying an edition marker for a higher edition; downstream-project paths are written with a leading `./`. Priority: Must. Status: Implemented. Verification: TEST-LINK-001.
+
+REQ-BEG-001 Beginner on-ramp
+: The package shall include a beginner's guide (`docs/002`, at most 12,288 bytes), a glossary (`docs/003`, at most 6,144 bytes) that defines every ID family used in tiers 0-2 and the seeded terms, and an editions guide (`docs/004`, at most 5,120 bytes); the staged Chat Kit shall contain only tier 0-1 documents plus its fixed files, exactly as its EDITION_INFO.md lists. Priority: Must. Status: Implemented. Verification: TEST-BEG-001.
+
+REQ-TPL-001 Templates
+: Templates under `templates/` shall declare `derived_from` when they come from an SOP, match the `## Required sections` list that SOP gives for them, use placeholder IDs only (`REQ-XXX-NNN`, `FEAT-NNN`, `TEST-XXX-NNN`), and stay within their size caps; `templates/MANUAL_AUDIT_CHECKLIST.md` is generated from the CHECKS table of `tools/aisop_check.py`. Priority: Must. Status: Implemented. Verification: TEST-TPL-001.
+
+REQ-EX-001 Registered example package
+: Example packages shall be registered in `example_packages` in `config/package_metadata.json`, declare `package_role: example` and their own `package_id` in their README_START_HERE.md, use `DOC-EX-` document IDs, and pass `tools/aisop_check.py` (the standard-library lite audit for downstream packages) including their own smoke test. Priority: Must. Status: Implemented. Verification: TEST-EX-001.

@@ -30,10 +30,31 @@ Every document carries a `tier`: the lowest edition that includes it. Editions a
 | Document | Title | Status | Size | Summary |
 |---|---|---|---|---|
 | `NOTICE.md` | Notice and Attribution | Informative | S | License statement (MIT, see LICENSE.txt) and attribution notes for downstream use. |
-| `README_START_HERE.md` | AI-Assisted Coding SOP Reference Package | Informative | S | First file to read in any AISOP package: purpose, reading order, and how to check the package. |
+| `README_START_HERE.md` | AISOP: Start Here | Informative | S | First file to read in any AISOP edition: which edition you hold, the reading order, the package rules, and how to check the package. |
+| `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md` | Beginner's Guide to AI Agents | Informative | S | For people new to AI coding: chat versus agent, why files beat memory, which edition to pick, and a five-step first project with checks. |
+| `docs/003_GLOSSARY.md` | Glossary | Informative | S | Short definitions of AISOP's terms, modes, header fields, and every ID family used in tiers 0-2. |
+| `docs/004_EDITIONS_AND_UPGRADE_PATH.md` | Editions and Upgrade Path | Informative | S | The four AISOP editions, their sizes and openers, what each adds, and how zips, releases, and the repository relate. |
 | `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md` | AI Collaboration Operating Instructions | Informative | M | Operating instructions for the AI assistant: collaboration style, coding principles, feature preservation, diagnostics, delivery. |
 | `docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md` | SOP: Monolithic Prototype Code | Informative | M | SOP for a single-file prototype that stays disciplined: numbered sections, --smoke-test, --diagnostics, safe state. |
+| `examples/hello_aisop/000_PLANNING_DOCUMENT.md` | hello_aisop: Planning Document | Informative | S | The plan for hello_aisop at hello-world scale, one short answer per required section. |
+| `examples/hello_aisop/ACCEPTANCE_TEST_PLAN.md` | hello_aisop: Acceptance Test Plan | Informative | S | How each hello_aisop requirement is checked. |
+| `examples/hello_aisop/CHANGELOG.md` | hello_aisop: Changelog | Informative | S | What changed in each hello_aisop version, newest first. |
+| `examples/hello_aisop/FEATURE_INVENTORY.md` | hello_aisop: Feature Inventory | Informative | S | What hello_aisop does now; nothing here may be lost without approval. |
+| `examples/hello_aisop/KNOWN_LIMITATIONS.md` | hello_aisop: Known Limitations | Informative | S | What hello_aisop does not do or has not been tested on. |
+| `examples/hello_aisop/README_START_HERE.md` | hello_aisop: Start Here | Informative | S | Start here: what hello_aisop does, how to run and test it, and what must not break. |
+| `examples/hello_aisop/tools/README.md` | hello_aisop: Tools | Informative | S | Where the package checker comes from and how to run it. |
+| `templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md` | Agent Handoff Bundle Template | Informative | S | What to give an AI agent before it changes a package, including during a prototype-to-package migration. |
+| `templates/CHANGELOG_TEMPLATE.md` | Changelog Template | Informative | S | One changelog entry per run: what changed, why, how it was tested, and what comes next. |
+| `templates/CONCEPT_BRIEF_TEMPLATE.md` | Concept Brief Template (Lite) | Informative | S | A one-page concept brief to fill in before any code is written. |
+| `templates/FEATURE_INVENTORY_TEMPLATE.md` | Feature Inventory Template | Informative | S | The list of everything the software does now, so no feature is lost between runs. |
 | `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` | Final Package Report Template | Informative | S | The canonical fifteen-field report an AI or person gives at the end of every package delivery or substantial change. |
+| `templates/FIRST_SESSION_PROMPTS.md` | First Session Prompts | Informative | S | Three prompts to copy for a first project: plan this, prototype this, package and report. |
+| `templates/ID_RECORD_FORMATS.md` | ID Record Formats | Informative | S | The record shapes for requirements, features, tests, risks, debts, decisions, questions, and limitations, stated once. |
+| `templates/KNOWN_LIMITATIONS_TEMPLATE.md` | Known Limitations Template | Informative | S | What the package does not do or has not been tested on, stated plainly. |
+| `templates/MANUAL_AUDIT_CHECKLIST.md` | Manual Audit Checklist | Informative | S | Check your package by hand, the same checks tools/aisop_check.py runs, when you cannot run Python. |
+| `templates/PLANNING_DOCUMENT_TEMPLATE.md` | Planning Document Template | Informative | S | Skeleton of the one planning document, with the 23 required sections in order. |
+| `templates/README.md` | Templates | Informative | S | Which template to use at each stage of a project, and what each one is for. |
+| `templates/README_START_HERE_TEMPLATE.md` | README_START_HERE Template | Informative | S | The first file of every package: what it is, how to run and test it, and what must not break. |
 | `templates/USER_PROFILE_TEMPLATE.md` | User Profile Template | Informative | S | Six questions that tell the AI who it is working with; save the answers as a local, git-ignored USER_PROFILE.md. |
 
 ## Tier 2: Method Kit
@@ -50,12 +71,12 @@ Every document carries a `tier`: the lowest edition that includes it. Editions a
 | `GEMINI.md` | GEMINI.md pointer for Gemini CLI | Informative | S | Pointer that makes Gemini CLI load AGENTS.md. |
 | `KNOWN_LIMITATIONS.md` | Known Limitations | Informative | S | What this package does not do or has not verified, stated so nobody over-claims it. |
 | `PACKAGE_MANIFEST.md` | Package Manifest | Informative | M | Generated list of every package file with its size and SHA-256 hash. |
-| `README.md` | AISOP GitHub Repository README | Informative | S | GitHub landing page: what AISOP is, which edition to pick, and the local audit commands. |
+| `README.md` | AISOP | Informative | S | GitHub landing page: what AISOP is, which edition to download, and how agents and maintainers start. |
 | `REQUIREMENTS_TRACEABILITY_MATRIX.md` | Requirements Traceability Matrix | Normative | S | Links every REQ-* requirement to its features, acceptance tests, and primary files. |
 | `SAFETY.md` | Safety Baseline | Normative | S | Safety classes and the baseline rules for software that controls hardware. |
 | `SECURITY.md` | Security Policy | Normative | S | How to report security issues and the no-secrets rules for this repository. |
 | `SUPPORT.md` | Support Guide | Informative | S | Where to ask questions and what information to include. |
-| `WORKPLAN_CURRENT_RUN.md` | Workplan Current Run | Informative | S | Scope and status of the current and previous runs, plus the decision log for REV-003. |
+| `WORKPLAN_CURRENT_RUN.md` | Workplan Current Run | Informative | M | Scope and status of the current and previous runs, plus the decision log for REV-003. |
 | `docs/000_DOCUMENTATION_INDEX.md` | Documentation Index | Informative | M | Generated map of every AISOP document by tier, with status, size class, and a one-line summary. |
 | `docs/000_USER_GUIDE_OVERVIEW.md` | AI-Assisted Coding User Guide Overview | Informative | S | Short philosophy of the method: how a person and an AI plan, code, package, and hand off work. |
 | `docs/005_PRODUCT_REQUIREMENTS.md` | Product Requirements | Normative | M | The authoritative list of REQ-* requirements for this package; the only requirements source besides the JSON catalog. |

@@ -142,3 +142,12 @@ FEAT-037 AISOP card
 
 FEAT-039 Edition-aware link checking
 : Links and backticked repository paths are resolved in the tree and in every staged edition, with `(chat kit edition)`, `(method edition)`, and `(full edition)` markers for deliberate cross-tier citations. Verification: TEST-LINK-001.
+
+FEAT-041 Beginner on-ramp
+: `docs/002` (five-step first project with checks), `docs/003` glossary, `docs/004` editions guide, and the Chat Kit edition built from them. Verification: TEST-BEG-001.
+
+FEAT-040 Templates for every stage
+: Fill-in templates (concept brief, planning document, intake documents, ID record formats, handoff bundle, first-session prompts, final package report, user profile) and a generated manual audit checklist. Verification: TEST-TPL-001.
+
+FEAT-042 Worked example and lite audit
+: `examples/hello_aisop/` (a complete minimal package with a numbered-section script and the docs/050 flags) and `tools/aisop_check.py`, the single-file checker users copy into their own packages. Verification: TEST-EX-001.

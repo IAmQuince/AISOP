@@ -189,6 +189,39 @@ def check_personal_references(audit):
         audit.ok('no configured personal-reference or profile-phrase patterns found')
 
 
+def check_examples(audit, cfg):
+    """TEST-EX-001 (registration): example packages are registered and carry their own identity."""
+    audit.section('EXAMPLE PACKAGES')
+    registered = [r.rstrip('/') for r in cfg.get('example_packages', [])]
+    examples_dir = ROOT / 'examples'
+    if examples_dir.is_dir():
+        for child in sorted(examples_dir.iterdir()):
+            if child.is_dir() and 'examples/' + child.name not in registered:
+                audit.fail('examples/%s is not registered in example_packages (config/package_metadata.json)' % child.name)
+    for root in registered:
+        start = ROOT / root / 'README_START_HERE.md'
+        if not start.is_file():
+            audit.fail('%s has no README_START_HERE.md' % root)
+            continue
+        head = parse_frontmatter(read_text(start))
+        pid = head.get('package_id', '')
+        if head.get('package_role') != 'example' or not pid:
+            audit.fail('%s/README_START_HERE.md must declare package_role: example and its own package_id' % root)
+            continue
+        bad = []
+        for path in markdown_files():
+            rel = rel_posix(path)
+            if not rel.startswith(root + '/'):
+                continue
+            fm = parse_frontmatter(read_text(path))
+            if fm.get('package_id') != pid or not fm.get('document_id', '').startswith('DOC-EX-'):
+                bad.append(rel)
+        if bad:
+            audit.fail('%s: headers must carry package_id %s and DOC-EX- document IDs: %s' % (root, pid, ', '.join(bad)))
+        else:
+            audit.ok('%s registered as an example package with its own package_id %s' % (root, pid))
+
+
 def main():
     cfg = load_config()
     audit = Audit()
@@ -200,6 +233,7 @@ def main():
     check_requirements(audit)
     check_feature_and_test_ids(audit)
     check_fence_parity(audit, cfg)
+    check_examples(audit, cfg)
     check_personal_references(audit)
     audit.lines += ['', 'SUMMARY', '-' * 72, 'SUMMARY: %s' % ('FAIL' if audit.errors else 'PASS')]
     audit.lines += ['ERROR: %s' % e for e in audit.errors]

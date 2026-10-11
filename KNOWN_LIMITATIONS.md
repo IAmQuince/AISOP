@@ -57,6 +57,18 @@ Description: The Card and the Chat Kit leave out most of the method and all doma
 Impact: A chat model using a lower edition can only follow what it was given; the full documents win on conflict.
 Status: Current
 
+LIMIT-008
+Title: Chat product behaviour not yet tested
+Description: Whether each chat product accepts the Chat Kit zip, reads attached files whole or on demand, and how many files it takes per message has not been tested (QUESTION-001).
+Impact: Chat Kit users may need to upload files one by one or fall back to the Card. Results are recorded in `docs/004_EDITIONS_AND_UPGRADE_PATH.md` as the owner tests products.
+Status: Current
+
+LIMIT-009
+Title: Python 2.7 paths written but not run
+Description: `tools/aisop_check.py` and `examples/hello_aisop/hello_aisop.py` avoid Python 3-only syntax so they can run on legacy machines, but only Python 3 was available to test them.
+Impact: A legacy user may hit an untested incompatibility; report it with the diagnostic output.
+Status: Current
+
 ## REV-002 Known Limitations
 
 - The package is released under the MIT License (`LICENSE.txt`). Third-party material referenced by the domain guides keeps its own license; review it before redistribution (see `NOTICE.md`).

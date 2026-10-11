@@ -170,10 +170,19 @@ TEST-ED-001 Tier and summary keys
 : `python tools/package_structure_audit.py` requires both keys and validates them; `tests/smoke_test.py` deletes `tier:` from one header in a copy of the tree and requires the audit to exit 1 naming that file. Requirement: REQ-ED-001.
 
 TEST-ED-002 Edition budgets and the Method Kit self-audit
-: `python tools/build_editions.py --check` stages every edition in memory and fails on a budget or `max_files` breach or a duplicate Chat Kit basename; `tests/smoke_test.py` stages the Method Kit to a folder and requires `run_all_audits.py` to pass inside it. Requirement: REQ-ED-002.
+: `python tools/build_editions.py --check` stages every edition in memory and fails on a budget or `max_files` breach or a duplicate Chat Kit basename; `tests/smoke_test.py` stages the Method Kit to a folder and requires `run_all_audits.py` to pass inside it. Budgets since REV-003 Phase 2 (DECISION-014): Card 8,192, Chat Kit 122,880 (40 files), Method Kit 524,288 bytes (raised from 409,600). Requirement: REQ-ED-002.
 
 TEST-ED-003 Card budget, rules block, and labels
 : `python tools/build_editions.py --check` measures the rendered card; `python tools/edition_audit.py` measures the rules block, checks Normative status, and compares the card's fifteen report labels with the template's. Requirement: REQ-ED-003.
 
 TEST-LINK-001 Reference resolution
 : `python tools/edition_audit.py` resolves references in the tree being audited; `python tools/build_editions.py --check` resolves them inside each lower staged edition, honouring edition markers and the planning and history lists in `config/editions.json`. Requirement: REQ-LINK-001.
+
+TEST-BEG-001 Beginner documents, glossary coverage, and Chat Kit contents
+: `python tools/edition_audit.py` checks the size caps and glossary coverage; `tests/smoke_test.py` stages the Chat Kit and compares its files with EDITION_INFO.md, rejects documents above tier 1, and confirms AISOP's own changelog and limitations are absent. The scripted cold-chat session (GATE-2 of the REV-003 gameplan) is manual and owner-run. Requirement: REQ-BEG-001.
+
+TEST-TPL-001 Template parity, placeholders, and caps
+: `python tools/edition_audit.py` resolves every `derived_from`, compares template headings with the SOP's Required sections, rejects concrete REQ/FEAT/TEST IDs in templates, and checks the caps; `python tools/build_editions.py --check` confirms the manual checklist matches the CHECKS table. Requirement: REQ-TPL-001.
+
+TEST-EX-001 Example registration and lite audit
+: `python tools/package_structure_audit.py` fails on an unregistered folder under `examples/` or a registered root without its identity; `tests/smoke_test.py` runs `python tools/aisop_check.py --root examples/hello_aisop --run` and requires SUMMARY: PASS. Requirement: REQ-EX-001.

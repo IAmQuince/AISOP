@@ -858,3 +858,33 @@ designed to be split later
 
 The goal is not to avoid monolithic documents entirely.
 The goal is to make the monolithic document a controlled staging artifact instead of a documentation swamp.
+
+## Required sections
+
+The planning document has exactly these second-level sections, in this order. A small project may answer a section with "Not needed for this project: <one-line reason>", but keeps the heading. The audit compares this list with the template (TEST-TPL-001).
+
+### templates/PLANNING_DOCUMENT_TEMPLATE.md
+
+- 0. Document Control
+- 1. Executive Summary
+- 2. Concept Recap
+- 3. User Workflows
+- 4. Current Baseline / Prototype State
+- 5. Functional Requirements
+- 6. Non-Functional Requirements
+- 7. Data and Persistence Model
+- 8. UI / UX Model
+- 9. Architecture Direction
+- 10. Module Boundary Plan
+- 11. File and Folder Structure Plan
+- 12. Routes / APIs / Interfaces
+- 13. Diagnostics and Testing Plan
+- 14. Risk Register
+- 15. Technical Debt Register
+- 16. Decision Log
+- 17. Open Questions
+- 18. Implementation Phases
+- 19. Acceptance Criteria
+- 20. Packaging and Handoff Requirements
+- 21. Extraction Plan
+- 22. Appendices

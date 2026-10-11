@@ -174,6 +174,32 @@ def check_method_kit_self_audit(rep, tmp):
         rep.lines += ['    ' + line for line in proc.stdout.splitlines() if line.startswith(('FAIL', 'FAILED'))]
 
 
+def check_example_package(rep):
+    """TEST-EX-001: the registered example passes the lite audit, including its own smoke test."""
+    rep.section('EXAMPLE PACKAGE (TEST-EX-001)')
+    for root in load_config().get('example_packages', []):
+        code, output = run_tool(PACKAGE_ROOT, 'tools/aisop_check.py', '--root', root, '--run')
+        rep.check(code == 0 and output.rstrip().endswith('SUMMARY: PASS'), 'aisop_check.py --root %s --run passes' % root)
+
+
+def check_chat_kit_contents(rep, tmp):
+    """GATE-2: the staged Chat Kit holds only tier 0-1 documents plus its fixed files, exactly as EDITION_INFO lists."""
+    rep.section('CHAT KIT CONTENTS (TEST-BEG-001)')
+    out = Path(tmp) / 'chatkit'
+    code, _ = run_tool(PACKAGE_ROOT, 'tools/build_editions.py', 'stage', '--edition', 'chatkit', '--out', str(out))
+    roots = list(out.iterdir()) if out.is_dir() else []
+    if code or len(roots) != 1:
+        rep.check(False, 'stage the chatkit edition')
+        return
+    kit = Tree.from_disk(roots[0])
+    listed = re.findall(r'(?m)^- `([^`]+)`$', kit.text('EDITION_INFO.md').split('## Files in this edition', 1)[-1])
+    rep.check(sorted(listed) == sorted(kit.files), 'EDITION_INFO.md lists exactly the %d staged files' % len(kit.files))
+    high = [rel for rel in kit.documents() if kit.tier(rel) > 1]
+    rep.check(not high, 'every document is tier 0-1 (found higher: %s)' % (', '.join(high) or 'none'))
+    rep.check('CHANGELOG.md' not in kit.files and 'KNOWN_LIMITATIONS.md' not in kit.files,
+              "AISOP's own CHANGELOG.md and KNOWN_LIMITATIONS.md are not in the kit")
+
+
 def main():
     rep = Report()
     rep.lines += ['PACKAGE SMOKE TEST REPORT', '=' * 72,
@@ -182,6 +208,7 @@ def main():
     check_required_documents(rep)
     check_id_counts(rep)
     check_entry_and_index(rep)
+    check_example_package(rep)
     if os.environ.get(NESTED_ENV):
         rep.lines += ['', 'SKIP scripted tree-copy cases (already running inside a staged edition)']
     else:
@@ -190,6 +217,7 @@ def main():
             check_release_root_any_folder(rep, tmp)
             check_negative_cases(rep, tmp)
             check_method_kit_self_audit(rep, tmp)
+            check_chat_kit_contents(rep, tmp)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
     rep.lines += ['', 'SUMMARY: %s' % ('FAIL' if rep.failures else 'PASS')]

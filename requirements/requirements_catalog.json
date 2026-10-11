@@ -374,6 +374,36 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-LINK-001"
+    },
+    {
+      "id": "REQ-BEG-001",
+      "title": "Beginner on-ramp",
+      "requirement": "The package shall include a beginner's guide (`docs/002`, at most 12,288 bytes), a glossary (`docs/003`, at most 6,144 bytes) that defines every ID family used in tiers 0-2 and the seeded terms, and an editions guide (`docs/004`, at most 5,120 bytes); the staged Chat Kit shall contain only tier 0-1 documents plus its fixed files, exactly as its EDITION_INFO.md lists.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/edition_audit.py` checks the size caps and glossary coverage; `tests/smoke_test.py` stages the Chat Kit and compares its files with EDITION_INFO.md, rejects documents above tier 1, and confirms AISOP's own changelog and limitations are absent. The scripted cold-chat session (GATE-2 of the REV-003 gameplan) is manual and owner-run.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-BEG-001"
+    },
+    {
+      "id": "REQ-TPL-001",
+      "title": "Templates",
+      "requirement": "Templates under `templates/` shall declare `derived_from` when they come from an SOP, match the `## Required sections` list that SOP gives for them, use placeholder IDs only (`REQ-XXX-NNN`, `FEAT-NNN`, `TEST-XXX-NNN`), and stay within their size caps; `templates/MANUAL_AUDIT_CHECKLIST.md` is generated from the CHECKS table of `tools/aisop_check.py`.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/edition_audit.py` resolves every `derived_from`, compares template headings with the SOP's Required sections, rejects concrete REQ/FEAT/TEST IDs in templates, and checks the caps; `python tools/build_editions.py --check` confirms the manual checklist matches the CHECKS table.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-TPL-001"
+    },
+    {
+      "id": "REQ-EX-001",
+      "title": "Registered example package",
+      "requirement": "Example packages shall be registered in `example_packages` in `config/package_metadata.json`, declare `package_role: example` and their own `package_id` in their README_START_HERE.md, use `DOC-EX-` document IDs, and pass `tools/aisop_check.py` (the standard-library lite audit for downstream packages) including their own smoke test.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/package_structure_audit.py` fails on an unregistered folder under `examples/` or a registered root without its identity; `tests/smoke_test.py` runs `python tools/aisop_check.py --root examples/hello_aisop --run` and requires SUMMARY: PASS.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-EX-001"
     }
   ]
 }

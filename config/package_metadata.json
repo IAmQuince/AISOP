@@ -8,6 +8,7 @@
   "license_file": "LICENSE.txt",
   "license_name": "MIT License",
   "default_branch": "master",
+  "repository_url": "https://github.com/IAmQuince/AISOP",
   "required_root_files": [
     "README_START_HERE.md",
     "CHANGELOG.md",
@@ -78,6 +79,7 @@
     ".github/ISSUE_TEMPLATE/documentation_update.yml",
     ".github/ISSUE_TEMPLATE/safety_or_security_review.yml",
     ".github/ISSUE_TEMPLATE/package_regression.yml",
+    ".github/ISSUE_TEMPLATE/first_session_report.yml",
     "docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md",
     "docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md",
     "docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md",
@@ -122,5 +124,8 @@
       "SAFETY.md",
       "SAFE-CLASS-3"
     ]
+  ],
+  "example_packages": [
+    "examples/hello_aisop"
   ]
 }

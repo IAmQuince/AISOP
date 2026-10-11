@@ -106,7 +106,7 @@ Decisions from `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` section 14. The pla
 | DECISION-011 | Generate the traceability matrix | Deferred (recommendation) | Revisit after Phase 3. |
 | DECISION-012 | Normative status of method SOPs and root files | Adopted (recommendation) | `docs/001` and `AGENTS.md` Normative; `030`-`070` stay Informative; non-procedure root files demoted in Phase 1. |
 | DECISION-013 | Manual acceptance testing per release | Adopted (recommendation) | Two cold-agent runs and one scripted cold-chat run, logged under `reports/baseline/`. |
-| DECISION-014 | Method Kit headroom | Adopted (recommendation) | Keep 409,600 bytes; raise to 524,288 only through the RISK-002 process if the Phase 2 dry build exceeds 90%. |
+| DECISION-014 | Method Kit headroom | Applied in Phase 2 | The Phase 2 dry build measured 473,970 bytes (116% of 409,600); budget raised to 524,288 bytes through the RISK-002 process (CHANGELOG entry, TEST-ED-002 text). |
 | QUESTION-001 | Chat products and zip upload | Open (owner) | Needs the owner's own tests; recorded in the editions guide (docs/004) when answered. |
 | QUESTION-002 | Agentic tools the owner uses | Open (owner) | Determines the pointer list and the TEST-ENTRY-004 tool pair. |
 
@@ -118,3 +118,6 @@ Decisions from `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` section 14. The pla
 - EXEC-004: PRIN-010 (one check, one owner) wins over the section 7.4 table where they overlap: the cross-tier rule is the per-edition reference resolution in `build_editions.py --check`, and `edition_audit.py` resolves references only in the tree it audits.
 - EXEC-005: The Chat Kit unique-basename rule exempts registered example packages (the worked example has its own README_START_HERE.md); EDITION_INFO.md tells flat uploaders to send the example in a separate message.
 - EXEC-006: DECISION-012 applied: six root files demoted to Informative; `CODE_OF_CONDUCT.md` kept Normative because it is a conduct policy.
+- EXEC-007: The worked example's cap is 12,288 bytes, not the 8,192 in `docs/300` section 9.3: complete document-control headers on its seven Markdown files cost about 3.3 KB on their own.
+- EXEC-008: Template heading parity applies to the templates an SOP lists under `## Required sections` (`PLANNING_DOCUMENT_TEMPLATE.md` from `docs/040`, `README_START_HERE_TEMPLATE.md` from `docs/070`); other templates declare `derived_from` without a parity list, because one list per SOP cannot fit several different templates.
+- EXEC-009: Coding agents launched with git worktrees create them under `.claude/worktrees/`, inside the tree; `.gitignore` now excludes that folder and every tool walks the tree through the shared git-ignore-aware walk.

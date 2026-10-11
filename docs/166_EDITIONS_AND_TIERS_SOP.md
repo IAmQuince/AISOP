@@ -33,7 +33,7 @@ AISOP ships as four editions built from one source tree, each matched to a reade
 |---|---|---|---|---|
 | 0 | Card | 8,192 bytes | AISOP_CARD.md (release asset; rendered from docs/001_AISOP_CORE_RULES.md) | Any chat product, including free plans and custom-instruction boxes. |
 | 1 | Chat Kit | 122,880 bytes, at most 40 files | <package_id>_chatkit.zip, or its files uploaded individually | Chat-only plans with file upload but no filesystem or shell; beginners. |
-| 2 | Method Kit | 409,600 bytes | <package_id>_method.zip, or a clone with tier-3 files ignored | Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides. |
+| 2 | Method Kit | 524,288 bytes | <package_id>_method.zip, or a clone with tier-3 files ignored | Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides. |
 | 3 | Full | unbudgeted | git clone, or <package_id>.zip | Maintainers, contributors, and projects that need the domain guides. |
 
 Openers (the first message to the AI):

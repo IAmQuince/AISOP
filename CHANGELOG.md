@@ -140,3 +140,25 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 ### Known state
 
 - The Method Kit is at about 96% of its 409,600-byte budget before Phase 2 content; DECISION-014 applies at the Phase 2 dry build.
+
+## Unreleased / REV-003 Phase 2 - 2026-10-11
+
+### Added
+
+- Beginner on-ramp (REQ-BEG-001, FEAT-041): `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md` (chat versus agent, context windows, files over memory, which edition, a five-step first project with checks and failure branches, a "before you run code" box, five beginner mistakes), `docs/003_GLOSSARY.md` (terms, header fields, every ID family in tiers 0-2), and `docs/004_EDITIONS_AND_UPGRADE_PATH.md` (generated edition table and openers, upgrade path, chat-product facts pending owner tests).
+- Templates (REQ-TPL-001, FEAT-040): concept brief (lite), planning document (23 sections, parity with `docs/040`), README_START_HERE (parity with `docs/070`), changelog, feature inventory, known limitations, agent handoff bundle, first-session prompts, ID record formats, an index with the one-template-per-stage table, and `MANUAL_AUDIT_CHECKLIST.md` generated from the lite audit's CHECKS table. `docs/040` and `docs/070` gained `## Required sections` lists.
+- Worked example and lite audit (REQ-EX-001, FEAT-042): `examples/hello_aisop/` (a text-statistics utility with the `docs/050` sections and flags, plus its five intake documents and a hello-world-scale planning document), registered in `example_packages`; `tools/aisop_check.py` (eight checks, `--root` for a folder or zip, `--run`, `--explain`; Python 2.7/3 syntax).
+- `.github/ISSUE_TEMPLATE/first_session_report.yml` (optional beginner feedback; not a gate).
+- Audits: template parity, placeholder-only IDs in templates, ID citations in tier 0-1 documents, glossary coverage, and size caps (`edition_audit.py`); example-package registration (`package_structure_audit.py`); the example's lite audit and the Chat Kit contents check (`tests/smoke_test.py`).
+
+### Changed
+
+- `README.md` rewritten around a generated edition chooser with latest-release links and openers; `README_START_HERE.md` is edition-aware (which edition am I holding, generated openers, reading order with edition markers).
+- `AGENTS.md` gained the one-template-per-stage table and the manual checklist as the no-commands fallback (7,761 of 8,192 bytes).
+- Core rule 14 no longer says "the report below" (wrong once the rules are embedded in `AGENTS.md`); `AGENTS.md` step 2 says the audits only write git-ignored reports and temporary copies (findings from the first cold-agent runs).
+- `repo_health_audit.py` and `secret_scan_lite.py` use the shared git-ignore-aware walk; `.gitignore` excludes `.claude/worktrees/`.
+- KNOWN_LIMITATIONS LIMIT-008 (chat products untested) and LIMIT-009 (Python 2.7 paths untested).
+
+### Budget change (DECISION-014, RISK-002 process)
+
+- The Phase 2 dry build put the Method Kit at 473,970 bytes, 116% of its 409,600-byte budget. As DECISION-014 pre-approved, the budget is raised to 524,288 bytes in `config/editions.json`, and the TEST-ED-002 acceptance text records the new figures. The Chat Kit is at about 76% of 122,880 bytes with 32 of 40 files.
