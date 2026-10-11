@@ -1,19 +1,31 @@
 ---
 document_id: DOC-260
 title: "I2C Communication Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-260
 normative_status: Informative
+tier: 3
+summary: "Domain guide: I2C wiring, addressing, and code on Raspberry Pi, Arduino, ESP32, and Pico."
+topics: [i2c, sensors, embedded, RULE-I2C-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # I2C Communication Guide
 
-260_I2C_COMMUNICATION_GUIDE
+## TL;DR
+
+- This guide explains I2C and a repeatable setup and debugging pattern for Raspberry Pi, Arduino, ESP32, Pico, sensor, display, and DAQ-style projects. I2C is a short-distance two-wire bus (SDA, SCL) on which each peripheral has an address.
+- Use I2C on a board or within a small enclosure, not for long cable runs; for long distances prefer RS-485, CAN, Ethernet, USB, MQTT, or serial with robust framing.
+- Raspberry Pi, ESP32, and Pico use 3.3 V logic and are not 5 V tolerant: never connect 5 V pull-ups to them, and use a level shifter when mixing 5 V and 3.3 V devices.
+- Follow the section 21 diagnostic order (voltage, power, ground, pins, pull-ups, bus scan, expected address, library example), and do not debug application code before the scanner works.
+- Use short wires, add one device at a time, record every detected address, and do not write random values to unknown registers.
+- In serious DAQ code, isolate I2C reads in a device adapter that produces named telemetry, treat missing devices as expected faults, and keep I2C details out of GUI code.
+- Section 26 lists the acceptance tests and section 27 the RULE-I2C rules.
+
 0. Purpose
 This document explains I2C communication and how we typically use it in Raspberry Pi, Arduino, ESP32, Pico, LabJack-adjacent, sensor, display, and DAQ-style projects.
 It covers:
@@ -1195,5 +1207,3 @@ sensor or peripheral
         → Raspberry Pi / Arduino / ESP32 / Pico
             → Python or firmware layer
                 → logging / graphing / control / diagnostics
-
-Python on Android

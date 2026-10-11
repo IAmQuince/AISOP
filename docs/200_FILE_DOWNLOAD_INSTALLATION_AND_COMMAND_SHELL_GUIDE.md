@@ -1,17 +1,31 @@
 ---
 document_id: DOC-200
 title: "File Download, Installation, and Command Shell Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-200
 normative_status: Informative
+tier: 3
+summary: "Domain guide: downloading, transferring, and installing packages, and using the command shell, across machines."
+topics: [downloads, installation, command-line, offline, TARGET-ENV-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # File Download, Installation, and Command Shell Guide
+
+## TL;DR
+
+- This guide gives a repeatable procedure for downloading, transferring, installing, and running packages on Windows, Windows XP, Raspberry Pi/Linux, and Pydroid, so installs do not depend on memory, guessing, or fragile chat instructions.
+- Core rule: identify the target environment (OS, Python version, 32/64-bit, online/offline, drivers) before downloading, using the `TARGET-ENV-001` checklist.
+- Prefer official releases and tags over source snapshots; "Source code (zip)" is not always ready to run, and wheel names show the Python, OS, and architecture they fit.
+- Use `python -m pip` rather than bare pip, and inspect a requirements file before installing it.
+- Do not assume modern Python instructions work on XP, Windows packages work on Raspberry Pi, or desktop behavior works in Pydroid.
+- For offline machines, keep installers, wheels, drivers, instructions, and an offline install manifest together, and record what worked.
+- For power supplies, the first communication test is an identity query (`*IDN?`) and must never energize outputs.
+- For a delivered package, run its `./tools/diagnostic_harness.py` and then its smoke test before the app.
 
 ## 0. Purpose
 
@@ -46,6 +60,7 @@ Do not start with:
 
 ```text
 What file do I click?
+```
 
 Start with:
 What machine is this for?
@@ -1056,5 +1071,3 @@ Troubleshooting:
 8. Run diagnostics before running complex apps.
 9. Keep installers, wheels, drivers, and instructions together for offline machines.
 10. Record what worked so the install can be repeated later.
-
-Python Libraries

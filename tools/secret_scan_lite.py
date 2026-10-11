@@ -2,6 +2,7 @@
 from __future__ import print_function
 import re, sys, time
 from pathlib import Path
+from _aisop_common import iter_package_files
 ROOT=Path(__file__).resolve().parents[1]
 REPORT=ROOT/'reports'/'secret_scan_lite_report.txt'
 SKIP_DIRS={'.git','dist','__pycache__','.pytest_cache','.mypy_cache','.ruff_cache'}
@@ -20,8 +21,8 @@ def should_scan(p):
 def main():
     hits=[]; lines=[]
     lines += ['SECRET SCAN LITE REPORT','='*72,'timestamp: %s' % time.strftime('%Y-%m-%d %H:%M:%S'),'package_root: %s' % ROOT,'']
-    for p in sorted(ROOT.rglob('*')):
-        if not p.is_file() or not should_scan(p): continue
+    for p in iter_package_files():
+        if not should_scan(p): continue
         try: txt=p.read_text(encoding='utf-8', errors='ignore')
         except TypeError: txt=p.read_text()
         rel=p.relative_to(ROOT).as_posix()

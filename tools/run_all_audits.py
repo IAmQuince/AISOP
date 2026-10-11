@@ -1,29 +1,65 @@
 #!/usr/bin/env python
+"""Run every package audit in order and write reports/run_all_audits_report.txt.
+
+    python tools/run_all_audits.py           full output
+    python tools/run_all_audits.py --quiet   one line per command plus the SUMMARY block
+
+Commands run with the current interpreter (sys.executable), so a `python3`-only
+machine works. The manifest check runs last because it hashes generated files.
+"""
 from __future__ import print_function
-import subprocess, sys, time
+
+import argparse
+import subprocess
+import sys
+import time
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]
-REPORT=ROOT/'reports'/'run_all_audits_report.txt'
-COMMANDS=[
-    ['python','tools/package_structure_audit.py'],
-    ['python','tools/repo_health_audit.py'],
-    ['python','tests/smoke_test.py'],
-    ['python','tools/requirements_trace_audit.py'],
-    ['python','tools/secret_scan_lite.py'],
-    ['python','tools/release_package.py','--dry-run'],
+
+ROOT = Path(__file__).resolve().parents[1]
+REPORT = ROOT / 'reports' / 'run_all_audits_report.txt'
+COMMANDS = [
+    ['tools/package_structure_audit.py'],
+    ['tools/repo_health_audit.py'],
+    ['tools/edition_audit.py'],
+    ['tools/build_editions.py', '--check'],
+    ['tests/smoke_test.py'],
+    ['tools/requirements_trace_audit.py'],
+    ['tools/secret_scan_lite.py'],
+    ['tools/release_package.py', '--dry-run'],
+    ['tools/manifest_update.py', '--check'],
 ]
-def main():
-    lines=['RUN ALL AUDITS REPORT','='*72,'timestamp: %s' % time.strftime('%Y-%m-%d %H:%M:%S'),'package_root: %s' % ROOT,'']
-    failures=[]
+
+
+def run(cmd):
+    proc = subprocess.run([sys.executable] + cmd, cwd=str(ROOT), stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT, universal_newlines=True)
+    return proc.returncode, proc.stdout.rstrip()
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description='Run all AISOP audits')
+    ap.add_argument('--quiet', action='store_true', help='print only the per-command results and SUMMARY')
+    args = ap.parse_args(argv)
+    lines = ['RUN ALL AUDITS REPORT', '=' * 72,
+             'timestamp: %s' % time.strftime('%Y-%m-%d %H:%M:%S'),
+             'package_root: %s' % ROOT, 'python: %s' % sys.version.split()[0], '']
+    results, failures = [], []
     for cmd in COMMANDS:
-        lines.append('COMMAND: %s' % ' '.join(cmd))
-        proc=subprocess.run(cmd,cwd=str(ROOT),stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
-        lines.append(proc.stdout.rstrip())
-        lines.append('RETURN_CODE: %s' % proc.returncode)
-        lines.append('-'*72)
-        if proc.returncode: failures.append(' '.join(cmd))
-    lines.append('SUMMARY: %s' % ('FAIL' if failures else 'PASS'))
-    for f in failures: lines.append('FAILED: %s' % f)
-    REPORT.parent.mkdir(exist_ok=True); text='\n'.join(lines)+'\n'; REPORT.write_text(text, encoding='utf-8'); print(text)
+        label = 'python ' + ' '.join(cmd)
+        code, output = run(cmd)
+        lines += ['COMMAND: %s' % label, output, 'RETURN_CODE: %s' % code, '-' * 72]
+        results.append('%s %s' % ('PASS' if code == 0 else 'FAIL', label))
+        if code:
+            failures.append(label)
+    summary = ['', 'RESULTS', '-' * 72] + results + ['', 'SUMMARY: %s' % ('FAIL' if failures else 'PASS')]
+    summary += ['FAILED: %s' % f for f in failures]
+    REPORT.parent.mkdir(exist_ok=True)
+    REPORT.write_text('\n'.join(lines + summary) + '\n', encoding='utf-8')
+    print('\n'.join((summary[1:] if args.quiet else lines + summary)))
+    if args.quiet:
+        print('Full report: reports/run_all_audits_report.txt')
     return 1 if failures else 0
-if __name__=='__main__': sys.exit(main())
+
+
+if __name__ == '__main__':
+    sys.exit(main())

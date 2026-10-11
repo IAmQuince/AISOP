@@ -1,20 +1,33 @@
 ---
 document_id: DOC-195
 title: "QC/Defect Code Patterns and Database Examples"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-195
 normative_status: Informative
+tier: 3
+summary: "Domain guide: code and SQLite schema patterns for defect capture, evidence, and review workflows."
+topics: [qc, sqlite, code-patterns, evidence, QC-THREAD-RULE-*, SMOKE-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # QC/Defect Code Patterns and Database Examples
 
 This is the code-specific appendix to the QC doctrine: detection queues, evidence capture, SQLite schema, defect/review records, performance linking, audits, and safe threading patterns. It follows the AISOP style of making diagnostics, schema, persistence, acceptance tests, and package structure explicit rather than relying on memory.
-# 195_QC_DEFECT_CODE_PATTERNS_AND_DATABASE_EXAMPLES
+
+## TL;DR
+
+- This is a pattern library, not a full application: code patterns for inline QC, defect detection, evidence capture, review workflows, SQLite storage, and later correlation with performance data.
+- Keep responsibilities separate: acquisition, detection, evidence store, database layer, review layer, performance-link layer, analysis layer, and a UI layer that displays records and evidence but does not own truth.
+- A detection does not become truth just because the algorithm produced it: candidate detections, confirmed defects, evidence artifacts, and review decisions are separate database concepts.
+- Raw evidence is copied into managed storage with a SHA-256 content hash and is never overwritten; processed or annotated evidence becomes a separate artifact.
+- Record the algorithm version for every automated detection. Review decisions are appended, the original detection remains, and a confirmed defect becomes a separate linked record.
+- Use queues between acquisition, detection, database writing, and UI, and let one database writer thread own the SQLite writes.
+- The database, evidence audit, and diagnostic harness should not require the GUI, and a smoke test verifies the full minimum QC loop without real hardware.
+- The system is finished only when it can preserve evidence, support review, survive audits, and explain later performance outcomes.
 
 ## 0. Purpose
 
@@ -64,8 +77,10 @@ defect confirmation / false positive / disposition
 performance-data linking
     ↓
 correlation analysis
+```
 
 Separate these responsibilities:
+```text
 acquisition
     gets images/sensor data/files
 
@@ -89,14 +104,16 @@ analysis layer
 
 UI layer
     displays records and evidence; does not own truth
+```
 
 Core rule:
 A detection does not become truth just because the algorithm produced it.
 
 Candidate detections, confirmed defects, evidence artifacts, and review decisions should be separate database concepts.
 
-2. Recommended Libraries
-2.1 Conservative baseline
+## 2. Recommended Libraries
+### 2.1 Conservative baseline
+```python
 import os
 import sys
 import time
@@ -110,8 +127,10 @@ import queue
 import threading
 import traceback
 from datetime import datetime
+```
 
 For Python 2 compatibility:
+```python
 try:
     import queue
 except ImportError:
@@ -121,9 +140,11 @@ try:
     text_type = unicode
 except NameError:
     text_type = str
+```
 
-2.2 Optional libraries
+### 2.2 Optional libraries
 Use only when target-tested:
+```text
 Pillow / PIL:
     image loading, crops, thumbnails, annotations
 
@@ -141,12 +162,14 @@ matplotlib:
 
 PyQt / Tkinter / Kivy:
     review UI depending on target environment
+```
 
 Rule:
 The database, evidence audit, and diagnostic harness should not require the GUI.
 
-3. Runtime Folder Structure
+## 3. Runtime Folder Structure
 Recommended runtime layout:
+```text
 runtime_data/
 ├── qc_database/
 │   └── inline_qc.sqlite
@@ -175,8 +198,10 @@ runtime_data/
 │
 └── autosave/
     └── review_session_state.json
+```
 
 Helper:
+```python
 def safe_makedirs(path):
     if path and not os.path.isdir(path):
         os.makedirs(path)
@@ -207,9 +232,11 @@ def initialize_qc_runtime_folders():
 
     for folder in folders:
         safe_makedirs(folder)
+```
 
-4. IDs and Timestamps
+## 4. IDs and Timestamps
 Use stable IDs everywhere.
+```python
 def new_id(prefix):
     return "%s_%s" % (prefix, uuid.uuid4().hex)
 
@@ -218,8 +245,10 @@ def now_iso():
 
 def now_epoch():
     return time.time()
+```
 
 Recommended prefixes:
+```text
 lot_
 part_
 inspection_
@@ -230,9 +259,11 @@ review_
 perf_
 algorithm_
 analysis_
+```
 
-5. SQLite Schema Pattern
-5.1 Database initialization
+## 5. SQLite Schema Pattern
+### 5.1 Database initialization
+```python
 SCHEMA_VERSION = 1
 
 def open_qc_db(db_path=None):
@@ -246,8 +277,10 @@ def open_qc_db(db_path=None):
     conn.execute("PRAGMA foreign_keys = ON")
     initialize_qc_schema(conn)
     return conn
+```
 
-5.2 Schema
+### 5.2 Schema
+```python
 def initialize_qc_schema(conn):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS schema_info (
@@ -465,8 +498,10 @@ def initialize_qc_schema(conn):
     """)
 
     conn.commit()
+```
 
 Indexes:
+```python
 def initialize_qc_indexes(conn):
     indexes = [
         "CREATE INDEX IF NOT EXISTS idx_detections_part ON detections(part_id)",
@@ -484,9 +519,11 @@ def initialize_qc_indexes(conn):
         conn.execute(sql)
 
     conn.commit()
+```
 
-6. Evidence Store Pattern
-6.1 File hashing
+## 6. Evidence Store Pattern
+### 6.1 File hashing
+```python
 def hash_file(path, chunk_size=1024 * 1024):
     h = hashlib.sha256()
 
@@ -498,8 +535,10 @@ def hash_file(path, chunk_size=1024 * 1024):
             h.update(chunk)
 
     return h.hexdigest()
+```
 
-6.2 Evidence path generation
+### 6.2 Evidence path generation
+```python
 def evidence_subfolder(kind, lot_id, part_id):
     lot_id = lot_id or "unknown_lot"
     part_id = part_id or "unknown_part"
@@ -510,8 +549,10 @@ def evidence_subfolder(kind, lot_id, part_id):
 def make_evidence_filename(evidence_id, extension):
     extension = extension.lower().lstrip(".")
     return "%s.%s" % (evidence_id, extension)
+```
 
-6.3 Save evidence artifact
+### 6.3 Save evidence artifact
+```python
 def save_evidence_artifact(
     conn,
     source_path,
@@ -589,14 +630,16 @@ def save_evidence_artifact(
     conn.commit()
 
     return evidence_id, target_path
+```
 
 Rule:
 Raw evidence is copied into managed storage.
 Processed/annotated evidence becomes a separate artifact.
 Never overwrite raw evidence.
 
-7. Detection Record Pattern
-7.1 Register algorithm version
+## 7. Detection Record Pattern
+### 7.1 Register algorithm version
+```python
 def register_algorithm_version(
     conn,
     detector_name,
@@ -633,8 +676,10 @@ def register_algorithm_version(
 
     conn.commit()
     return algorithm_version_id
+```
 
-7.2 Insert candidate detection
+### 7.2 Insert candidate detection
+```python
 def insert_detection(
     conn,
     inspection_event_id,
@@ -716,9 +761,11 @@ def insert_detection(
 
     conn.commit()
     return detection_id
+```
 
-8. Simple Detector Patterns
-8.1 Base detector
+## 8. Simple Detector Patterns
+### 8.1 Base detector
+```python
 class DetectorBase(object):
     detector_name = "base_detector"
     detector_type = "base"
@@ -732,8 +779,10 @@ class DetectorBase(object):
 
     def parameter_snapshot(self):
         return {}
+```
 
-8.2 Threshold detector for scalar data
+### 8.2 Threshold detector for scalar data
+```python
 class ThresholdDetector(DetectorBase):
     detector_name = "threshold_detector"
     detector_type = "scalar_threshold"
@@ -784,8 +833,10 @@ class ThresholdDetector(DetectorBase):
             })
 
         return detections
+```
 
-8.3 Image detector placeholder
+### 8.3 Image detector placeholder
+```python
 class BrightSpotImageDetector(DetectorBase):
     detector_name = "bright_spot_detector"
     detector_type = "image_rule"
@@ -829,14 +880,16 @@ class BrightSpotImageDetector(DetectorBase):
             "measurement_units": "intensity",
             "source_image_path": image_path,
         }]
+```
 
-9. Detection Pipeline Pattern
+## 9. Detection Pipeline Pattern
 The detection pipeline should:
 1. validate input;
 2. preserve evidence;
 3. run detector;
 4. write candidate detection;
 5. publish event/update.
+```python
 def process_input_record(
     conn,
     input_record,
@@ -908,17 +961,21 @@ def process_input_record(
             created_detection_ids.append(detection_id)
 
     return created_detection_ids
+```
 
-10. Threaded QC Pipeline
-10.1 Queue layout
+## 10. Threaded QC Pipeline
+### 10.1 Queue layout
+```python
 input_queue = queue.Queue(maxsize=10000)
 detection_queue = queue.Queue(maxsize=10000)
 db_write_queue = queue.Queue(maxsize=50000)
 ui_event_queue = queue.Queue(maxsize=10000)
 
 shutdown_event = threading.Event()
+```
 
 Recommended flow:
+```text
 acquisition thread
     → input_queue
 
@@ -931,8 +988,10 @@ database writer thread
 
 review UI thread
     → database actions through review service
+```
 
-10.2 Input acquisition thread
+### 10.2 Input acquisition thread
+```python
 class InputAcquisitionThread(threading.Thread):
     def __init__(self, input_queue, ui_event_queue, shutdown_event, input_source):
         threading.Thread.__init__(self)
@@ -985,8 +1044,10 @@ class InputAcquisitionThread(threading.Thread):
             "last_error": self.last_error,
             "input_queue_size": self.input_queue.qsize(),
         }
+```
 
-10.3 Detection thread
+### 10.3 Detection thread
+```python
 class DetectionThread(threading.Thread):
     def __init__(
         self,
@@ -1067,9 +1128,11 @@ class DetectionThread(threading.Thread):
             "input_queue_size": self.input_queue.qsize(),
             "db_write_queue_size": self.db_write_queue.qsize(),
         }
+```
 
-10.4 Database writer thread
+### 10.4 Database writer thread
 Use one thread to own the SQLite connection.
+```python
 class QCDatabaseWriterThread(threading.Thread):
     def __init__(self, db_path, db_write_queue, ui_event_queue, shutdown_event):
         threading.Thread.__init__(self)
@@ -1219,13 +1282,15 @@ class QCDatabaseWriterThread(threading.Thread):
             "last_error": self.last_error,
             "db_write_queue_size": self.db_write_queue.qsize(),
         }
+```
 
 Rule:
 Detection threads may generate candidate messages.
 The database writer owns SQLite writes.
 
-11. Review Workflow Code
-11.1 Fetch unreviewed detections
+## 11. Review Workflow Code
+### 11.1 Fetch unreviewed detections
+```python
 def fetch_unreviewed_detections(conn, limit=100):
     rows = conn.execute("""
         SELECT
@@ -1241,8 +1306,10 @@ def fetch_unreviewed_detections(conn, limit=100):
     """, (limit,)).fetchall()
 
     return [dict(row) for row in rows]
+```
 
-11.2 Mark false positive
+### 11.2 Mark false positive
+```python
 def mark_detection_false_positive(
     conn,
     detection_id,
@@ -1305,8 +1372,10 @@ def mark_detection_false_positive(
 
     conn.commit()
     return review_id
+```
 
-11.3 Confirm detection as defect
+### 11.3 Confirm detection as defect
+```python
 def confirm_detection_as_defect(
     conn,
     detection_id,
@@ -1419,14 +1488,16 @@ def confirm_detection_as_defect(
     conn.commit()
 
     return defect_id, review_id
+```
 
 Rule:
 Review decisions are appended.
 The original detection remains.
 The confirmed defect becomes a separate linked record.
 
-12. Performance Linking Code
-12.1 Insert performance result
+## 12. Performance Linking Code
+### 12.1 Insert performance result
+```python
 def insert_performance_result(
     conn,
     part_id,
@@ -1486,8 +1557,10 @@ def insert_performance_result(
 
     conn.commit()
     return performance_result_id
+```
 
-12.2 QC/performance join query
+### 12.2 QC/performance join query
+```python
 def fetch_qc_performance_summary(conn):
     rows = conn.execute("""
         SELECT
@@ -1518,8 +1591,10 @@ def fetch_qc_performance_summary(conn):
     """).fetchall()
 
     return [dict(row) for row in rows]
+```
 
-12.3 Defect type vs metric query
+### 12.3 Defect type vs metric query
+```python
 def fetch_defect_type_vs_metric(conn, defect_type, metric_name):
     rows = conn.execute("""
         SELECT
@@ -1544,8 +1619,10 @@ def fetch_defect_type_vs_metric(conn, defect_type, metric_name):
     """, (defect_type, metric_name)).fetchall()
 
     return [dict(row) for row in rows]
+```
 
-13. Evidence Audit
+## 13. Evidence Audit
+```python
 def audit_evidence_files(conn):
     rows = conn.execute("""
         SELECT evidence_id, file_path, content_hash, hash_algorithm
@@ -1584,8 +1661,10 @@ def audit_evidence_files(conn):
         results["ok"].append(row["evidence_id"])
 
     return results
+```
 
 Write report:
+```python
 def write_evidence_audit_report(conn, report_path):
     audit = audit_evidence_files(conn)
 
@@ -1621,8 +1700,10 @@ def write_evidence_audit_report(conn, report_path):
         f.write("\n".join(lines))
 
     return report_path
+```
 
-14. Database Integrity Audit
+## 14. Database Integrity Audit
+```python
 def audit_qc_database(conn):
     results = {
         "orphan_detections_missing_evidence": [],
@@ -1672,8 +1753,10 @@ def audit_qc_database(conn):
     """).fetchone()["c"]
 
     return results
+```
 
-15. Diagnostic Harness
+## 15. Diagnostic Harness
+```python
 def write_qc_diagnostic_report(db_path=None):
     initialize_qc_runtime_folders()
 
@@ -1737,9 +1820,11 @@ def write_qc_diagnostic_report(db_path=None):
         f.write("\n".join(lines))
 
     return report_path
+```
 
-16. Smoke Test
+## 16. Smoke Test
 This verifies the full minimum QC loop without real hardware.
+```python
 def run_qc_smoke_test():
     initialize_qc_runtime_folders()
 
@@ -1891,14 +1976,18 @@ def run_qc_smoke_test():
         "review_id": review_id,
         "performance_result_id": perf_id,
     }
+```
 
-17. Review UI Pattern
+## 17. Review UI Pattern
 The GUI should not directly edit database rows ad hoc.
 Bad:
+```python
 def on_confirm_clicked(self):
     conn.execute("UPDATE detections SET review_status='CONFIRMED'")
+```
 
 Better:
+```python
 def on_confirm_clicked(self):
     defect_id, review_id = confirm_detection_as_defect(
         conn=self.conn,
@@ -1911,15 +2000,19 @@ def on_confirm_clicked(self):
         notes=self.notes_text.toPlainText(),
     )
     self.reload_review_queue()
+```
 
 Best:
+```text
 UI → review service → database transaction → event log → UI refresh
+```
 
 The UI requests a review action.
 The review service owns the database semantics.
 
-18. Export Patterns
-18.1 Export defect summary CSV
+## 18. Export Patterns
+### 18.1 Export defect summary CSV
+```python
 def export_defect_summary_csv(conn, csv_path):
     rows = conn.execute("""
         SELECT
@@ -1960,8 +2053,10 @@ def export_defect_summary_csv(conn, csv_path):
             writer.writerow(dict(row))
 
     return csv_path
+```
 
-18.2 Export QC/performance join
+### 18.2 Export QC/performance join
+```python
 def export_qc_performance_summary_csv(conn, csv_path):
     rows = fetch_qc_performance_summary(conn)
 
@@ -1980,8 +2075,9 @@ def export_qc_performance_summary_csv(conn, csv_path):
             writer.writerow(row)
 
     return csv_path
+```
 
-19. Threading Rules for QC Systems
+## 19. Threading Rules for QC Systems
 QC-THREAD-RULE-001
 Do not let the UI be the only owner of detection records.
 
@@ -2012,8 +2108,9 @@ Performance-link tests should be automated early.
 QC-THREAD-RULE-010
 Diagnostics must run without camera/sensor/GUI dependencies where possible.
 
-20. Package Placement
+## 20. Package Placement
 Recommended formal package structure:
+```text
 project_name/
 ├── __init__.py
 ├── constants.py
@@ -2059,8 +2156,10 @@ project_name/
 │   └── evidence_audit.py
 │
 └── app.py
+```
 
 Tools:
+```text
 tools/
 ├── qc_diagnostic_harness.py
 ├── qc_smoke_test.py
@@ -2068,9 +2167,11 @@ tools/
 ├── qc_evidence_audit.py
 ├── qc_export_summary.py
 └── qc_performance_join_test.py
+```
 
-21. Core Pattern
+## 21. Core Pattern
 The safest QC software pattern is:
+```text
 input source
     → acquisition thread
         → input queue
@@ -2099,9 +2200,7 @@ analysis
         → reports
         → plots
         → engineering decisions
+```
 
 The system is not finished when it detects defects.
 It is finished only when it can preserve evidence, support review, survive audits, and explain later performance outcomes.
-
-MIDI
-I checked the current official/reference docs before writing this. The modern baseline remains: Mido is the main high-level Python MIDI library for MIDI 1.0 messages, ports, and files; python-rtmidi/RtMidi is the preferred backend for many live-port workflows; pygame.midi remains a useful fallback/legacy-style MIDI I/O layer based on PortMidi; and loopMIDI is still a common Windows virtual loopback-port tool. (Mido)

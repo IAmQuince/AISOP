@@ -25,3 +25,12 @@ Thumbs.db
 
 # Generated local logs
 *.log
+
+# Runtime audit reports (regenerated on every run; committed evidence lives in reports/baseline/)
+reports/*.txt
+
+# Local user profile (copy templates/USER_PROFILE_TEMPLATE.md here; never committed)
+USER_PROFILE.md
+
+# Agent tool state (for example git worktrees created by coding agents)
+.claude/worktrees/

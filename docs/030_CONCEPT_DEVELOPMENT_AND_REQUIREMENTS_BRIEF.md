@@ -1,19 +1,20 @@
 ---
 document_id: DOC-030
 title: "Concept Development and Requirements Brief"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-030
 normative_status: Informative
+tier: 2
+summary: "SOP and form for the concept brief written before any code: identity, users, workflows, requirements, acceptance."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Concept Development and Requirements Brief
 
-000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
 Purpose
 This document captures the project concept before implementation begins.
 It exists to prevent rushed coding, feature drift, vague requirements, and context loss. Before any code is written or modified, the project team should use this document to define the intended product, user workflows, constraints, acceptance criteria, risks, and boundaries.
@@ -385,7 +386,7 @@ pass/fail summary
 
 13. Acceptance Criteria
 Define success before code.
-ACCEPT-001
+TEST-XXX-001
 Requirement linked:
 Test:
 Expected result:
@@ -393,7 +394,7 @@ Manual or automated:
 Pass/fail:
 
 Example:
-ACCEPT-001
+TEST-UI-001
 Requirement linked:
 REQ-UI-001
 
@@ -649,10 +650,10 @@ This concept document answers:
 What do we do before creating or changing a package?
 
 Recommended file name
-I would use:
 000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
 
 And every serious package should include the latest version in:
 docs/000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
 
 For smaller projects, a shortened version can be used, but for anything involving architecture, hardware, legacy systems, GUIs, data persistence, or refactoring, the full document is worth it.

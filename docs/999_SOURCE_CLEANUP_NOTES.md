@@ -1,13 +1,16 @@
 ---
 document_id: DOC-999
 title: "Source Cleanup Notes"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-999
 normative_status: Informative
+tier: 3
+summary: "Notes on how the source text was cleaned and generalized into this package."
+topics: [provenance, cleanup]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -1,19 +1,31 @@
 ---
 document_id: DOC-290
 title: "GUI Development Platform and Design Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-290
 normative_status: Informative
+tier: 3
+summary: "Domain guide: choosing a Python GUI framework and designing trustworthy interfaces."
+topics: [gui, design, tkinter, qt, RULE-GUI-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # GUI Development Platform and Design Guide
 
-290_GUI_DEVELOPMENT_PLATFORM_AND_DESIGN_GUIDE
+## TL;DR
+
+- This guide explains how to choose and design Python GUIs for Windows, Windows XP, Raspberry Pi, Android/Pydroid, touchscreen, DAQ/control, simulation, and engineering projects.
+- Choose by target platform and interaction style: PyQt/PySide for serious engineering desktop apps, Tkinter for simple utilities, Kivy for touch and Pydroid, Pygame for games and simulations, a web UI for headless Pi dashboards, and the installed legacy stack on XP.
+- The GUI displays state and requests actions; the backend/core owns device state, data storage, safety rules, control logic, and diagnostics.
+- Never block the GUI thread with slow hardware, network, or file operations; only the GUI/main thread updates widgets.
+- Detect screen size, use scrollable layouts, persist settings and layout, and preserve working features during rewrites.
+- Every serious GUI should have a diagnostic mode that writes a report; for hardware-control apps, safe-state access must be obvious and persistent.
+- Section 29 is the GUI Definition of Done, including actually testing the target platform; section 30 lists the RULE-GUI rules.
+
 0. Purpose
 This document explains how we choose and design graphical user interfaces for Python projects across Windows, Windows XP, Raspberry Pi, Android/Pydroid, touchscreen systems, DAQ/control systems, simulations, and engineering tools.
 It covers:

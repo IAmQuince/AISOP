@@ -1,92 +1,65 @@
 ---
 document_id: DOC-000-README
-title: "AI-Assisted Coding SOP Reference Package"
-version: 0.2.0
-revision: REV-002
+title: "AISOP: Start Here"
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-000-README
-normative_status: Normative
+normative_status: Informative
+tier: 1
+summary: "First file to read in any AISOP edition: which edition you hold, the reading order, the package rules, and how to check the package."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
-# AI-Assisted Coding SOP Reference Package
+# AISOP: Start Here
 
-This package is a cleaned, generalized, self-describing reference package for AI-assisted software planning, prototyping, packaging, diagnostics, and platform-specific development workflows.
+AISOP is a set of working procedures for building software with an AI assistant without losing features or context between sessions. This package is structured the way it recommends your own packages to be: intake documents, machine-referenceable requirements, a feature inventory, acceptance tests, and audit tools.
 
-It is intentionally structured like the type of code package it recommends. The package includes root-level intake documents, a documentation library, machine-referenceable requirements, a feature inventory, acceptance tests, audit tooling, smoke-test tooling, reports, and placeholder source folders.
+## Which edition am I holding?
 
-## Start Here
+- If `EDITION_INFO.md` sits next to this file, it names your edition, gives its reading order, and lists every file it contains.
+- If there is no `EDITION_INFO.md`, you have a clone of the repository: the Full edition.
 
-Read these files in order:
+The first message to give your AI, per edition:
 
-1. `README_START_HERE.md`
-2. `CHANGELOG.md`
-3. `FEATURE_INVENTORY.md`
-4. `docs/005_PRODUCT_REQUIREMENTS.md`
-5. `ACCEPTANCE_TEST_PLAN.md`
-6. `KNOWN_LIMITATIONS.md`
-7. `docs/000_DOCUMENTATION_INDEX.md`
+<!-- GENERATED:BEGIN openers | by tools/build_editions.py from config/editions.json; edit the source, not this region -->
+- **Chat Kit** (folder `20261011_00_aisop_chatkit/`): "I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'."
+- **Method Kit** (folder `20261011_00_aisop_method/`): "Read AGENTS.md and follow its first-five-minutes protocol."
+- **Full** (folder `20261011_00_aisop/`, or a git clone): "Read AGENTS.md and follow its first-five-minutes protocol."
+<!-- GENERATED:END openers -->
 
-## Intended Use
+## Reading order
 
-Use this package as:
+<!-- GENERATED:BEGIN reading-order | by tools/build_editions.py from entry_read_order in config/editions.json and document summaries; edit the source, not this region -->
+1. `AGENTS.md`: Entry file for coding agents: what is binding, the first-five-minutes protocol, modes and reading sets, hard rules, and the delivery shape (method edition).
+2. `docs/001_AISOP_CORE_RULES.md`: The AISOP card: what AISOP is, the core rules, the minimum package, ID discipline, and the fifteen-field delivery report.
+3. `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md`: For people new to AI coding: chat versus agent, why files beat memory, which edition to pick, and a five-step first project with checks.
+4. `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`: Operating instructions for the AI assistant: collaboration style, coding principles, feature preservation, diagnostics, delivery.
+5. `templates/README.md`: Which template to use at each stage of a project, and what each one is for.
+6. `examples/hello_aisop/README_START_HERE.md`: Start here: what hello_aisop does, how to run and test it, and what must not break.
+7. `docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md`: SOP for a single-file prototype that stays disciplined: numbered sections, --smoke-test, --diagnostics, safe state.
+8. `docs/003_GLOSSARY.md`: Short definitions of AISOP's terms, modes, header fields, and every ID family used in tiers 0-2.
+9. `docs/004_EDITIONS_AND_UPGRADE_PATH.md`: The four AISOP editions, their sizes and openers, what each adds, and how zips, releases, and the repository relate.
+10. `docs/005_PRODUCT_REQUIREMENTS.md`: The authoritative list of REQ-* requirements for this package; the only requirements source besides the JSON catalog (method edition).
+11. `docs/000_DOCUMENTATION_INDEX.md`: Generated map of every AISOP document by tier, with status, size class, and a one-line summary (method edition).
+<!-- GENERATED:END reading-order -->
 
-- a seed for AI-assisted coding workflows;
-- a reference example for package structure;
-- a lightweight demonstration of machine-referenceable requirements;
-- a documentation starter for future code projects;
-- a handoff artifact that can be reviewed by a human or AI agent without hidden chat context.
+## Package rules
 
-## Quick Commands
+- The zip filename and the internal top-level folder name match.
+- Every Markdown document carries a document-control header.
+- Requirements use stable `REQ-*` IDs, features `FEAT-*`, acceptance tests `TEST-*`, each test linked to a requirement.
+- No ID is renumbered or deleted; retired items are marked Superseded.
+- Wording stays general; nothing personal is committed (a local `USER_PROFILE.md` stays on your machine).
 
-Run the structure audit:
+## Checking this package
 
-```bash
-python tools/package_structure_audit.py
-```
+These commands come with the Method Kit and the Full edition (method edition): `python tools/run_all_audits.py --quiet` runs every audit, and `python tools/build_editions.py --check` confirms the generated files and edition budgets. Reports are written to `reports/`.
 
-Run the smoke test:
+To check your own package, copy `tools/aisop_check.py` into it and run `python tools/aisop_check.py --root .`; without Python, use `templates/MANUAL_AUDIT_CHECKLIST.md`.
 
-```bash
-python tests/smoke_test.py
-```
+## Status
 
-Generated reports are written to `reports/`.
-
-## Package Rules
-
-- The zip filename and internal top-level folder name should match.
-- Every markdown document should include document-control metadata.
-- Normative package requirements should use stable `REQ-*` IDs.
-- Feature inventory entries should use stable `FEAT-*` IDs.
-- Acceptance tests should use stable `TEST-*` IDs and link back to requirements.
-- Personal source-specific wording should remain generalized.
-
-## Current Status
-
-Status: Draft reference package.
-
-This is a structured seed, not a finished production application.
-
-## REV-002 GitHub and Practice-Space Update
-
-This revision keeps local zip handoff as a first-class workflow while adding a GitHub-ready repository layer.
-
-The package now demonstrates and documents the transition:
-
-```text
-local zip package -> audited package -> GitHub repository -> practice branch -> tagged release -> downloadable zip package
-```
-
-For the practice-space concept, read `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md`.
-For repository bootstrapping, read `docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md`.
-For release and zip handoff, read `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md`.
-
-Additional commands:
-
-```bash
-python tools/run_all_audits.py
-python tools/release_package.py
-```
+Draft reference package (see the `status` field in the header), not a finished product. The practice-space idea, repository bootstrap, and release handoff are described in `docs/080`, `docs/090`, and `docs/100` (method edition).

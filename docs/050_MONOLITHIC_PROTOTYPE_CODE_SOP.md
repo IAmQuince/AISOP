@@ -1,13 +1,15 @@
 ---
 document_id: DOC-050
 title: "SOP: Monolithic Prototype Code"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-050
 normative_status: Informative
+tier: 1
+summary: "SOP for a single-file prototype that stays disciplined: numbered sections, --smoke-test, --diagnostics, safe state."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -240,13 +242,13 @@ Typical future extraction map:
 |---|---|
 | Imports and compatibility | `project/compat.py` |
 | Constants and version info | `project/constants.py` |
-| Paths/settings/logging | `project/paths.py`, `project/settings.py`, `project/logging.py` |
+| Paths/settings/logging | `project/paths.py`, `project/settings.py`, `project/logging_utils.py` (not `logging.py`, which would shadow the standard library module) |
 | Data model/defaults | `project/model.py` or `project/schema.py` |
 | Storage/load/save | `project/storage.py` |
 | Scanning/import/parsing | `project/scanner.py`, `project/parser.py`, or `project/importer.py` |
 | Business logic/actions | `project/actions.py` or `project/services.py` |
 | UI/view rendering | `project/ui/`, `project/views/`, or `project/gui/` |
-| Diagnostics/smoke tests | `project/diagnostics.py`, `tools/diagnostic_harness.py` |
+| Diagnostics/smoke tests | `project/diagnostics.py`, `./tools/diagnostic_harness.py` |
 | Main application/entry point | `main.py` or package launcher |
 
 This lets the prototype become the behavioral seed of the formal project instead of becoming a dead-end script.
@@ -277,3 +279,7 @@ A monolithic prototype is allowed.
 An unstructured monolithic prototype is not.
 
 The prototype should be fast to change now, but disciplined enough that it can become a professional package later without losing features, rewriting from memory, or relying on undocumented assumptions.
+
+## 8. Delivery Report
+
+When a prototype run is delivered, end with the canonical final package report in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` (defined in `docs/070` section 18, method edition), including the `--smoke-test` and `--diagnostics` output in its `Test results` field.

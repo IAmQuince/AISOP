@@ -1,19 +1,24 @@
 ---
 document_id: DOC-README-REPORTS
 title: "Reports"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-README-REPORTS
 normative_status: Informative
+tier: 2
+summary: "What the reports folder holds: runtime reports (not committed) and committed baseline evidence."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Reports
 
-Generated audit and smoke-test reports are written here.
+Generated audit and smoke-test reports are written here at run time.
+
+- `reports/*.txt` are runtime output. They are git-ignored (REQ-RPT-001) and rewritten on every run, so running the audits never dirties the working tree. Paste them into a conversation or issue as evidence; do not commit them.
+- `reports/baseline/` is committed evidence: one snapshot per release or revision, named `baseline_<revision>_<report>.txt`. `baseline_rev002_run_all_audits_report.txt` is the REV-002 release run; `baseline_rev003_*` files record REV-003 gates (`baseline_rev003_phase0_run_all_audits_report.txt` is the GATE-0 run; `baseline_rev003_final_run_all_audits_report.txt` is the run at the end of the REV-003 execution). The `cold_agent_test_<package_id>.txt` and `cold_chat_simulation_<package_id>.txt` logs record the entry-layer tests for each package identity.
 
 ## REV-002 Reports
 

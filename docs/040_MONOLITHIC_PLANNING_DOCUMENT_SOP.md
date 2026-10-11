@@ -1,13 +1,15 @@
 ---
 document_id: DOC-040
 title: "SOP: Monolithic Planning Document"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-040
 normative_status: Informative
+tier: 2
+summary: "SOP for one large planning document designed to be split later into requirements, specs, and registers."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -230,7 +232,7 @@ Prototype lessons:
 Do-not-break behaviors:
 
 Use a feature inventory format:
-FEATURE-001
+FEAT-001
 Name:
 Current behavior:
 Evidence:
@@ -569,7 +571,7 @@ docs/110_IMPLEMENTATION_PLAN.md
 19. Acceptance Criteria
 Purpose: define done.
 Use requirement-linked acceptance items.
-ACCEPT-001
+TEST-XXX-001
 Linked requirement:
 Test:
 Expected result:
@@ -589,7 +591,7 @@ Required tools:
 Required reports:
 Runtime data exclusion:
 Reviewer onboarding:
-Final package report format:
+Final package report format: (the canonical fifteen fields in `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`)
 
 This later extracts to:
 docs/160_PACKAGING_AND_HANDOFF_SPEC.md
@@ -623,6 +625,8 @@ Appendix G: Historical package timeline
 
 Avoid burying core requirements in appendices.
 
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
+
 7. Writing Rules for the Monolithic Document
 Use stable IDs
 Every important item gets an ID:
@@ -637,7 +641,8 @@ DEBT-001
 DECISION-001
 QUESTION-001
 PHASE-001
-ACCEPT-001
+FEAT-001
+TEST-XXX-001
 
 Stable IDs allow later references across documents.
 
@@ -853,3 +858,33 @@ designed to be split later
 
 The goal is not to avoid monolithic documents entirely.
 The goal is to make the monolithic document a controlled staging artifact instead of a documentation swamp.
+
+## Required sections
+
+The planning document has exactly these second-level sections, in this order. A small project may answer a section with "Not needed for this project: <one-line reason>", but keeps the heading. The audit compares this list with the template (TEST-TPL-001).
+
+### templates/PLANNING_DOCUMENT_TEMPLATE.md
+
+- 0. Document Control
+- 1. Executive Summary
+- 2. Concept Recap
+- 3. User Workflows
+- 4. Current Baseline / Prototype State
+- 5. Functional Requirements
+- 6. Non-Functional Requirements
+- 7. Data and Persistence Model
+- 8. UI / UX Model
+- 9. Architecture Direction
+- 10. Module Boundary Plan
+- 11. File and Folder Structure Plan
+- 12. Routes / APIs / Interfaces
+- 13. Diagnostics and Testing Plan
+- 14. Risk Register
+- 15. Technical Debt Register
+- 16. Decision Log
+- 17. Open Questions
+- 18. Implementation Phases
+- 19. Acceptance Criteria
+- 20. Packaging and Handoff Requirements
+- 21. Extraction Plan
+- 22. Appendices

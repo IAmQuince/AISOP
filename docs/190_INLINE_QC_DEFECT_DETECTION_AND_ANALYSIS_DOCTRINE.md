@@ -1,20 +1,33 @@
 ---
 document_id: DOC-190
 title: "Inline QC, Defect Detection, and Analysis Doctrine"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-190
 normative_status: Informative
+tier: 3
+summary: "Domain guide: doctrine for inline quality control, defect detection, review, and traceable quality records."
+topics: [qc, defect-detection, traceability, review, ACCEPT-QC-*, DATA-QC-*, DEBT-QC-*, RISK-QC-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Inline QC, Defect Detection, and Analysis Doctrine
 
-This should follow the same AISOP principles: define requirements before implementation, use stable IDs, preserve data, include diagnostics, define schema/persistence explicitly, and make the package independently reviewable without chat history.
-# 190_INLINE_QC_DEFECT_DETECTION_AND_ANALYSIS_DOCTRINE
+This doctrine follows the same AISOP principles: define requirements before implementation, use stable IDs, preserve data, include diagnostics, define schema/persistence explicitly, and make the package independently reviewable without chat history.
+
+## TL;DR
+
+- Purpose: a doctrine for inline quality control, live defect detection, error analysis, review workflows, and long-term defect/performance traceability in manufacturing, assembly, test, or experimental workflows.
+- Inline QC software is a traceability system, not just a defect counter: capture quality evidence when it occurs, with enough context to correlate defects with later performance data.
+- Keep candidate detections separate from reviewed defects, and append review decisions instead of overwriting classifications or review history.
+- Preserve raw evidence unchanged; store processed or annotated evidence as separate linked artifacts, with content hashes where practical.
+- Record the algorithm/rule version with every detection so that detector changes are not mistaken for process changes.
+- Use stable IDs (part/sample, lot, process run) shared by QC and performance records; SQLite is usually a strong default for local tools, and CSV should not be the only structure once records need relationships.
+- Keep severity, confidence, and disposition as separate fields under an explicit defect taxonomy.
+- A package is acceptable only when the section 19 Definition of Done is met, including a database integrity check, evidence audit, detection smoke test, review workflow test, and performance join test.
 
 ## 0. Purpose
 
@@ -81,11 +94,12 @@ manufacturing lots / parts / assemblies
 test-station performance
         ↓
 field or lifecycle behavior
+```
 
 A QC record that cannot be linked later is only a note.
 A QC record with traceable evidence becomes engineering data.
 
-2. Primary Design Goals
+## 2. Primary Design Goals
 The inline QC system should:
 1. Detect candidate defects during the workflow.
 2. Capture evidence automatically.
@@ -103,10 +117,11 @@ The inline QC system should:
 14. Provide diagnostics and database health checks.
 15. Remain useful even if detection algorithms change later.
 
-3. Definitions
-3.1 Detection
+## 3. Definitions
+### 3.1 Detection
 A detection is an automated or semi-automated observation that something may be wrong.
 Examples:
+```text
 bright spot detected
 scratch candidate
 edge discontinuity
@@ -118,10 +133,11 @@ pressure transient
 temperature spike
 out-of-range dimension
 unexpected process timing
+```
 
 A detection is not automatically a confirmed defect.
 
-3.2 Defect
+### 3.2 Defect
 A defect is a reviewed or accepted quality issue associated with a part, sample, region, material, process step, or test.
 A defect may originate from:
 * automated detection;
@@ -131,13 +147,14 @@ A defect may originate from:
 * post-test failure analysis;
 * engineering judgment.
 
-3.3 Candidate Defect
+### 3.3 Candidate Defect
 A candidate defect is a detection that has not yet been reviewed.
 Candidate defects should be preserved, but clearly marked as unconfirmed.
 
-3.4 Reviewed Defect
+### 3.4 Reviewed Defect
 A reviewed defect has been inspected by an operator, engineer, or approved review process.
 Review outcomes:
+```text
 CONFIRMED_DEFECT
 FALSE_POSITIVE
 ACCEPTABLE_VARIATION
@@ -146,8 +163,9 @@ REWORKED
 SCRAPPED
 MONITOR_ONLY
 UNKNOWN
+```
 
-3.5 Evidence
+### 3.5 Evidence
 Evidence is the raw or processed information supporting a detection or review.
 Evidence may include:
 * image file;
@@ -165,9 +183,10 @@ Evidence may include:
 * test-station data segment.
 Evidence must not be silently discarded.
 
-4. Core Data Model
-4.1 Required Entity Types
+## 4. Core Data Model
+### 4.1 Required Entity Types
 The database should support these conceptual entities:
+```text
 Project
 Product / part family
 Lot / batch
@@ -188,12 +207,14 @@ Correlation analysis
 Algorithm/rule version
 Operator/user
 Calibration/configuration snapshot
+```
 
 Not every prototype needs every table immediately, but the design should avoid blocking these relationships later.
 
-4.2 Stable IDs
+### 4.2 Stable IDs
 Every important record needs a stable ID.
 Recommended ID types:
+```text
 project_id
 lot_id
 batch_id
@@ -211,11 +232,13 @@ performance_test_id
 performance_result_id
 algorithm_version_id
 operator_id
+```
 
 Do not rely only on row numbers or filenames.
 IDs should survive file moves, exports, imports, and later database migrations.
 
-4.3 Detection Event Record
+### 4.3 Detection Event Record
+```text
 DATA-QC-001
 Object: Detection Event
 Purpose:
@@ -263,8 +286,10 @@ review_status
 
 Deletion policy:
 Do not delete automatically. Mark invalid, superseded, or false positive instead.
+```
 
-4.4 Defect Record
+### 4.4 Defect Record
+```text
 DATA-QC-002
 Object: Defect Record
 Purpose:
@@ -311,8 +336,10 @@ disposition
 
 Deletion policy:
 Do not physically delete during normal use. Use status fields.
+```
 
-4.5 Evidence Artifact Record
+### 4.5 Evidence Artifact Record
+```text
 DATA-QC-003
 Object: Evidence Artifact
 Purpose:
@@ -358,8 +385,10 @@ REPORT
 
 Rule:
 Raw evidence must be preserved separately from annotated or processed evidence.
+```
 
-4.6 Review Decision Record
+### 4.6 Review Decision Record
+```text
 DATA-QC-004
 Object: Review Decision
 Purpose:
@@ -397,8 +426,10 @@ UNKNOWN
 
 Rule:
 Do not overwrite review history. Add a new review decision.
+```
 
-4.7 Performance Result Record
+### 4.7 Performance Result Record
+```text
 DATA-QC-005
 Object: Performance Result
 Purpose:
@@ -436,8 +467,10 @@ degradation_rate
 failure_time
 resistance
 power
+```
 
-4.8 Correlation Analysis Record
+### 4.8 Correlation Analysis Record
+```text
 DATA-QC-006
 Object: Correlation Analysis
 Purpose:
@@ -462,16 +495,20 @@ notes
 
 Rule:
 Correlation analyses are derived results. They must not replace raw QC or performance records.
+```
 
-5. Defect Taxonomy
-5.1 Defect Classification Levels
+## 5. Defect Taxonomy
+### 5.1 Defect Classification Levels
 Use hierarchical classification:
+```text
 defect_family
 defect_type
 defect_subtype
 defect_detail
+```
 
 Example:
+```text
 Surface
     Scratch
         Linear scratch
@@ -506,28 +543,33 @@ Electrical anomaly
     Short risk
     High resistance
     Noise spike
+```
 
 The taxonomy should be project-specific, but the structure should stay consistent.
 
-5.2 Severity
+### 5.2 Severity
 Recommended severity levels:
+```text
 INFO
 MINOR
 MODERATE
 MAJOR
 CRITICAL
 UNKNOWN
+```
 
 Severity should answer:
 How bad is the defect if real?
 
-5.3 Confidence
+### 5.3 Confidence
 Recommended confidence levels:
+```text
 LOW
 MEDIUM
 HIGH
 CERTAIN
 UNKNOWN
+```
 
 or numeric:
 0.0 to 1.0
@@ -539,8 +581,9 @@ Severity and confidence are different.
 A high-severity defect can have low confidence.
 A low-severity defect can have high confidence.
 
-5.4 Disposition
+### 5.4 Disposition
 Recommended dispositions:
+```text
 PENDING
 ACCEPT_AS_IS
 REWORK
@@ -550,12 +593,13 @@ ENGINEERING_REVIEW
 RETEST
 MONITOR
 UNKNOWN
+```
 
 Disposition should answer:
 What did we do with the part or sample?
 
-6. Inline Detection Workflow
-6.1 Standard Workflow
+## 6. Inline Detection Workflow
+### 6.1 Standard Workflow
 1. Part/sample enters process or inspection station.
 2. System identifies part/sample/lot/process step.
 3. Sensors/images/measurements are captured.
@@ -571,8 +615,9 @@ What did we do with the part or sample?
 13. Later performance data is linked by part/sample/lot/run ID.
 14. Analysis tools correlate QC records with performance outcomes.
 
-6.2 Live Detection Loop
+### 6.2 Live Detection Loop
 The live detection loop should separate acquisition, detection, persistence, and UI.
+```text
 acquire input
     ↓
 validate input
@@ -592,11 +637,13 @@ write database records
 publish UI update
     ↓
 log summary / faults
+```
 
 Do not let the UI be the only place where detections exist.
 A detection should be persisted even if the UI crashes after detection.
 
-6.3 Human Review Loop
+### 6.3 Human Review Loop
+```text
 open review queue
     ↓
 inspect candidate detection
@@ -616,17 +663,20 @@ add notes if needed
 save review decision
     ↓
 advance to next candidate
+```
 
 The review UI should make it clear whether the user is viewing:
+```text
 raw evidence
 processed evidence
 annotated evidence
 derived metrics
 prior review decision
 algorithm suggestion
+```
 
-7. Database Doctrine
-7.1 SQLite as the Default Local QC Database
+## 7. Database Doctrine
+### 7.1 SQLite as the Default Local QC Database
 For local tools, SQLite is usually a strong default because it is:
 * file-based;
 * portable;
@@ -637,7 +687,8 @@ For local tools, SQLite is usually a strong default because it is:
 * suitable for later viewer applications.
 CSV can be used for exports and recovery logs, but it should not be the only structure once records need relationships.
 
-7.2 Recommended Database Tables
+### 7.2 Recommended Database Tables
+```text
 projects
 products
 lots
@@ -660,9 +711,11 @@ configuration_snapshots
 operators
 event_log
 audit_log
+```
 
-7.3 Minimum Useful Schema
+### 7.3 Minimum Useful Schema
 For a first serious implementation, the minimum useful tables are:
+```text
 parts
 lots
 inspection_events
@@ -673,6 +726,7 @@ review_decisions
 performance_results
 algorithm_versions
 event_log
+```
 
 This is enough to support:
 * defect capture;
@@ -682,7 +736,7 @@ This is enough to support:
 * traceability;
 * versioned detection logic.
 
-7.4 Database Integrity Rules
+### 7.4 Database Integrity Rules
 Rules:
 * Use foreign keys where practical.
 * Use stable IDs.
@@ -696,25 +750,32 @@ Rules:
 * Provide database integrity checks.
 * Provide export tools.
 Recommended tools:
+```text
 tools/qc_db_integrity_check.py
 tools/qc_schema_audit.py
 tools/qc_evidence_audit.py
 tools/qc_export_summary.py
 tools/qc_correlation_smoke_test.py
+```
 
-8. Evidence Storage Doctrine
-8.1 Raw Evidence Preservation
+## 8. Evidence Storage Doctrine
+### 8.1 Raw Evidence Preservation
 Raw evidence should be immutable once captured.
 If an image is annotated, cropped, normalized, thresholded, or enhanced, save that as a new artifact linked to the raw artifact.
+```text
 raw_image.png
 processed_image.png
 annotated_image.png
+```
 
 Do not overwrite:
+```text
 raw_image.png
+```
 
-8.2 Evidence Folder Structure
+### 8.2 Evidence Folder Structure
 Recommended runtime structure:
+```text
 runtime_data/
 ├── qc_database/
 │   └── inline_qc.sqlite
@@ -751,8 +812,9 @@ runtime_data/
 │
 └── autosave/
     └── review_session_state.json
+```
 
-8.3 Content Hashes
+### 8.3 Content Hashes
 Evidence records should include a content hash where practical.
 Purpose:
 * detect missing/moved/changed evidence files;
@@ -760,16 +822,19 @@ Purpose:
 * support deduplication;
 * prove that annotated files did not replace raw files.
 Fields:
+```text
 content_hash
 hash_algorithm
 file_size_bytes
 created_at
 last_verified_at
+```
 
-9. Algorithm and Rule Versioning
-9.1 Every Detection Needs Algorithm Provenance
+## 9. Algorithm and Rule Versioning
+### 9.1 Every Detection Needs Algorithm Provenance
 A detection without algorithm provenance loses value later.
 Detection records should include:
+```text
 detector_name
 detector_type
 algorithm_version_id
@@ -778,6 +843,7 @@ parameter_snapshot_id
 calibration_snapshot_id
 thresholds_used
 input_preprocessing_version
+```
 
 This allows future analysis to separate:
 The part got better.
@@ -785,7 +851,8 @@ The part got better.
 from:
 The detector changed.
 
-9.2 Algorithm Version Record
+### 9.2 Algorithm Version Record
+```text
 DATA-QC-007
 Object: Algorithm Version
 Purpose:
@@ -805,9 +872,11 @@ description
 known_limitations
 active_from
 active_to
+```
 
-9.3 Rule Types
+### 9.3 Rule Types
 Detection rules may include:
+```text
 absolute_threshold
 relative_threshold
 moving_average
@@ -821,18 +890,22 @@ pattern match
 manual entry
 machine-learning classifier
 hybrid rule
+```
 
 Each rule should produce:
+```text
 score
 threshold
 candidate_type
 confidence
 explanation
 evidence reference
+```
 
-10. UI / Review Interface Doctrine
-10.1 Main QC Dashboard
+## 10. UI / Review Interface Doctrine
+### 10.1 Main QC Dashboard
 The main QC interface should show:
+```text
 current lot
 current part/sample
 current process step
@@ -847,11 +920,13 @@ camera/sensor health
 algorithm version
 operator
 last saved timestamp
+```
 
 The operator should never wonder whether a detection was saved.
 
-10.2 Review Queue
+### 10.2 Review Queue
 Review queue fields:
+```text
 detection_id
 part_id
 lot_id
@@ -864,8 +939,10 @@ thumbnail/evidence preview
 algorithm version
 station
 age
+```
 
 Useful filters:
+```text
 unreviewed
 confirmed
 false positive
@@ -877,8 +954,9 @@ by confidence
 by station
 by date/time
 by algorithm version
+```
 
-10.3 Evidence Viewer
+### 10.3 Evidence Viewer
 The evidence viewer should support:
 * raw image/data view;
 * processed view;
@@ -893,8 +971,9 @@ The evidence viewer should support:
 * notes.
 The viewer must clearly label raw vs processed vs annotated evidence.
 
-10.4 Trend / Analysis Views
+### 10.4 Trend / Analysis Views
 Useful QC analysis views:
+```text
 defects by lot
 defects by part
 defects by station
@@ -908,21 +987,24 @@ defect type Pareto chart
 defect count vs performance metric
 defect severity vs performance metric
 process parameter vs defect count
+```
 
-11. Cross-Referencing QC With Performance Data
-11.1 Required Linking Strategy
+## 11. Cross-Referencing QC With Performance Data
+### 11.1 Required Linking Strategy
 Performance correlation requires shared identifiers.
 At minimum, QC and performance records should share:
+```text
 part_id or sample_id
 lot_id
 process_run_id
 test_run_id where applicable
 timestamp range
 product/configuration
+```
 
 Without shared IDs, later correlation becomes manual and fragile.
 
-11.2 Performance Correlation Examples
+### 11.2 Performance Correlation Examples
 Questions the system should eventually answer:
 Do parts with edge defects have worse performance?
 Do coating-thickness anomalies correlate with higher resistance?
@@ -933,11 +1015,14 @@ Do false positives cluster around a process condition?
 Does detector version affect apparent defect rate?
 Do reworked parts perform differently?
 
-11.3 Correlation Data Mart
+### 11.3 Correlation Data Mart
 For analysis, create a derived table or query view:
+```text
 qc_performance_join_view
+```
 
 Example fields:
+```text
 part_id
 lot_id
 defect_count_total
@@ -952,11 +1037,12 @@ performance_metric_name
 performance_metric_value
 test_condition
 test_date
+```
 
 This view is derived. It must not replace raw records.
 
-12. Error Analysis Doctrine
-12.1 Separate Detection Error From Process Error
+## 12. Error Analysis Doctrine
+### 12.1 Separate Detection Error From Process Error
 A detected “problem” may mean:
 1. A real manufacturing defect.
 2. A sensor/camera artifact.
@@ -968,8 +1054,9 @@ A detected “problem” may mean:
 8. An operator classification inconsistency.
 The system must preserve enough evidence to distinguish these later.
 
-12.2 False Positives and False Negatives Matter
+### 12.2 False Positives and False Negatives Matter
 Track:
+```text
 false_positive_count
 confirmed_defect_count
 missed_defect_count
@@ -978,33 +1065,41 @@ unreviewed_detection_count
 review_agreement_rate
 algorithm_precision_estimate
 algorithm_recall_estimate where possible
+```
 
 False negatives are harder because they require later discovery. When a defect is found downstream, record whether it was missed inline.
+```text
 missed_by_inline_detection: true/false/unknown
+```
 
-12.3 Review Disagreement
+### 12.3 Review Disagreement
 If multiple reviewers disagree, do not overwrite.
 Store multiple review decisions and mark one as current/accepted if needed.
 Fields:
+```text
 reviewer_id
 review_outcome
 review_confidence
 review_notes
 supersedes_review_id
 accepted_as_current
+```
 
 This preserves institutional knowledge.
 
-13. Diagnostics and Health Checks
+## 13. Diagnostics and Health Checks
 Required diagnostic reports:
+```text
 qc_diagnostic_report.txt
 qc_db_integrity_report.txt
 qc_evidence_audit_report.txt
 qc_detection_smoke_test_report.txt
 qc_review_workflow_test_report.txt
 qc_performance_join_test_report.txt
+```
 
 Diagnostic harness should report:
+```text
 app version
 Python version
 OS/platform
@@ -1028,9 +1123,11 @@ latest review timestamp
 latest performance import timestamp
 recent exceptions
 pass/fail summary
+```
 
-14. Acceptance Tests
-14.1 Detection Persistence
+## 14. Acceptance Tests
+### 14.1 Detection Persistence
+```text
 ACCEPT-QC-001
 Test:
 Generate a simulated candidate defect.
@@ -1043,8 +1140,10 @@ Automated.
 
 Required before delivery:
 Yes.
+```
 
-14.2 Evidence Preservation
+### 14.2 Evidence Preservation
+```text
 ACCEPT-QC-002
 Test:
 Capture raw evidence and create an annotated version.
@@ -1057,8 +1156,10 @@ Automated or manual.
 
 Required before delivery:
 Yes.
+```
 
-14.3 Review Workflow
+### 14.3 Review Workflow
+```text
 ACCEPT-QC-003
 Test:
 Open an unreviewed detection and mark it false positive.
@@ -1071,8 +1172,10 @@ Manual or automated.
 
 Required before delivery:
 Yes.
+```
 
-14.4 Defect Confirmation
+### 14.4 Defect Confirmation
+```text
 ACCEPT-QC-004
 Test:
 Confirm a candidate detection as a real defect.
@@ -1085,8 +1188,10 @@ Manual.
 
 Required before delivery:
 Yes.
+```
 
-14.5 Performance Linking
+### 14.5 Performance Linking
+```text
 ACCEPT-QC-005
 Test:
 Import or create performance result for a part with known QC records.
@@ -1099,8 +1204,10 @@ Automated.
 
 Required before delivery:
 Yes.
+```
 
-14.6 Database Integrity
+### 14.6 Database Integrity
+```text
 ACCEPT-QC-006
 Test:
 Run database integrity audit.
@@ -1113,8 +1220,10 @@ Automated.
 
 Required before delivery:
 Yes.
+```
 
-14.7 Algorithm Version Traceability
+### 14.7 Algorithm Version Traceability
+```text
 ACCEPT-QC-007
 Test:
 Run two detector versions on sample data.
@@ -1127,8 +1236,10 @@ Automated.
 
 Required before delivery:
 Yes.
+```
 
-15. Common Risks
+## 15. Common Risks
+```text
 RISK-QC-001
 Title: Candidate detections mistaken for confirmed defects
 Likelihood: Medium
@@ -1140,7 +1251,9 @@ Separate detection records from reviewed defect records. Use review_status every
 Fallback:
 Reclassify records and regenerate reports.
 Status: Open
+```
 
+```text
 RISK-QC-002
 Title: Raw evidence overwritten by processed evidence
 Likelihood: Medium
@@ -1152,7 +1265,9 @@ Store processed/annotated evidence as separate artifacts.
 Fallback:
 Restore from backup if available.
 Status: Open
+```
 
+```text
 RISK-QC-003
 Title: Defect records cannot be linked to performance data
 Likelihood: Medium
@@ -1164,7 +1279,9 @@ Require shared IDs before accepting QC records.
 Fallback:
 Manual reconciliation table.
 Status: Open
+```
 
+```text
 RISK-QC-004
 Title: Algorithm changes appear as process changes
 Likelihood: Medium
@@ -1176,7 +1293,9 @@ Record algorithm version for every detection.
 Fallback:
 Analyze results by detector version separately.
 Status: Open
+```
 
+```text
 RISK-QC-005
 Title: Review history overwritten
 Likelihood: Medium
@@ -1188,7 +1307,9 @@ Append review decisions instead of overwriting.
 Fallback:
 Restore from backup or mark review history incomplete.
 Status: Open
+```
 
+```text
 RISK-QC-006
 Title: Evidence files moved or missing
 Likelihood: Medium
@@ -1200,8 +1321,10 @@ Use package/runtime evidence root, relative paths, content hashes, and backups.
 Fallback:
 Mark evidence missing but preserve database record.
 Status: Open
+```
 
-16. Technical Debt Patterns
+## 16. Technical Debt Patterns
+```text
 DEBT-QC-001
 Title: Detection and defect concepts mixed
 Category: Data model
@@ -1209,7 +1332,9 @@ Impact:
 Unreviewed candidates may be treated as confirmed quality failures.
 Resolution:
 Separate detections, defects, and review decisions.
+```
 
+```text
 DEBT-QC-002
 Title: Evidence stored only as file paths
 Category: Data integrity
@@ -1217,7 +1342,9 @@ Impact:
 Moved or modified files cannot be detected.
 Resolution:
 Add evidence artifact table with content hashes and verification timestamps.
+```
 
+```text
 DEBT-QC-003
 Title: No algorithm versioning
 Category: Traceability
@@ -1225,7 +1352,9 @@ Impact:
 Future defect-rate trends may be impossible to interpret.
 Resolution:
 Create algorithm_versions table and link each detection to the active version.
+```
 
+```text
 DEBT-QC-004
 Title: No performance-linking IDs
 Category: Analysis
@@ -1233,7 +1362,9 @@ Impact:
 QC records cannot be correlated with later test results.
 Resolution:
 Require part_id/sample_id/lot_id/process_run_id fields.
+```
 
+```text
 DEBT-QC-005
 Title: Manual review overwrites original classification
 Category: Auditability
@@ -1241,8 +1372,10 @@ Impact:
 Loss of review history and training data.
 Resolution:
 Append review_decisions and preserve prior classification.
+```
 
-17. Recommended Package Structure
+## 17. Recommended Package Structure
+```text
 project_name/
 ├── __init__.py
 ├── constants.py
@@ -1293,8 +1426,10 @@ project_name/
 │   └── smoke.py
 │
 └── app.py
+```
 
-18. Required Tools
+## 18. Required Tools
+```text
 tools/
 ├── qc_diagnostic_harness.py
 ├── qc_db_integrity_check.py
@@ -1305,8 +1440,9 @@ tools/
 ├── qc_performance_join_test.py
 ├── qc_export_summary.py
 └── structure_audit.py
+```
 
-19. Definition of Done
+## 19. Definition of Done
 An inline QC / defect-analysis package is acceptable only when:
 [ ] Candidate detections are stored separately from confirmed defects.
 [ ] Raw evidence is preserved.
@@ -1329,7 +1465,7 @@ An inline QC / defect-analysis package is acceptable only when:
 [ ] Technical debt is documented.
 [ ] Package can be reviewed without chat history.
 
-20. Core Rule
+## 20. Core Rule
 Inline QC software is valuable only if it preserves context.
 A defect record without evidence is weak.
 Evidence without part identity is weak.
@@ -1338,6 +1474,3 @@ QC data without performance linkage is incomplete.
 Performance data without QC history loses explanatory power.
 The goal is not just to detect defects.
 The goal is to build a traceable quality memory that gets more valuable as more production, inspection, and performance data accumulate.
-
-QC and Defect Examples
-Recommended companion file:

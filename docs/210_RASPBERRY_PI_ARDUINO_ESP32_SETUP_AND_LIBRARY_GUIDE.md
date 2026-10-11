@@ -1,19 +1,32 @@
 ---
 document_id: DOC-210
 title: "Raspberry Pi, Arduino, and ESP32 Setup and Library Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-210
 normative_status: Informative
+tier: 3
+summary: "Domain guide: setting up Raspberry Pi, Arduino, ESP32, and Pico projects and their libraries."
+topics: [raspberry-pi, arduino, esp32, embedded, RULE-EMB-*, WIRE-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Raspberry Pi, Arduino, and ESP32 Setup and Library Guide
 
-210_RASPBERRY_PI_ARDUINO_ESP32_SETUP_AND_LIBRARY_GUIDE
+## TL;DR
+
+- Purpose: set up Raspberry Pi, Pico, Arduino, and ESP32 projects with the correct board packages and libraries, avoid compatibility traps, and build repeatable diagnostics.
+- Identify the device category first: a Raspberry Pi is a Linux/Python computer; Pico, Arduino, and ESP32 are microcontrollers. Do not choose libraries until the category is clear.
+- Keep library sides separate: Arduino libraries belong in Arduino IDE/CLI/PlatformIO, not pip, and MicroPython cannot be assumed to use desktop Python packages.
+- On a Pi, use apt for hardware-tied packages and pip for project-level ones; gpiozero is the default, and RPi.GPIO is not the default for new Pi 5 / Bookworm work.
+- Verify the physical link before code (data-capable USB cable, driver, port), then start with a minimal known-good blink or serial test.
+- Pi, ESP32, and Pico GPIO are 3.3 V and not 5 V tolerant: never wire 5 V logic directly into them, and document wiring before debugging software.
+- Use structured serial/MQTT messages with device ID and sequence number, and validate packets before writing CSV/SQLite.
+- Pin and record board core, library, and firmware versions once a setup works.
+
 0. Purpose
 This document explains how we approach Raspberry Pi, Arduino, ESP32, Pico, and small-controller projects.
 It covers:
@@ -1800,5 +1813,3 @@ Core rule:
 Do not treat embedded setup as incidental.
 
 For these projects, the setup is part of the engineering system.
-
-DAQ and Safety

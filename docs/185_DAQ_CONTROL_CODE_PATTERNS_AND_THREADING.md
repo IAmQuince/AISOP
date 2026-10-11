@@ -1,24 +1,38 @@
 ---
 document_id: DOC-185
 title: "DAQ/Control Code Patterns and Threading"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-185
 normative_status: Informative
+tier: 3
+summary: "Domain guide: code patterns for acquisition threads, command queues, historians, shutdown, and safe state."
+topics: [daq, threading, code-patterns, historian, safety, SIM-*, THREAD-RULE-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # DAQ/Control Code Patterns and Threading
 
-It should be explicitly code-oriented: not a full application, but a library of proven patterns for acquisition threads, command queues, GUI-safe updates, historian writes, shutdown, safe-state handling, and diagnostics. This directly supports the AISOP rules that engineering GUIs should keep diagnostics/logs accessible, persist settings, handle device disconnects, preserve data integrity, and start/fail safe for hardware-control software.
-# 185_DAQ_CONTROL_CODE_PATTERNS_AND_THREADING
+This document is explicitly code-oriented: not a full application, but a library of proven patterns for acquisition threads, command queues, GUI-safe updates, historian writes, shutdown, safe-state handling, and diagnostics. This directly supports the AISOP rules that engineering GUIs should keep diagnostics/logs accessible, persist settings, handle device disconnects, preserve data integrity, and start/fail safe for hardware-control software.
+
+## TL;DR
+
+- This is a pattern library, not a full application: concrete code patterns for hardware DAQ/control applications (LabJack acquisition, programmable power supplies, PyVISA/SCPI instruments, live graphing, CSV/SQLite historians, deterministic shutdown, safe-state behavior, and GUI operator interfaces).
+- Use the Python standard library for the safety-critical skeleton; the safety skeleton must not depend on optional plotting or GUI libraries, and the diagnostic harness should run even if those libraries are missing.
+- Use threads for blocking I/O (acquisition, command/control, historian writer, health monitor). Worker threads never update GUI widgets directly; they communicate through queues, events, locks, or Qt signals, and the GUI thread drains the queues on a timer.
+- Only one thread owns each hardware command path, and only one writer owns a file/database connection unless a locking policy is explicit. All PSU output commands, including GUI buttons and sequence steps, go through the command thread.
+- Safe-state commands must have priority over normal commands (lower number means higher priority), and real hardware must never auto-enable outputs during startup.
+- GUI display queues may drop display data; raw data queues must not silently drop records. A full raw writer queue is a fault that must be recorded.
+- Shutdown is a sequence, not a boolean: safe-state first, stop acquisition/control, drain the writer, write the manifest, and write a diagnostic report if abnormal.
+- Build a simulated adapter early, have every long-running thread expose diagnostics, and report every caught exception; silent except blocks are not allowed in acquisition/control paths.
 
 ## 0. Purpose
 
 This document gives concrete code patterns for hardware DAQ/control applications.
+The specific hardware and project types named in this guide (for example the LabJack U6 and Genesys+ PSU sketches) are examples, not requirements.
 
 It supports projects involving:
 
@@ -51,7 +65,7 @@ Use the Python standard library for the safety-critical skeleton wherever practi
 
 Recommended baseline imports:
 
-```python id="9msp59"
+```python
 import os
 import sys
 import time
@@ -66,8 +80,10 @@ import signal
 import atexit
 from dataclasses import dataclass, field
 from collections import deque
+```
 
 For Python 2.7 / Windows XP compatibility, adjust:
+```python
 try:
     import queue
 except ImportError:
@@ -77,6 +93,7 @@ try:
     time_monotonic = time.monotonic
 except AttributeError:
     time_monotonic = time.time
+```
 
 For XP/Python 2.7:
 * do not use dataclasses;
@@ -85,13 +102,17 @@ For XP/Python 2.7:
 * do not use pathlib;
 * keep imports conservative.
 
-1.2 Optional project libraries
+### 1.2 Optional project libraries
 Use these only when the target environment supports them.
 LabJack U6:
+```python
     import u6
+```
 
 PyVISA:
+```python
     import pyvisa
+```
 
 Modern Qt GUI:
     PyQt5, PySide6, or PyQt6 depending on project target.
@@ -117,8 +138,8 @@ The safety skeleton must not depend on optional plotting or GUI libraries.
 
 The diagnostic harness should run even if the GUI toolkit, plotting library, VISA backend, or LabJack library is missing.
 
-2. Threading Philosophy
-2.1 Use threads for blocking I/O, not for random structure
+## 2. Threading Philosophy
+### 2.1 Use threads for blocking I/O, not for random structure
 Use separate threads for:
 acquisition loop
 command/control loop
@@ -135,7 +156,7 @@ threading.Lock
 Qt signals
 timer-driven polling
 
-2.2 Recommended thread model
+### 2.2 Recommended thread model
 Main GUI thread
     owns windows, controls, graph widgets, menus, status bar
 
@@ -169,9 +190,10 @@ For a PSU, the command thread owns setpoints and output-enable commands.
 For a LabJack acquisition device, the acquisition thread owns reads.
 For the historian, the writer thread owns file/database writes.
 
-3. Core Message Types
+## 3. Core Message Types
 Use small message objects or dictionaries.
 For compatibility, dictionaries are fine.
+```python
 def make_telemetry_record(
     run_id,
     device_id,
@@ -220,16 +242,19 @@ def make_command_record(run_id, command_id, device_id, command_type, payload):
         "payload": payload,
         "status": "QUEUED",
     }
+```
 
 Keep telemetry, events, commands, and faults distinct.
 Do not jam everything into one untyped queue.
 
-4. Thread Coordination Primitives
-4.1 Shared events
+## 4. Thread Coordination Primitives
+### 4.1 Shared events
+```python
 shutdown_event = threading.Event()
 safe_state_event = threading.Event()
 pause_acquisition_event = threading.Event()
 writer_flush_event = threading.Event()
+```
 
 Meanings:
 shutdown_event:
@@ -244,11 +269,13 @@ pause_acquisition_event:
 writer_flush_event:
     Writer should flush buffers to disk promptly.
 
-4.2 Queues
+### 4.2 Queues
+```python
 telemetry_queue = queue.Queue(maxsize=10000)
 writer_queue = queue.Queue(maxsize=50000)
 command_queue = queue.PriorityQueue()
 event_queue = queue.Queue(maxsize=10000)
+```
 
 Queue purposes:
 telemetry_queue:
@@ -264,9 +291,10 @@ command_queue:
 event_queue:
     Faults, warnings, state changes, UI notifications.
 
-4.3 Non-blocking queue put with loss policy
+### 4.3 Non-blocking queue put with loss policy
 For GUI telemetry, dropping old display records can be acceptable.
 For raw data writing, dropping records is usually not acceptable unless explicitly marked.
+```python
 def put_gui_telemetry(q, record):
     """
     GUI telemetry queue may drop oldest display records if overloaded.
@@ -295,14 +323,16 @@ def put_writer_record(q, record, timeout=1.0):
         return True
     except queue.Full:
         return False
+```
 
 Policy:
 GUI display queue may drop display data.
 Raw writer queue should not silently drop data.
 If raw writer queue is full, raise a fault and preserve that fact.
 
-5. Device Adapter Pattern
-5.1 Base device adapter
+## 5. Device Adapter Pattern
+### 5.1 Base device adapter
+```python
 class DeviceAdapter(object):
     def connect(self):
         raise NotImplementedError
@@ -339,9 +369,11 @@ class DeviceAdapter(object):
             "connected": self.is_connected(),
             "adapter": self.__class__.__name__,
         }
+```
 
-5.2 Simulated adapter
+### 5.2 Simulated adapter
 Always build this early.
+```python
 import math
 import random
 
@@ -403,12 +435,14 @@ class SimulatedLabJackAdapter(DeviceAdapter):
             "safe": True,
             "reason": reason,
         }
+```
 
 Reason:
 Simulation mode lets us test the GUI, graph, writer, sequence preview, diagnostics, and shutdown without real hardware.
 
-5.3 LabJack U6 adapter sketch
+### 5.3 LabJack U6 adapter sketch
 This is intentionally conservative. The exact channel setup depends on the installed LabJackPython version and hardware wiring.
+```python
 class LabJackU6Adapter(DeviceAdapter):
     def __init__(self, device_id="labjack_u6_primary", channels=None):
         self.device_id = device_id
@@ -508,6 +542,7 @@ class LabJackU6Adapter(DeviceAdapter):
             "channels": list(self.channels),
             "last_error": self.last_error,
         }
+```
 
 Rule:
 Do not bury channel meaning inside the LabJack adapter.
@@ -515,7 +550,8 @@ Do not bury channel meaning inside the LabJack adapter.
 The adapter reads physical channels.
 The channel map assigns engineering meaning.
 
-6. Channel Mapping Pattern
+## 6. Channel Mapping Pattern
+```python
 CHANNEL_MAP = {
     "labjack_u6_primary:AIN0": {
         "signal_name": "stack_voltage",
@@ -566,6 +602,7 @@ def apply_channel_map(low_level_record, channel_map):
     record["value"] = value
     record["axis_group"] = mapping.get("axis_group", "")
     return record
+```
 
 Acceptance check:
 A physical channel must match the same logical signal in:
@@ -576,7 +613,8 @@ A physical channel must match the same logical signal in:
 - export;
 - diagnostics.
 
-7. Acquisition Thread Pattern
+## 7. Acquisition Thread Pattern
+```python
 class AcquisitionThread(threading.Thread):
     def __init__(
         self,
@@ -703,6 +741,7 @@ class AcquisitionThread(threading.Thread):
             "sample_interval_s": self.sample_interval_s,
             "adapter": self.adapter.diagnostics(),
         }
+```
 
 Key points:
 - Acquisition thread does not update GUI widgets.
@@ -711,8 +750,9 @@ Key points:
 - Device reconnect is attempted carefully.
 - Read errors become quality/event records, not silent failures.
 
-8. Writer Thread Pattern
-8.1 CSV writer thread
+## 8. Writer Thread Pattern
+### 8.1 CSV writer thread
+```python
 class CsvWriterThread(threading.Thread):
     def __init__(self, writer_queue, event_queue, shutdown_event, csv_path, flush_interval_s=2.0):
         threading.Thread.__init__(self)
@@ -815,13 +855,15 @@ class CsvWriterThread(threading.Thread):
             "last_error": self.last_error,
             "queue_size": self.writer_queue.qsize(),
         }
+```
 
 Policy:
 The writer thread drains the queue during shutdown.
 Shutdown waits for writer drain or logs that it failed.
 
-8.2 SQLite writer pattern
+### 8.2 SQLite writer pattern
 For SQLite, one writer thread should own the connection.
+```python
 class SQLiteWriterThread(threading.Thread):
     def __init__(self, writer_queue, event_queue, shutdown_event, db_path):
         threading.Thread.__init__(self)
@@ -968,22 +1010,26 @@ class SQLiteWriterThread(threading.Thread):
             "last_error": self.last_error,
             "queue_size": self.writer_queue.qsize(),
         }
+```
 
 SQLite rule:
 Do not share one SQLite connection casually across many threads.
 Prefer one writer owner thread or short-lived connections with clear locking policy.
 
-9. Command Thread and Safe-State Priority
-9.1 Command priority constants
+## 9. Command Thread and Safe-State Priority
+### 9.1 Command priority constants
+```python
 PRIORITY_SAFE_STATE = 0
 PRIORITY_OPERATOR_STOP = 10
 PRIORITY_MANUAL_COMMAND = 50
 PRIORITY_SEQUENCE_COMMAND = 100
 PRIORITY_BACKGROUND = 200
+```
 
 Lower number means higher priority.
 
-9.2 Command object
+### 9.2 Command object
+```python
 def make_priority_command(priority, command):
     return (
         priority,
@@ -1000,8 +1046,10 @@ def make_safe_state_command(reason):
             "timestamp": time.time(),
         }
     )
+```
 
-9.3 Command thread
+### 9.3 Command thread
+```python
 class CommandThread(threading.Thread):
     def __init__(
         self,
@@ -1178,12 +1226,14 @@ class CommandThread(threading.Thread):
             "last_error": self.last_error,
             "control_adapter": self.control_adapter.diagnostics(),
         }
+```
 
 Key rule:
 Safe-state commands must outrank sequence/manual commands.
 
-10. Genesys+ / PSU Adapter Sketch
+## 10. Genesys+ / PSU Adapter Sketch
 Exact SCPI commands depend on the PSU model/configuration. This pattern shows where they belong.
+```python
 class GenesysPSUAdapter(DeviceAdapter):
     def __init__(self, resource_name, device_id="genesys_psu"):
         self.resource_name = resource_name
@@ -1322,26 +1372,32 @@ class GenesysPSUAdapter(DeviceAdapter):
             "connected": self.is_connected(),
             "last_error": self.last_error,
         }
+```
 
 Rule:
 All PSU output commands should go through the command thread, not directly from GUI button handlers.
 
-11. GUI Integration Pattern
-11.1 GUI-safe queue polling
+## 11. GUI Integration Pattern
+### 11.1 GUI-safe queue polling
 For Tkinter/PyQt-style GUIs, update the GUI from the GUI thread.
 Pseudo-pattern:
+```python
 def gui_timer_tick():
     drain_telemetry_queue()
     drain_event_queue()
     update_status_bar()
     update_graph_if_due()
+```
 
 Do not do this from the acquisition thread:
+```python
 graph_widget.plot(...)
 label.setText(...)
 button.setEnabled(...)
+```
 
-11.2 PyQt-style timer pattern
+### 11.2 PyQt-style timer pattern
+```python
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, telemetry_queue, event_queue, command_queue, safe_state_event):
         super(MainWindow, self).__init__()
@@ -1404,6 +1460,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_safe_state_button_clicked(self):
         self.safe_state_event.set()
         self.command_queue.put(make_safe_state_command("operator button"))
+```
 
 This preserves the thread boundary:
 Workers produce data.
@@ -1411,8 +1468,9 @@ GUI consumes data.
 GUI sends commands by queue/event.
 Command thread talks to hardware.
 
-12. Graph Buffer Pattern
+## 12. Graph Buffer Pattern
 Use bounded buffers per signal.
+```python
 class SignalBuffer(object):
     def __init__(self, max_points=20000):
         self.max_points = max_points
@@ -1467,12 +1525,14 @@ class GraphBufferManager(object):
         if buf is None:
             return [], []
         return buf.get_window(seconds)
+```
 
 Rule:
 The graph buffer is display memory.
 It is not the historian.
 
-13. Decimation Pattern for Full-History View
+## 13. Decimation Pattern for Full-History View
+```python
 def decimate_min_max(points, max_points=5000):
     """
     points: list of (x, y)
@@ -1505,12 +1565,16 @@ def decimate_min_max(points, max_points=5000):
             output.extend([max_point, min_point])
 
     return output
+```
 
 Label the result:
+```text
 FULL HISTORY VIEW — DISPLAY DECIMATED
 Raw data unchanged.
+```
 
-14. Deterministic Shutdown Manager
+## 14. Deterministic Shutdown Manager
+```python
 class ShutdownManager(object):
     def __init__(
         self,
@@ -1574,8 +1638,10 @@ class ShutdownManager(object):
             severity="WARNING",
             details={"reason": reason}
         ))
+```
 
 Hook it:
+```python
 shutdown_manager = None
 
 def handle_signal(signum, frame):
@@ -1588,11 +1654,13 @@ if hasattr(signal, "SIGTERM"):
     signal.signal(signal.SIGTERM, handle_signal)
 
 atexit.register(lambda: shutdown_manager and shutdown_manager.request_shutdown("atexit"))
+```
 
 Rule:
 Shutdown is a sequence, not a boolean.
 
-15. Top-Level Main Pattern
+## 15. Top-Level Main Pattern
+```python
 def main():
     run_id = time.strftime("run_%Y%m%d_%H%M%S")
 
@@ -1684,6 +1752,7 @@ def main():
         manager.request_shutdown("main finally")
 
     return 0
+```
 
 Startup order:
 1. Writer first.
@@ -1693,7 +1762,8 @@ Startup order:
 
 For real hardware, never auto-enable outputs during startup.
 
-16. Diagnostic Harness Snippet
+## 16. Diagnostic Harness Snippet
+```python
 def collect_thread_diagnostics(threads):
     report = {}
 
@@ -1752,16 +1822,20 @@ def write_diagnostic_report(path, threads, queues, extra=None):
         f.write("\n".join(lines))
 
     return path
+```
 
 Diagnostics should be callable without launching the full GUI.
 
-17. Safe GUI Button Pattern
+## 17. Safe GUI Button Pattern
 A GUI button should not command hardware directly.
 Bad:
+```python
 def on_output_off_clicked(self):
     self.psu.write("OUTP OFF")
+```
 
 Better:
+```python
 def on_output_off_clicked(self):
     self.command_queue.put(make_priority_command(
         PRIORITY_OPERATOR_STOP,
@@ -1772,18 +1846,22 @@ def on_output_off_clicked(self):
             "command_id": "operator_output_off_%s" % int(time.time()),
         }
     ))
+```
 
 Best for emergency/safe state:
+```python
 def on_safe_state_clicked(self):
     self.safe_state_event.set()
     self.command_queue.put(make_safe_state_command("operator safe-state button"))
+```
 
 The GUI requests.
 The command thread executes.
 The writer records.
 The status panel confirms.
 
-18. Sequence Executor Pattern
+## 18. Sequence Executor Pattern
+```python
 class SequenceExecutorThread(threading.Thread):
     def __init__(self, sequence, command_queue, event_queue, shutdown_event, safe_state_event, run_id):
         threading.Thread.__init__(self)
@@ -1872,12 +1950,14 @@ class SequenceExecutorThread(threading.Thread):
             "state": self.state,
             "active_step_index": self.active_step_index,
         }
+```
 
 Rule:
 The sequence executor should request commands.
 It should not directly write to the PSU.
 
-19. Health Monitor Pattern
+## 19. Health Monitor Pattern
+```python
 class HealthMonitorThread(threading.Thread):
     def __init__(self, monitored_threads, event_queue, shutdown_event, run_id, check_interval_s=1.0):
         threading.Thread.__init__(self)
@@ -1908,6 +1988,7 @@ class HealthMonitorThread(threading.Thread):
                 self.last_status[name] = alive
 
             time.sleep(self.check_interval_s)
+```
 
 Useful additions:
 - telemetry age check;
@@ -1918,7 +1999,8 @@ Useful additions:
 - historian write age;
 - GUI update age.
 
-20. Fault Handling Pattern
+## 20. Fault Handling Pattern
+```python
 class FaultManager(object):
     def __init__(self, event_queue, safe_state_event, run_id):
         self.event_queue = event_queue
@@ -1965,10 +2047,12 @@ class FaultManager(object):
                     "count": fault["count"],
                 }
             ))
+```
 
 This avoids log spam while preserving fault start/end evidence.
 
-21. Run Manifest Pattern
+## 21. Run Manifest Pattern
+```python
 def create_run_manifest(run_folder, app_version, settings_path):
     if not os.path.isdir(run_folder):
         os.makedirs(run_folder)
@@ -2013,23 +2097,29 @@ def update_run_manifest(path, **updates):
         os.remove(path)
 
     os.rename(tmp, path)
+```
 
 At shutdown:
+```python
 update_run_manifest(
     manifest_path,
     ended_at=time.strftime("%Y-%m-%d %H:%M:%S"),
     shutdown_status="CLEAN"
 )
+```
 
 On exception:
+```python
 update_run_manifest(
     manifest_path,
     ended_at=time.strftime("%Y-%m-%d %H:%M:%S"),
     shutdown_status="ABNORMAL",
     abnormal_shutdown_detected=True
 )
+```
 
-22. Minimal Acceptance Test Harness
+## 22. Minimal Acceptance Test Harness
+```python
 def run_threading_smoke_test():
     run_id = "smoke_%s" % time.strftime("%Y%m%d_%H%M%S")
 
@@ -2117,11 +2207,14 @@ def run_threading_smoke_test():
         "writer_path": writer_path,
         "run_id": run_id,
     }
+```
 
 This should become:
+```text
 tools/package_smoke_test.py
+```
 
-23. Threading Rules Summary
+## 23. Threading Rules Summary
 THREAD-RULE-001
 Do not update GUI widgets from acquisition, command, writer, or health threads.
 
@@ -2154,8 +2247,9 @@ THREAD-RULE-010
 A thread that catches exceptions must report them.
 Silent except blocks are not allowed in acquisition/control paths.
 
-24. Practical Folder Placement
+## 24. Practical Folder Placement
 Recommended code placement after formalization:
+```text
 project_name/
 ├── threading_utils.py
 ├── messages.py
@@ -2182,11 +2276,13 @@ project_name/
     ├── main_window.py
     ├── graph_panel.py
     └── status_panel.py
+```
 
 In a monolithic prototype, these should still exist as clearly separated sections.
 
-25. Core Pattern
+## 25. Core Pattern
 The safest general structure is:
+```text
 hardware reads
     → acquisition thread
         → telemetry queue for GUI
@@ -2215,9 +2311,6 @@ shutdown
     → drain writer
     → write manifest
     → write diagnostic report if abnormal
+```
 
 That is the architecture we should keep returning to for DAQ/control work.
-
-QC and Defect Detection
-Yes. I’d make this a dedicated document because inline QC / defect detection is its own software doctrine. It overlaps with DAQ and historian design, but it has different core problems: defect taxonomy, evidence capture, review/adjudication, database traceability, algorithm versioning, and later correlation with performance data.
-Recommended file:

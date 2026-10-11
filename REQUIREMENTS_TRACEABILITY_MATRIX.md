@@ -1,13 +1,15 @@
 ---
 document_id: DOC-000-TRACEABILITY
 title: "Requirements Traceability Matrix"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-000-TRACEABILITY
 normative_status: Normative
+tier: 2
+summary: "Links every REQ-* requirement to its features, acceptance tests, and primary files."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -43,6 +45,31 @@ This matrix links package requirements to features, tests, and files. It is inte
 | REQ-SEC-001 | TEST-SEC-001 | `SECURITY.md` |
 | REQ-SEC-002 | TEST-SEC-002 | `tools/secret_scan_lite.py` |
 | REQ-SAFE-001 | TEST-SAFE-001 | `SAFETY.md` |
-| REQ-LIC-001 | TEST-LIC-001 | `LICENSE_DECISION_REQUIRED.md`, `NOTICE.md` |
+| REQ-LIC-001 | TEST-LIC-001 | `LICENSE.txt`, `NOTICE.md`, `config/package_metadata.json` |
 | REQ-GOV-001 | TEST-GOV-001 | `docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md` |
 | REQ-AI-001 | TEST-AI-001 | `docs/165_AI_AGENT_HANDOFF_PROTOCOL.md` |
+
+## REV-003 Traceability Additions
+
+| Requirement ID | Feature(s) | Verification ID | Primary File(s) | Phase |
+|---|---|---|---|---|
+| REQ-CI-002 | FEAT-010 (extended) | TEST-CI-002 | `.github/workflows/ci.yml`, `.github/workflows/package_audit.yml`, `config/package_metadata.json` | 0a |
+| REQ-REL-002 | FEAT-016 (extended) | TEST-REL-002 | `tools/release_package.py`, `tools/_aisop_common.py`, `tests/smoke_test.py` | 0b |
+| REQ-RPT-001 | FEAT-008 (extended) | TEST-RPT-001 | `.gitignore`, `reports/README.md`, `reports/baseline/` | 0b |
+| REQ-MAN-001 | FEAT-031 | TEST-MAN-001 | `tools/manifest_update.py`, `tools/run_all_audits.py`, `PACKAGE_MANIFEST.md` | 0b |
+| REQ-RPT-002 | FEAT-032 | TEST-RPT-002 | `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`, `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md`, `config/package_metadata.json` | 0c |
+| REQ-PROF-001 | FEAT-033 | TEST-PROF-001 | `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`, `templates/USER_PROFILE_TEMPLATE.md`, `tools/package_structure_audit.py`, `.gitignore` | 0d |
+| REQ-DOC-004 | FEAT-003 (extended) | TEST-DOC-004 | `tools/package_structure_audit.py`, `config/package_metadata.json`, `docs/*.md` | 0e |
+| REQ-ENTRY-001 | FEAT-034 | TEST-ENTRY-001 | `AGENTS.md`, `tools/edition_audit.py` | 1 |
+| REQ-ENTRY-002 | FEAT-034 | TEST-ENTRY-002 | `CLAUDE.md`, `GEMINI.md`, `config/editions.json` | 1 |
+| REQ-ENTRY-003 | FEAT-035 | TEST-ENTRY-003 | `tools/build_editions.py`, `tools/_aisop_generators.py`, `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md` | 1 |
+| REQ-ENTRY-004 | FEAT-034 | TEST-ENTRY-004 | `reports/baseline/cold_agent_test_<package_id>.txt`, `AGENTS.md` | 1 and 4 |
+| REQ-ED-001 | FEAT-036 | TEST-ED-001 | all Markdown documents, `tools/package_structure_audit.py` | 1 |
+| REQ-ED-002 | FEAT-036 | TEST-ED-002 | `config/editions.json`, `tools/build_editions.py`, `tools/_aisop_editions.py` | 1 |
+| REQ-ED-003 | FEAT-037 | TEST-ED-003 | `docs/001_AISOP_CORE_RULES.md`, `tools/edition_audit.py` | 1 |
+| REQ-LINK-001 | FEAT-039 | TEST-LINK-001 | `tools/_aisop_common.py`, `tools/_aisop_editions.py`, `tools/edition_audit.py` | 1 |
+| REQ-BEG-001 | FEAT-041 | TEST-BEG-001 | `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md`, `docs/003_GLOSSARY.md`, `docs/004_EDITIONS_AND_UPGRADE_PATH.md` | 2 |
+| REQ-TPL-001 | FEAT-040 | TEST-TPL-001 | `templates/`, `docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md`, `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md` | 2 |
+| REQ-EX-001 | FEAT-042 | TEST-EX-001 | `examples/hello_aisop/`, `tools/aisop_check.py`, `tools/package_structure_audit.py` | 2 |
+| REQ-ED-004 | FEAT-038 | TEST-ED-004 | `tools/build_editions.py`, `tools/release_package.py`, `tools/bump_release.py` | 3 |
+| REQ-REL-003 | FEAT-038 | TEST-REL-003 | `.github/workflows/release.yml`, `docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md` | 3 |

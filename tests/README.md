@@ -1,13 +1,15 @@
 ---
 document_id: DOC-README-TESTS
 title: "Tests"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-README-TESTS
 normative_status: Informative
+tier: 2
+summary: "What the tests folder holds and how to run the smoke test."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 

@@ -1,13 +1,15 @@
 ---
 document_id: DOC-000-KNOWN-LIMITATIONS
 title: "Known Limitations"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-000-KNOWN-LIMITATIONS
-normative_status: Normative
+normative_status: Informative
+tier: 2
+summary: "What this package does not do or has not verified, stated so nobody over-claims it."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
@@ -37,9 +39,39 @@ Description: The package does not download or validate the current status of all
 Impact: Users should verify installer sources and package versions when applying the instructions.
 Status: Current
 
+LIMIT-005
+Title: Edition budgets are bytes; token counts are estimates
+Description: Edition and card budgets are enforced in bytes. Token counts (roughly bytes divided by four) vary by model and chat product, so "fits in a chat" is an estimate until a logged session confirms it.
+Impact: A product with a small context or upload limit may still truncate the Chat Kit. The audit warns at 75% of each budget.
+Status: Current
+
+LIMIT-006
+Title: Agent entry depends on tool conventions
+Description: `AGENTS.md` is tool-agnostic. Pointer files exist only for Claude Code (`CLAUDE.md`) and Gemini CLI (`GEMINI.md`); other agentic tools are expected to read `AGENTS.md` natively, which can change between tool versions.
+Impact: If a tool stops auto-loading the entry file, type the Method Kit opener: "Read AGENTS.md and follow its first-five-minutes protocol." The cold-agent test (TEST-ENTRY-004) is manual and covers one tool per release until Phase 4 adds a second.
+Status: Current
+
+LIMIT-007
+Title: Lower editions are lossy
+Description: The Card and the Chat Kit leave out most of the method and all domain guides by design. Lines that cite a file from a higher edition are marked "(method edition)" or "(full edition)".
+Impact: A chat model using a lower edition can only follow what it was given; the full documents win on conflict.
+Status: Current
+
+LIMIT-008
+Title: Chat product behaviour not yet tested
+Description: Whether each chat product accepts the Chat Kit zip, reads attached files whole or on demand, and how many files it takes per message has not been tested (QUESTION-001).
+Impact: Chat Kit users may need to upload files one by one or fall back to the Card. Results are recorded in `docs/004_EDITIONS_AND_UPGRADE_PATH.md` as the owner tests products.
+Status: Current
+
+LIMIT-009
+Title: Python 2.7 paths written but not run
+Description: `tools/aisop_check.py` and `examples/hello_aisop/hello_aisop.py` avoid Python 3-only syntax so they can run on legacy machines, but only Python 3 was available to test them.
+Impact: A legacy user may hit an untested incompatibility; report it with the diagnostic output.
+Status: Current
+
 ## REV-002 Known Limitations
 
-- The package includes a license decision gate, but no final open-source license has been selected.
+- The package is released under the MIT License (`LICENSE.txt`). Third-party material referenced by the domain guides keeps its own license; review it before redistribution (see `NOTICE.md`).
 - GitHub branch protection, secret scanning, repository visibility, and release permissions require maintainer configuration outside the file tree.
 - The local secret scan is intentionally lightweight and does not replace GitHub security features or professional security review.
 - CI workflows are provided as baseline examples and may need adjustment for downstream projects with dependencies.

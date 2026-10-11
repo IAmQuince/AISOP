@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "about": "Single source for AISOP editions (docs/166_EDITIONS_AND_TIERS_SOP.md). Membership: a Markdown document is in every edition whose tier is >= its header 'tier'; other files join through 'include' globs, inherited by higher editions. Budgets are bytes; the audit warns at warn_fraction and fails at 100%.",
+  "warn_fraction": 0.75,
+  "editions": [
+    {
+      "name": "card",
+      "title": "Card",
+      "tier": 0,
+      "kind": "card",
+      "budget_bytes": 8192,
+      "audience": "Any chat product, including free plans and custom-instruction boxes.",
+      "delivery": "AISOP_CARD.md (release asset; rendered from docs/001_AISOP_CORE_RULES.md)"
+    },
+    {
+      "name": "chatkit",
+      "title": "Chat Kit",
+      "tier": 1,
+      "kind": "zip",
+      "zip_suffix": "_chatkit",
+      "budget_bytes": 122880,
+      "max_files": 40,
+      "unique_basenames": true,
+      "include": [
+        "LICENSE.txt",
+        "tools/aisop_check.py",
+        "examples/hello_aisop/**"
+      ],
+      "audience": "Chat-only plans with file upload but no filesystem or shell; beginners.",
+      "delivery": "<package_id>_chatkit.zip, or its files uploaded individually"
+    },
+    {
+      "name": "method",
+      "title": "Method Kit",
+      "tier": 2,
+      "kind": "zip",
+      "zip_suffix": "_method",
+      "budget_bytes": 524288,
+      "include": [
+        ".editorconfig",
+        ".gitattributes",
+        ".gitignore",
+        "CITATION.cff",
+        ".github/**",
+        "config/**",
+        "requirements/**",
+        "tools/**",
+        "tests/**",
+        "docs/index.json"
+      ],
+      "audience": "Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides.",
+      "delivery": "<package_id>_method.zip, or a clone with tier-3 files ignored",
+      "budget_note": "Raised from 409,600 to 524,288 bytes in REV-003 Phase 2 under DECISION-014 (the Phase 2 dry build measured 473,970 bytes, 116% of the old budget); see CHANGELOG."
+    },
+    {
+      "name": "full",
+      "title": "Full",
+      "tier": 3,
+      "kind": "zip",
+      "zip_suffix": "",
+      "budget_bytes": null,
+      "include": [
+        "**"
+      ],
+      "audience": "Maintainers, contributors, and projects that need the domain guides.",
+      "delivery": "git clone, or <package_id>.zip"
+    }
+  ],
+  "openers": {
+    "card": "Use the AISOP card above as your operating rules. Reply with the AISOP version it names and the word ORIENT, then ask me for my idea.",
+    "chatkit": "I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'.",
+    "method": "Read AGENTS.md and follow its first-five-minutes protocol.",
+    "full": "Read AGENTS.md and follow its first-five-minutes protocol."
+  },
+  "card": {
+    "source": "docs/001_AISOP_CORE_RULES.md",
+    "asset": "AISOP_CARD.md",
+    "budget_bytes": 8192,
+    "rules_block_budget_bytes": 4096
+  },
+  "agents_file": {
+    "path": "AGENTS.md",
+    "budget_bytes": 8192
+  },
+  "pointer_files": [
+    {
+      "tool": "Claude Code",
+      "path": "CLAUDE.md",
+      "document_id": "DOC-POINTER-CLAUDE"
+    },
+    {
+      "tool": "Gemini CLI",
+      "path": "GEMINI.md",
+      "document_id": "DOC-POINTER-GEMINI"
+    }
+  ],
+  "pointer_budget_bytes": 1024,
+  "commands": [
+    [
+      "python tools/run_all_audits.py --quiet",
+      "every audit; prints the SUMMARY block (drop --quiet for full output)"
+    ],
+    [
+      "python tools/build_editions.py --check",
+      "generated files fresh, edition budgets, links inside each edition"
+    ],
+    [
+      "python tools/build_editions.py all",
+      "regenerate every generated file and region (then rerun the audits)"
+    ],
+    [
+      "python tools/release_package.py --dry-run",
+      "release naming check without writing a zip"
+    ]
+  ],
+  "entry_read_order": [
+    "AGENTS.md",
+    "README_START_HERE.md",
+    "docs/001_AISOP_CORE_RULES.md",
+    "docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md",
+    "docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md",
+    "templates/README.md",
+    "examples/hello_aisop/README_START_HERE.md",
+    "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md",
+    "docs/003_GLOSSARY.md",
+    "docs/004_EDITIONS_AND_UPGRADE_PATH.md",
+    "docs/005_PRODUCT_REQUIREMENTS.md",
+    "docs/000_DOCUMENTATION_INDEX.md"
+  ],
+  "cold_agent_log": "reports/baseline/cold_agent_test_{package_id}.txt",
+  "link_check": {
+    "about": "Write a downstream project's own paths as ./tools/x.py so they are not read as AISOP paths. Planning records describe proposed paths and are not link-checked; history records are checked in the full tree only.",
+    "planning_records": [
+      "docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md"
+    ],
+    "history_records": [
+      "CHANGELOG.md",
+      "WORKPLAN_CURRENT_RUN.md"
+    ]
+  },
+  "size_caps": [
+    {
+      "glob": "docs/001_AISOP_CORE_RULES.md",
+      "max_bytes": 8192
+    },
+    {
+      "glob": "docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md",
+      "max_bytes": 12288
+    },
+    {
+      "glob": "docs/003_GLOSSARY.md",
+      "max_bytes": 6144
+    },
+    {
+      "glob": "docs/004_EDITIONS_AND_UPGRADE_PATH.md",
+      "max_bytes": 5120
+    },
+    {
+      "glob": "templates/*.md",
+      "max_bytes": 4096,
+      "mode": "each",
+      "exclude": [
+        "templates/ID_RECORD_FORMATS.md"
+      ]
+    },
+    {
+      "glob": "templates/ID_RECORD_FORMATS.md",
+      "max_bytes": 6144
+    },
+    {
+      "glob": "templates/**",
+      "max_bytes": 24576,
+      "mode": "total"
+    },
+    {
+      "glob": "examples/hello_aisop/**",
+      "max_bytes": 12288,
+      "mode": "total",
+      "note": "docs/300 section 9.3 says 8 KB; complete headers on seven files cost about 3.3 KB (EXEC-007)"
+    },
+    {
+      "glob": "tools/aisop_check.py",
+      "max_bytes": 10240
+    }
+  ],
+  "glossary": {
+    "path": "docs/003_GLOSSARY.md",
+    "ignore_families": [
+      "SHA",
+      "UTF",
+      "ISO",
+      "RS"
+    ],
+    "terms": [
+      "mode",
+      "ORIENT",
+      "APPLY",
+      "MODIFY-AISOP",
+      "DOMAIN-LOOKUP",
+      "Normative",
+      "Informative",
+      "Monolithic prototype",
+      "Feature inventory",
+      "Intake document",
+      "Document-control header",
+      "System prompt / custom instructions",
+      "Context window",
+      "Drift",
+      "package_id",
+      "Edition",
+      "Tier",
+      "Practice space",
+      "Golden baseline",
+      "Diagnostic harness",
+      "Handoff bundle",
+      "Acceptance gate"
+    ]
+  }
+}

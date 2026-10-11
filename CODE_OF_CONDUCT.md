@@ -1,13 +1,15 @@
 ---
 document_id: DOC-000-CODE-OF-CONDUCT
 title: "Code of Conduct"
-version: 0.2.0
-revision: REV-001
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-000-CODE-OF-CONDUCT
 normative_status: Normative
+tier: 2
+summary: "Conduct expectations for contributors and reviewers of this repository."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

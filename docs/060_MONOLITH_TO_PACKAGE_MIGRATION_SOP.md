@@ -1,21 +1,19 @@
 ---
 document_id: DOC-060
 title: "SOP: Monolith-to-Package Migration"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-060
 normative_status: Informative
+tier: 2
+summary: "SOP for turning a working monolithic prototype into a formal package without losing behaviour."
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # SOP: Monolith-to-Package Migration
-
-I’d add this as a new section between Preliminary Code and ZIP Workflow, because it formalizes the missing handoff step: turning a working monolithic prototype into a professional package without losing behavior, scrambling architecture, or pretending the first extraction is already the final design.
-This fits the existing AISOP rules: freeze the baseline, identify the current feature set, define module boundaries, avoid broad rewrites, extract lowest-risk layers first, and run smoke tests/diagnostics after each phase.
-# SOP: Transferring a Monolithic Prototype into a Formal Zip Package
 
 ## 0. Purpose
 
@@ -149,6 +147,7 @@ prototype/
 │   ├── BASELINE_RUN_NOTES.md
 │   ├── BASELINE_TEST_NOTES.md
 │   └── BASELINE_DIAGNOSTIC_REPORT.txt
+```
 
 The frozen baseline is the behavioral reference.
 If the formal package later behaves differently, the question becomes:
@@ -157,6 +156,7 @@ If not, it is a regression.
 5. Phase 1 — Create the Transfer Workplan
 Before moving code, create:
 docs/005_MONOLITH_TO_PACKAGE_TRANSFER_PLAN.md
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
 
 This document defines the transfer scope.
 Required contents:
@@ -231,7 +231,7 @@ docs/020_CURRENT_FEATURE_INVENTORY.md
 
 This is one of the most important anti-feature-loss tools.
 Format:
-FEATURE-001
+FEAT-001
 Name:
 Category:
 Current behavior:
@@ -363,8 +363,8 @@ yyyymmdd_00_description-of-run/
 ├── tests/
 │   └── README_TESTS.md
 │
-├── test_reports/
-│   └── README_TEST_REPORTS.md
+├── reports/
+│   └── README.md
 │
 ├── examples/
 │   └── README_EXAMPLES.md
@@ -816,7 +816,7 @@ It should eventually verify:
 * diagnostics still include required sections.
 Manual checks are acceptable early, but they must be recorded.
 Create report:
-test_reports/feature_inventory_check_report.txt
+reports/feature_inventory_check_report.txt
 
 Report format:
 Feature inventory check
@@ -1014,43 +1014,18 @@ A monolithic-to-package transfer is accepted only when:
 [ ] Next safe step is documented.
 
 If any required item fails, the package can still be delivered as a partial transfer, but it must be labeled honestly as incomplete.
-21. Formal Package Report After Transfer
-Every transfer package should end with a report:
-Package:
-Internal folder:
-Based on frozen monolith:
+21. Package Report After Transfer
+Every transfer package ends with the canonical fifteen-field final package report (`templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`, defined in `docs/070` section 18). In its `Based on` field, name the frozen monolith. Then add these transfer fields below the fifteen:
 Transfer type:
-Purpose:
-
-Changed files:
-
 Added files:
-
 Removed files:
-
 Behavior changes:
-Feature removals:
 Public interface changes:
 Compatibility shims added:
-
-Tests run:
-Test results:
-
 Diagnostics report:
 Structure audit:
 Feature inventory check:
-
-Known limitations:
-
-Risks:
-Debt added:
-Debt resolved:
-
-Broad refactor performed? Yes/No
-
 Rollback path:
-
-Next recommended step:
 
 22. When the Monolith Can Be Retired
 Do not delete the monolithic prototype immediately after creating the package.

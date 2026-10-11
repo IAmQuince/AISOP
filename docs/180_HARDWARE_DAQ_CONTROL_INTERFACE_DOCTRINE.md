@@ -1,21 +1,35 @@
 ---
 document_id: DOC-180
 title: "Hardware DAQ, Control, and Interface Doctrine"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-180
 normative_status: Informative
+tier: 3
+summary: "Domain guide: doctrine for data-acquisition and control software that drives real hardware safely."
+topics: [hardware, daq, control, safety, gui, ACCEPT-*, DEBT-HW-*, RISK-HW-*, VERIFY-CH-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Hardware DAQ, Control, and Interface Doctrine
 
+## TL;DR
+
+- This guide sets doctrine for DAQ/control software that reads many inputs, controls outputs safely, communicates with power supplies and instruments, and preserves data under faults (for example LabJack, Genesys+ PSUs, PyVISA/SCPI instruments, Raspberry Pi, Arduino/ESP32, and test stations).
+- Central rule: data must be preserved, hardware must fail safe, the operator must know what the system is doing, and the software must never hide uncertainty.
+- Start safe and fail safe: outputs default to OFF at startup, nothing is energized without explicit operator action, a centralized safe-state handler runs on crashes, lost communication, or unhandled exceptions, and a manual safe-state control is visible from all major screens.
+- Always distinguish commanded state from measured state, pair PSU commands with readback verification where practical, and let only one mode (manual, sequence, or ramp) own setpoints at a time.
+- Raw data is sacred: keep raw, derived, and display data separate, never treat missing data as zero or stale data as current, and label quality, decimation, and simulated data explicitly.
+- Make hardware explicit: identify devices by serial number and role, keep channel mapping separate from physical acquisition, verify MUX/expansion channels with known stimuli, and treat disconnects as expected behavior.
+- Keep device adapters, signal mapping, acquisition, storage, control, sequences, diagnostics, and UI in separate layers; the UI commands hardware only through control services, and packages should eventually support simulated devices.
+- A package is done only when it meets the Definition of Done: deterministic shutdown, diagnostics that run without the GUI, documented acceptance tests, and risk and technical debt registers.
+
 ## 0. Purpose
 
-This document formalizes the engineering lessons learned from the Genesys+ power-supply control project, LabJack-based data acquisition work, and the broader universal DAQ/control direction.
+This document formalizes the engineering lessons learned from the Genesys+ power-supply control project, LabJack-based data acquisition work, and the broader universal DAQ/control direction. Those projects are examples, not requirements.
 
 It defines how we design software that:
 
@@ -115,13 +129,18 @@ Startup behavior should be:
 8. Do not resume a prior command automatically unless explicitly designed and confirmed.
 9. Present operator with current state.
 10. Require explicit operator action before energizing controlled outputs.
+```
 
 For power supplies, pumps, relays, heaters, valves, motors, and load banks:
+
+```text
 Default startup output state: OFF / disabled / safe / idle.
+```
 
 Any exception must be explicitly documented and justified.
 
-2.2 Fail Safe
+### 2.2 Fail Safe
+
 If the program crashes, loses communication, receives malformed telemetry, loses the GUI, or encounters an unhandled exception, it should attempt to enter a safe state.
 Safe-state behavior must be project-specific, but typical actions include:
 * turn PSU output off;
@@ -138,9 +157,14 @@ Safe-state behavior must be project-specific, but typical actions include:
 * mark shutdown as abnormal.
 The safe-state handler should be centralized.
 Example concept:
+
+```python
 safe_state_now(reason, severity, source)
+```
 
 Required fields:
+
+```text
 reason:
 severity:
 source:
@@ -151,14 +175,22 @@ failed_actions:
 device_state_before:
 device_state_after:
 diagnostic_report_path:
+```
 
-2.3 Manual Safe-State Control Must Be Persistent
+### 2.3 Manual Safe-State Control Must Be Persistent
+
 Any engineering-control GUI should have a visible manual safe-state control.
 For the Genesys+/DAQ style interface:
+
+```text
 SAFE STATE NOW
+```
 
 or:
+
+```text
 OUTPUT OFF / SAFE STATE
+```
 
 should be visible from all major screens.
 It should not be buried in a settings dialog.
@@ -167,8 +199,11 @@ It should interrupt active ramps/sequences.
 It should write a clear log entry.
 It should update the command state immediately.
 
-2.4 Commanded State and Measured State Are Different
+### 2.4 Commanded State and Measured State Are Different
+
 The software must always distinguish:
+
+```text
 commanded_voltage
 measured_voltage
 commanded_current
@@ -178,13 +213,15 @@ output_enable_readback
 sequence_target
 sequence_active_step
 actual_device_state
+```
 
 Do not graph setpoint and measurement as if they are the same signal.
 Do not use measured telemetry to imply a command succeeded unless the device readback confirms it.
 Do not hide disagreement between command and measurement.
 A disagreement should be visible, logged, and diagnosable.
 
-2.5 No Ambiguous Output State
+### 2.5 No Ambiguous Output State
+
 The UI should never leave the operator wondering:
 * Is the PSU output on?
 * Is the ramp still active?
@@ -195,6 +232,8 @@ The UI should never leave the operator wondering:
 * Is the system in manual mode, sequence mode, or safe mode?
 Every controlled output should have an explicit state.
 Suggested command states:
+
+```text
 UNKNOWN
 DISCONNECTED
 IDLE_SAFE
@@ -209,9 +248,12 @@ FAULTED
 SAFE_STATE_REQUESTED
 SAFE_STATE_CONFIRMED
 SHUTTING_DOWN
+```
 
-3. Data Preservation Doctrine
-3.1 Raw Data Is Sacred
+## 3. Data Preservation Doctrine
+
+### 3.1 Raw Data Is Sacred
+
 Raw acquired data must be preserved as faithfully as practical.
 Rules:
 * Do not overwrite raw data with filtered data.
@@ -225,8 +267,11 @@ Rules:
 * Do not treat stale data as current.
 Display transformations are allowed, but they must be downstream of raw storage.
 
-3.2 Separate Raw, Derived, and Display Data
+### 3.2 Separate Raw, Derived, and Display Data
+
 Use three conceptual layers:
+
+```text
 raw_data
     Direct acquisition records.
 
@@ -235,12 +280,14 @@ derived_data
 
 display_data
     Decimated, windowed, downsampled, or rescaled data used only for plotting/UI.
+```
 
 The plot may decimate.
 The historian should not.
 The export should clearly state whether it contains raw or processed values.
 
-3.3 Sliding Window and Full History Must Be Different Modes
+### 3.3 Sliding Window and Full History Must Be Different Modes
+
 For live plotting:
 Sliding window:
 - recent time range;
@@ -266,20 +313,26 @@ Acceptance check:
 6. Switch back to sliding window.
 7. Confirm sliding-window behavior is restored.
 
-3.4 Timestamps Must Be Honest
+### 3.4 Timestamps Must Be Honest
+
 Each record should distinguish timestamps when relevant:
+
+```text
 measurement_timestamp
 receive_timestamp
 write_timestamp
 display_timestamp
 device_timestamp
 sequence_timestamp
+```
 
 For distributed systems:
 * Arduino/ESP32 should timestamp or sequence data where practical.
 * Raspberry Pi should not pretend receive time equals measurement time if delays occur.
 * Logs should allow reconstruction of stalls, bursts, and reconnects.
 Minimum DAQ row fields:
+
+```text
 record_id
 run_id
 timestamp
@@ -295,10 +348,14 @@ calibrated_value
 sequence_id
 command_state
 fault_state
+```
 
-3.5 Missing, Faulty, and Stale Data Must Be Labeled
+### 3.5 Missing, Faulty, and Stale Data Must Be Labeled
+
 Quality flags should be explicit.
 Recommended quality values:
+
+```text
 GOOD
 MISSING
 STALE
@@ -310,6 +367,7 @@ SATURATED
 USER_DISABLED
 SIMULATED
 UNKNOWN
+```
 
 Graphing behavior:
 * Missing data should create gaps, not fake zeros.
@@ -317,14 +375,20 @@ Graphing behavior:
 * Stale telemetry should be shown differently or excluded.
 * Simulated data must be clearly identified.
 
-3.6 Fault Periods Should Be Logged as Events
+### 3.6 Fault Periods Should Be Logged as Events
+
 Do not spam logs with every repeated threshold breach.
 Use event-style logging:
+
+```text
 FAULT_START
 FAULT_UPDATE
 FAULT_END
+```
 
 Example:
+
+```text
 FAULT_START
 timestamp:
 signal:
@@ -339,12 +403,17 @@ duration:
 min_value:
 max_value:
 sample_count:
+```
 
 This preserves useful evidence without flooding logs.
 
-4. Historian and File Structure
-4.1 Preferred Runtime Data Structure
+## 4. Historian and File Structure
+
+### 4.1 Preferred Runtime Data Structure
+
 For DAQ/control projects:
+
+```text
 runtime_data/
 ├── config/
 │   ├── settings.json
@@ -386,11 +455,15 @@ runtime_data/
     ├── csv/
     ├── png/
     └── reports/
+```
 
 Runtime data should usually not be bundled in release packages unless explicitly included for debugging.
 
-4.2 Run Manifest
+### 4.2 Run Manifest
+
 Every test run should have a manifest.
+
+```json
 {
   "run_id": "",
   "project": "",
@@ -413,10 +486,12 @@ Every test run should have a manifest.
   "shutdown_status": "",
   "abnormal_shutdown_detected": false
 }
+```
 
 The manifest is the anchor for reconstructing what happened.
 
-4.3 CSV and SQLite Roles
+### 4.3 CSV and SQLite Roles
+
 CSV is good for:
 * simple inspection;
 * raw append-only logging;
@@ -446,7 +521,8 @@ For viewing:
 
 For critical tests, do not rely on only one storage path.
 
-4.4 Atomic-ish Writes and Backups
+### 4.4 Atomic-ish Writes and Backups
+
 Settings, channel maps, calibration files, and manifests should use safer write patterns:
 1. Write temp file.
 2. Flush/close temp file.
@@ -455,16 +531,22 @@ Settings, channel maps, calibration files, and manifests should use safer write 
 5. Verify file can be read.
 
 Before schema migrations:
+
+```text
 backup original
 write migrated copy
 verify migrated copy
 only then mark migration successful
+```
 
 Never silently discard unknown fields.
 
-4.5 Autosave and Recovery
+### 4.5 Autosave and Recovery
+
 DAQ/control GUIs should preserve enough state to recover after a crash.
 Autosaved state may include:
+
+```text
 last run id
 active devices
 active channel map
@@ -476,6 +558,7 @@ sequence state
 last telemetry timestamp
 last successfully flushed row
 abnormal shutdown flag
+```
 
 On restart after abnormal shutdown:
 1. Detect abnormal shutdown.
@@ -485,10 +568,14 @@ On restart after abnormal shutdown:
 5. Confirm whether data files were flushed.
 6. Generate diagnostic report.
 
-5. LabJack Integration Doctrine
-5.1 Device Identity Must Be Explicit
+## 5. LabJack Integration Doctrine
+
+### 5.1 Device Identity Must Be Explicit
+
 Do not assume that “the first LabJack found” is the correct device.
 Device records should include:
+
+```text
 device_id
 device_type
 serial_number
@@ -499,18 +586,25 @@ firmware_version
 last_seen
 expected_channels
 enabled
+```
 
 Example roles:
+
+```text
 primary_daq
 temperature_daq
 voltage_monitor
 pressure_monitor
 control_io
 spare
+```
 
-5.2 Channel Mapping Must Be Separate From Physical Acquisition
+### 5.2 Channel Mapping Must Be Separate From Physical Acquisition
+
 Raw hardware channel names are not enough.
 Separate:
+
+```text
 physical_channel
 logical_signal
 engineering_name
@@ -519,8 +613,11 @@ calibration
 display_group
 alarm_rules
 plot_axis
+```
 
 Example channel map entry:
+
+```json
 {
   "physical_channel": "AIN0",
   "logical_signal": "stack_voltage",
@@ -539,6 +636,7 @@ Example channel map entry:
     "max_valid": 100.0
   }
 }
+```
 
 Rules:
 * The acquisition layer reads physical channels.
@@ -547,12 +645,15 @@ Rules:
 * The UI shows engineering names.
 * The historian stores enough information to reconstruct both raw and engineering values.
 
-5.3 MUX/Expansion Channel Indexing Must Be Verified
+### 5.3 MUX/Expansion Channel Indexing Must Be Verified
+
 Large input-count systems are vulnerable to off-by-one mapping errors.
 For MUX80 or equivalent channel expansion:
 Do not trust the channel map until verified with known physical stimuli.
 
 Required verification table:
+
+```text
 VERIFY-CH-001
 Physical input:
 Expected logical signal:
@@ -563,6 +664,7 @@ Correct? Yes/No
 Verified by:
 Date:
 Notes:
+```
 
 Acceptance test:
 1. Apply known signal to each physical input.
@@ -574,8 +676,11 @@ Acceptance test:
 
 A channel is not accepted until acquisition, display, and storage agree.
 
-5.4 Acquisition Timing Must Be Observable
+### 5.4 Acquisition Timing Must Be Observable
+
 The system should report:
+
+```text
 target_sample_interval
 actual_sample_interval
 last_sample_timestamp
@@ -586,11 +691,13 @@ plot_update_duration
 dropped_sample_count
 stale_channel_count
 device_error_count
+```
 
 Do not just display values.
 Display health of the acquisition loop.
 
-5.5 Hardware Disconnect Handling
+### 5.5 Hardware Disconnect Handling
+
 Disconnect must be treated as expected behavior.
 When a LabJack disconnects:
 1. Stop treating readings as current.
@@ -603,13 +710,18 @@ When a LabJack disconnects:
 8. Do not clear graph history unless explicitly commanded.
 
 Reconnect should verify identity before restoring readings.
+
+```text
 serial number matches expected?
 channel map still valid?
 calibration still valid?
 device role unchanged?
+```
 
-6. Genesys+ / Programmable PSU Control Doctrine
-6.1 PSU Control Is Safety-Critical
+## 6. Genesys+ / Programmable PSU Control Doctrine
+
+### 6.1 PSU Control Is Safety-Critical
+
 A programmable PSU can source dangerous energy.
 Software must not treat PSU commands as ordinary UI events.
 Required command principles:
@@ -622,9 +734,12 @@ Required command principles:
 * no hidden auto-ramping;
 * no ambiguous sequence state.
 
-6.2 Command / Readback Pairing
+### 6.2 Command / Readback Pairing
+
 Every PSU command should be paired with expected confirmation where practical.
 Command record:
+
+```text
 command_id
 timestamp
 operator_action
@@ -642,8 +757,11 @@ readback_current
 readback_output_state
 verification_status
 error
+```
 
 Verification statuses:
+
+```text
 NOT_SENT
 SENT_NOT_VERIFIED
 VERIFIED
@@ -651,16 +769,21 @@ READBACK_MISMATCH
 DEVICE_ERROR
 TIMEOUT
 ABORTED_BY_SAFE_STATE
+```
 
-6.3 Ramp and Sequence Discipline
+### 6.3 Ramp and Sequence Discipline
+
 Ramps and sequences must have explicit ownership of setpoints.
 The system should not allow manual setpoints and sequence setpoints to fight.
 Modes:
+
+```text
 MANUAL_CONTROL
 SEQUENCE_CONTROL
 RAMP_CONTROL
 SAFE_STATE
 FAULTED
+```
 
 Rules:
 * Only one mode owns PSU setpoints at a time.
@@ -668,14 +791,18 @@ Rules:
 * Safe-state overrides everything.
 * Stop behavior must be explicit.
 Stop behavior options:
+
+```text
 STOP_HOLD_LAST_SETPOINT
 STOP_OUTPUT_OFF
 STOP_RAMP_TO_SAFE
 STOP_REQUIRE_OPERATOR_DECISION
+```
 
 The selected policy must be visible and logged.
 
-6.4 Sequence Preview and Execution Must Agree
+### 6.4 Sequence Preview and Execution Must Agree
+
 A sequence preview is a contract with the operator.
 Preview should show:
 * time axis;
@@ -703,7 +830,8 @@ Acceptance test:
 6. Confirm hold duration is correct.
 7. Confirm stop/safe behavior matches configured policy.
 
-6.5 Shutdown Must Be Deterministic
+### 6.5 Shutdown Must Be Deterministic
+
 On normal app shutdown:
 1. Stop active sequence/ramp.
 2. Apply configured shutdown policy.
@@ -724,8 +852,10 @@ On abnormal shutdown:
 
 The next startup should detect abnormal shutdown.
 
-7. UI / Operator Interface Doctrine
-7.1 Main Layout
+## 7. UI / Operator Interface Doctrine
+
+### 7.1 Main Layout
+
 For engineering DAQ/control GUIs:
 Main graph/work area dominates.
 Controls are docked or panelized.
@@ -759,13 +889,17 @@ Bottom dock:
 
 Important panels should be dockable/reconfigurable where the toolkit allows.
 
-7.2 Menus
+### 7.2 Menus
+
 Standard menus:
+
+```text
 File
 View
 Settings
 Tools
 Help
+```
 
 Recommended items:
 File:
@@ -812,9 +946,12 @@ Help:
 - Known limitations
 - About/version
 
-7.3 Status Strip
+### 7.3 Status Strip
+
 The UI should continuously expose operational truth.
 Status strip fields:
+
+```text
 app version
 run id
 current time
@@ -827,11 +964,13 @@ write status
 historian status
 fault count
 safe-state status
+```
 
 A status strip is not decorative.
 It is a diagnostic surface.
 
-7.4 Graphing Requirements
+### 7.4 Graphing Requirements
+
 The graph should support:
 * live mode;
 * explore/pause mode;
@@ -848,30 +987,42 @@ The graph should support:
 * export visible data CSV;
 * decimation labels when used.
 Trace categories should be visually distinct:
+
+```text
 measured values
 commanded setpoints
 derived values
 fault/event markers
 sequence boundaries
 quality/staleness indicators
+```
 
 Known convention from Genesys-style work:
+
+```text
 Voltage: blue family
 Current: red family
+```
 
 But the user should be able to override colors where practical.
 
-7.5 Signal Explorer vs Device Explorer
+### 7.5 Signal Explorer vs Device Explorer
+
 Separate physical devices from logical signals.
 Device Explorer:
+
+```text
 LabJack U6
 Genesys+ PSU
 Arduino hub
 ESP32 node
 Serial adapter
 VISA instrument
+```
 
 Signal Explorer:
+
+```text
 Stack Voltage
 Stack Current
 Cell Temperature 01
@@ -881,14 +1032,18 @@ Cathode Pressure
 Flow Rate
 Calculated Power
 Calculated Resistance
+```
 
 Reason:
 The operator thinks in signals.
 The hardware layer thinks in channels.
 The software must bridge them without confusing them.
 
-7.6 Trace Controls
+### 7.6 Trace Controls
+
 Trace controls should include:
+
+```text
 visible
 display name
 units
@@ -900,10 +1055,13 @@ alarm enabled
 min/max display range
 smoothing/display filter
 raw/derived selection
+```
 
 For many-channel systems, trace controls must be searchable/filterable.
 Do not force the operator to manage 80 channels in one flat, cramped list.
 Useful grouping:
+
+```text
 Voltage
 Current
 Temperature
@@ -914,11 +1072,16 @@ Digital Outputs
 Derived
 Faults
 Setpoints
+```
 
-8. Configuration Doctrine
-8.1 Separate Configuration Types
+## 8. Configuration Doctrine
+
+### 8.1 Separate Configuration Types
+
 Do not put everything into one settings file.
 Recommended split:
+
+```text
 settings.json
     User preferences and app behavior.
 
@@ -939,10 +1102,12 @@ sequence_library.json
 
 safety_policy.json
     Shutdown behavior, output-enable policy, limits.
+```
 
 This makes configuration auditable.
 
-8.2 Settings Are Not Runtime Data
+### 8.2 Settings Are Not Runtime Data
+
 Settings answer:
 What does the user prefer?
 
@@ -954,14 +1119,18 @@ What happened during this test?
 
 Keep these separate.
 
-8.3 Configuration Must Be Versioned
+### 8.3 Configuration Must Be Versioned
+
 Every config file should include:
+
+```json
 {
   "schema_version": 1,
   "created_at": "",
   "updated_at": "",
   "app_version": ""
 }
+```
 
 Migration policy:
 Backup before migration.
@@ -969,9 +1138,13 @@ Preserve unknown fields where practical.
 Never silently discard user configuration.
 Log migration result.
 
-9. Architecture Doctrine
-9.1 Preferred Layer Model
+## 9. Architecture Doctrine
+
+### 9.1 Preferred Layer Model
+
 Recommended architecture:
+
+```text
 compat/constants
         ↓
 paths/settings/logging
@@ -993,13 +1166,16 @@ diagnostics / health model
 UI view models
         ↓
 GUI shell
+```
 
 The UI should not directly command raw hardware except through control services.
 The acquisition layer should not directly render UI.
 The device adapter should not know graph colors.
 The historian should not depend on GUI widgets.
 
-9.2 Recommended Modules
+### 9.2 Recommended Modules
+
+```text
 project_name/
 ├── __init__.py
 ├── constants.py
@@ -1062,9 +1238,13 @@ project_name/
 │   └── settings_dialog.py
 │
 └── app.py
+```
 
-9.3 Device Adapter Contract
+### 9.3 Device Adapter Contract
+
 Every device adapter should expose a consistent shape.
+
+```python
 connect()
 disconnect()
 is_connected()
@@ -1073,8 +1253,11 @@ read_telemetry()
 write_command(command)
 enter_safe_state(reason)
 diagnostics()
+```
 
 Adapter diagnostics should include:
+
+```text
 device type
 serial number
 connection status
@@ -1085,8 +1268,10 @@ error count
 firmware/version if available
 communication backend
 safe-state status
+```
 
-9.4 Simulation Mode
+### 9.4 Simulation Mode
+
 Every hardware-control package should eventually support simulated devices.
 Simulation mode allows:
 * UI testing without hardware;
@@ -1098,9 +1283,13 @@ Simulation mode allows:
 Simulated data must be clearly labeled.
 Never let simulated data be mistaken for real test data.
 
-10. Diagnostics Doctrine
-10.1 Required Diagnostic Reports
+## 10. Diagnostics Doctrine
+
+### 10.1 Required Diagnostic Reports
+
 For these projects, diagnostics should include:
+
+```text
 diagnostic_report.txt
 device_diagnostics_report.txt
 package_smoke_test_report.txt
@@ -1109,9 +1298,13 @@ dependency_audit_report.txt
 channel_map_audit_report.txt
 historian_integrity_report.txt
 safe_shutdown_test_report.txt
+```
 
-10.2 Diagnostic Harness Contents
+### 10.2 Diagnostic Harness Contents
+
 Minimum diagnostic report:
+
+```text
 App name/version
 Python version
 OS/platform
@@ -1140,16 +1333,22 @@ Calibration loaded?
 Recent errors
 Tracebacks
 Pass/fail summary
+```
 
-10.3 Backend Diagnostics Must Be Reachable From UI
+### 10.3 Backend Diagnostics Must Be Reachable From UI
+
 The UI should have a Diagnostics panel or Tools menu item that requests backend diagnostics.
 The UI should not invent health status from stale local assumptions.
 For multi-process systems:
+
+```text
 frontend requests backend diagnostics
 backend returns authoritative status
 frontend displays status and saves report
+```
 
-10.4 Noise Control
+### 10.4 Noise Control
+
 Avoid log spam.
 Known issue to avoid:
 Repeated config GET chatter every second in logs.
@@ -1161,8 +1360,11 @@ Policy:
 * repeated status pings should be debug-level or summarized;
 * command events should always be traceable.
 
-11. Acceptance Tests
-11.1 Minimum Hardware-Control Acceptance Tests
+## 11. Acceptance Tests
+
+### 11.1 Minimum Hardware-Control Acceptance Tests
+
+```text
 ACCEPT-HW-001
 Test: App starts with hardware disconnected.
 Expected:
@@ -1212,8 +1414,11 @@ ACCEPT-HW-010
 Test: Sequence execution.
 Expected:
 Preview, command log, setpoint graph, measured graph, and sequence state agree.
+```
 
-11.2 Data Integrity Acceptance Tests
+### 11.2 Data Integrity Acceptance Tests
+
+```text
 ACCEPT-DATA-001
 Test: CSV append under normal acquisition.
 Expected:
@@ -1243,8 +1448,11 @@ ACCEPT-DATA-006
 Test: Calibration change.
 Expected:
 New calibration is versioned. Prior data remains traceable to prior calibration.
+```
 
-11.3 UI Acceptance Tests
+### 11.3 UI Acceptance Tests
+
+```text
 ACCEPT-UI-001
 Test: Launch at target screen resolution.
 Expected:
@@ -1274,8 +1482,11 @@ ACCEPT-UI-006
 Test: Explore/pause mode.
 Expected:
 Graph can be inspected without corrupting acquisition or logging.
+```
 
-12. Common Risks
+## 12. Common Risks
+
+```text
 RISK-HW-001
 Title: Output remains energized after software fault
 Likelihood: Medium
@@ -1347,8 +1558,11 @@ Explicit command state machine and setpoint ownership.
 Fallback:
 Abort sequence on manual override or enter safe state.
 Status: Open
+```
 
-13. Technical Debt Patterns
+## 13. Technical Debt Patterns
+
+```text
 DEBT-HW-001
 Title: UI directly controls hardware adapter
 Category: Architecture
@@ -1388,9 +1602,13 @@ Impact:
 Unclear what happens on exit/fault.
 Resolution:
 Document and implement deterministic shutdown policy.
+```
 
-14. Package Requirements for DAQ/Control Projects
+## 14. Package Requirements for DAQ/Control Projects
+
 A professional package should include:
+
+```text
 README_START_HERE.md
 RUN_INSTRUCTIONS.md
 TEST_INSTRUCTIONS.md
@@ -1424,8 +1642,10 @@ tools/
 ├── channel_map_audit.py
 ├── historian_integrity_check.py
 └── safe_shutdown_test.py
+```
 
-15. Definition of Done
+## 15. Definition of Done
+
 A hardware DAQ/control package is not done merely because the GUI launches.
 It is acceptable only when:
 [ ] Hardware starts safe.
@@ -1451,12 +1671,15 @@ It is acceptable only when:
 [ ] Acceptance tests are documented.
 [ ] Package can be reviewed without chat history.
 
-16. Core Rule
+## 16. Core Rule
+
 For DAQ/control software:
 The graph is not the product.
 The control panel is not the product.
 The device adapter is not the product.
 The product is the complete system of:
+
+```text
 truthful acquisition
 safe control
 durable storage
@@ -1464,8 +1687,6 @@ clear operator feedback
 diagnosable behavior
 recoverable failures
 maintainable structure
+```
 
 If any one of those fails, the system is not finished.
-
-DAQ and Safety Examples
-I’d make this a companion appendix to the hardware-control doctrine:

@@ -1,13 +1,15 @@
 ---
 document_id: DOC-080
 title: "AISOP as a Space of Practices"
-version: 0.2.0
-revision: REV-001
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-080
 normative_status: Normative
+tier: 2
+summary: "Why the repository is a practice space: branches as experiments, the practice loop, required branch notes."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

@@ -1,13 +1,15 @@
 ---
 document_id: DOC-120
 title: "Contribution Review and Issue Workflow SOP"
-version: 0.2.0
-revision: REV-001
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-120
 normative_status: Normative
+tier: 2
+summary: "How issues and pull requests are reviewed, and the merge gate."
 source: "AISOP REV-002 GitHub practice-space update"
 ---
 

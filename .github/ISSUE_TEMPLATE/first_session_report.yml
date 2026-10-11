@@ -1,0 +1,46 @@
+name: First session report
+description: Tell us how your first AISOP session went (optional feedback, not a test gate)
+title: "[First session]: "
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for trying AISOP. This report is optional and helps improve docs/002 (the beginner's guide).
+        Please remove anything personal or confidential before posting.
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Which edition did you use?
+      options:
+        - Card
+        - Chat Kit
+        - Method Kit
+        - Full (git clone)
+    validations:
+      required: true
+  - type: input
+    id: tool
+    attributes:
+      label: Which AI product and plan?
+      placeholder: "for example: a chat product on a free plan, or an agentic coding tool"
+  - type: dropdown
+    id: step
+    attributes:
+      label: How far did you get in docs/002 section 5?
+      options:
+        - Step 1 (start the session)
+        - Step 2 (plan)
+        - Step 3 (first version runs)
+        - Step 4 (packaged and checked)
+        - Step 5 (came back later)
+  - type: textarea
+    id: produced
+    attributes:
+      label: What did the AI produce, and where did it go wrong?
+  - type: textarea
+    id: check
+    attributes:
+      label: aisop_check output or the filled manual checklist
+      description: Output of `python tools/aisop_check.py --root <your folder>`, or the table from templates/MANUAL_AUDIT_CHECKLIST.md.
+      render: text

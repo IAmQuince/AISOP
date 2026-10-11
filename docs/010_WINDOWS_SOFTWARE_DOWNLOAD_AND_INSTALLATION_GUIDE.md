@@ -1,19 +1,32 @@
 ---
 document_id: DOC-010
 title: "Windows Software Download and Installation Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-010
 normative_status: Informative
+tier: 3
+summary: "Domain guide: downloading, installing, and verifying Windows programs, drivers, runtimes, and vendor tools."
+topics: [windows, installation, drivers, labjack, python]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Windows Software Download and Installation Guide
 
-230_WINDOWS_SOFTWARE_DOWNLOAD_AND_INSTALLATION_GUIDE
+## TL;DR
+
+- This guide covers downloading, installing, and verifying the Windows programs, IDEs, drivers, runtimes, board managers, and vendor tools that are not installed only through pip.
+- Core rule: download from the official source, install one tool at a time, verify each tool before moving on, and record what worked.
+- Installation is complete only when the tool is verified from the command line, its utility, or attached hardware, not when the installer finishes.
+- Install only what the project needs; avoid driver bundle sites, fake download buttons, repackaged installers, and driver updater utilities.
+- Enable "Add python.exe to PATH" and use `python -m pip install` rather than bare pip.
+- For instruments, install NI-VISA (matching Python bitness) before PyVISA; the first command is a `*IDN?` query, and outputs are enabled only after the safe-state policy is defined.
+- LabJack standing rule: U3/U6/UE9 use the UD driver plus LabJackPython; T4/T7/T8/Digit use LJM plus labjack-ljm/Python_LJM.
+- Install USB serial drivers only if Windows does not detect the device, after identifying the chip (CP210x, CH340/CH341, FTDI).
+
 0. Purpose
 This guide explains how to download, install, and verify the major Windows programs, drivers, runtimes, and vendor tools commonly needed for Python, Raspberry Pi, Arduino, ESP32, Visual Basic/.NET, laboratory instruments, serial devices, LabJack devices, and hardware-control projects.
 This guide focuses on software that is not installed only through pip.

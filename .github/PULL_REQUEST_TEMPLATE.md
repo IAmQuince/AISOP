@@ -12,6 +12,8 @@ Describe what changed and why.
 
 ## Test impact
 
+- [ ] `python tools/build_editions.py all` run after editing sources; no GENERATED file or region edited by hand
+- [ ] `python tools/build_editions.py --check` passes
 - [ ] `python tools/run_all_audits.py` passes
 - [ ] New/changed tests documented
 - Test IDs:

@@ -1,19 +1,31 @@
 ---
 document_id: DOC-270
 title: "Pydroid Android Python and AI Coding Workflow Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-270
 normative_status: Informative
+tier: 3
+summary: "Domain guide: Python on Android with Pydroid 3 and an AI-assisted phone coding workflow."
+topics: [android, pydroid, mobile, RULE-PYDROID-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Pydroid Android Python and AI Coding Workflow Guide
 
-270_PYDROID_ANDROID_PYTHON_AND_AI_CODING_WORKFLOW_GUIDE
+## TL;DR
+
+- This guide explains how to use Pydroid 3 as a Python development environment on an Android phone or tablet, with AI writing Pydroid-compatible code and the user copying errors back.
+- Pydroid is not desktop Python: paths, permissions, input, and package support differ. Use it for direct, interactive Python and a desktop/laptop for packaging, large systems, and production.
+- Always tell the AI the target is Pydroid 3 on Android, and ask for a single-file first pass with screen-size detection, large touch controls, a Quit button, diagnostics, and an error log file.
+- Prefer Kivy for touch UI and Pygame for game/simulation canvases; avoid PyQt/PySide, desktop paths, and keyboard or mouse assumptions.
+- Install packages one at a time with an import test, and use simulation fallback when hardware, network, or package support is uncertain.
+- Do not block the UI thread with network calls or long calculations; worker threads pass data through a queue that a Kivy Clock callback applies on the main thread.
+- For real hardware, use a Raspberry Pi or ESP32 as the bridge and Pydroid as the viewer/controller. Build in layers; section 37 lists the RULE-PYDROID rules.
+
 0. Purpose
 This document explains how to use Pydroid 3 as a practical Python development environment on an Android phone or tablet.
 The intended workflow is:
@@ -138,7 +150,7 @@ Pydroid 3
 Pydroid repository plugin
 Pydroid permissions plugin, only if requested/needed
 
-The repository plugin matters because many scientific/GUI/media packages require native libraries, and Pydroid uses a separate repository plugin to provide prebuilt packages with those native components. The permissions plugin matters only for programs that need additional Android permissions suc(Google Play) citeturn608600search13turn608600search0
+The repository plugin matters because many scientific/GUI/media packages require native libraries, and Pydroid uses a separate repository plugin to provide prebuilt packages with those native components. The permissions plugin matters only for programs that need additional Android permissions. (Google Play)
 Recommended order:
 1. Install Pydroid 3.
 2. Open Pydroid once.
@@ -283,7 +295,7 @@ touch games
 mobile-first interfaces
 sensor monitors
 
-Kivy is designed for multi-touch applications and supports Android touch input, which makes it(Kivy). citeturn612430search2turn612430search5
+Kivy is designed for multi-touch applications and supports Android touch input, which makes it a natural fit for touch-first phone apps. (Kivy)
 9.3 Pygame apps
 Use for:
 games
@@ -296,7 +308,7 @@ simple visual experiments
 Pygame is excellent for a single full-screen canvas.
 It is less natural for forms, menus, complex widgets, or text-heavy interfaces.
 9.4 Tkinter
-Pydroid advertises Tkinter support, but on a phone it is usually not the first choice for touch-first apps. It can be useful for simple desktop-style forms, but Kivy is generall(Google Play)e/touch interfaces. citeturn608600search1
+Pydroid advertises Tkinter support, but on a phone it is usually not the first choice for touch-first apps. It can be useful for simple desktop-style forms, but Kivy is generally the better fit for mobile/touch interfaces. (Google Play)
 
 10. Recommended Rule for AI-Generated Pydroid Code
 When asking AI to write Pydroid code, always tell it:
@@ -1097,7 +1109,7 @@ hardware connected to Raspberry Pi / ESP32 / PC
 
 35.4 Packaging
 Running code in Pydroid is not the same as distributing an Android app.
-For distributable APKs, Kivy has Android packaging tools, but that is a separate build workflow usually better handled on a desktop/laptop. Kivy’s Android docs cover packaging ap(Kivy) separate process. citeturn612430search11
+For distributable APKs, Kivy has Android packaging tools, but that is a separate build workflow usually better handled on a desktop/laptop. Kivy’s Android docs cover packaging apps for Android as a separate process. (Kivy)
 
 36. Recommended Learning Path
 Use this progression:
@@ -1179,7 +1191,4 @@ large controls
 no desktop assumptions
 diagnostics included
 
-Once that is clear, a phone can become a surprisingly capable Python lab for games, simulations, dashboa
-ds, sensor viewers, and experimental tools.
-
-Networking
+Once that is clear, a phone can become a surprisingly capable Python lab for games, simulations, dashboards, sensor viewers, and experimental tools.

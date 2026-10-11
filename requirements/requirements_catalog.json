@@ -1,8 +1,8 @@
 {
-  "package_id": "20260516_00_seed",
-  "version": "0.2.0",
-  "revision": "REV-002",
-  "last_updated": "2026-05-16",
+  "package_id": "20261011_00_aisop",
+  "version": "0.3.0",
+  "revision": "REV-003",
+  "last_updated": "2026-10-11",
   "requirements": [
     {
       "id": "REQ-PKG-001",
@@ -197,10 +197,10 @@
     },
     {
       "id": "REQ-LIC-001",
-      "title": "License decision gate",
-      "requirement": "The package shall include an explicit license-decision gate before public reuse is claimed.",
-      "rationale": "Added for REV-002 GitHub practice-space readiness.",
-      "acceptance_test": "Run `python tools/run_all_audits.py` and verify the linked test passes.",
+      "title": "Resolved license and notice consistency",
+      "requirement": "The package shall include the resolved license file named by `license_file` in `config/package_metadata.json`, and `NOTICE.md` shall name that license and file.",
+      "rationale": "Rewritten in REV-003 under the same ID: the license-decision gate was retired when the MIT license was adopted.",
+      "acceptance_test": "Run `python tools/repo_health_audit.py`; the license file exists and contains \"MIT License\" and NOTICE.md names it.",
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-LIC-001"
@@ -224,6 +224,206 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-AI-001"
+    },
+    {
+      "id": "REQ-CI-002",
+      "title": "CI on the default branch",
+      "requirement": "CI shall run on pushes to the default branch named by `default_branch` in `config/package_metadata.json` and on every pull request.",
+      "rationale": "Added for REV-003 (docs/300 phase 0a).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies that `on.push.branches` in `.github/workflows/ci.yml` contains the configured `default_branch`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-CI-002"
+    },
+    {
+      "id": "REQ-REL-002",
+      "title": "Release root from package_id",
+      "requirement": "The release archive root and basename shall derive from `package_id` in `config/package_metadata.json`, never from the working-copy folder name; edition archives use `<package_id>_<edition>`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tests/smoke_test.py` copies the tree into a folder with another name, runs `tools/release_package.py`, and verifies the archive is `<package_id>.zip` with the single root `<package_id>/`, that `archive_name_audit.py` passes on it, and that the tool warns about the folder-name difference.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REL-002"
+    },
+    {
+      "id": "REQ-RPT-001",
+      "title": "Runtime reports not committed",
+      "requirement": "Runtime audit reports (`reports/*.txt`) shall be git-ignored and untracked; committed audit evidence lives under `reports/baseline/`, snapshotted per release.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies `.gitignore` ignores `reports/*.txt` and, in a git clone, that `git ls-files` lists no top-level `reports/*.txt`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-RPT-001"
+    },
+    {
+      "id": "REQ-MAN-001",
+      "title": "Manifest verified against the tree",
+      "requirement": "`PACKAGE_MANIFEST.md` shall be generated from the git-ignore-aware file list with header values from config, and `tools/manifest_update.py --check` shall run as the last step of `tools/run_all_audits.py`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0b).",
+      "acceptance_test": "`python tools/manifest_update.py --check` exits 0 only when the committed manifest equals a fresh render; `run_all_audits.py` runs it last.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-MAN-001"
+    },
+    {
+      "id": "REQ-RPT-002",
+      "title": "One canonical final package report",
+      "requirement": "There shall be one final package report format, the fifteen fields of `docs/070` section 18, provided as `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; every document that describes delivery shall cite that template rather than define its own format.",
+      "rationale": "Added for REV-003 (docs/300 phase 0c).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies the template exists, every file in `report_template_citers` (config) cites it, and no other document has a package-report title without citing it.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-RPT-002"
+    },
+    {
+      "id": "REQ-PROF-001",
+      "title": "No personal profile in operating instructions",
+      "requirement": "The AI operating instructions (`docs/020`) shall address the assistant in the second person and contain no biography or personal preference of a specific user; user-specific facts live in `templates/USER_PROFILE_TEMPLATE.md` (fill-in fields plus a labelled fictional example) and an optional git-ignored `USER_PROFILE.md`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0d).",
+      "acceptance_test": "`python tools/package_structure_audit.py` runs the personal-reference scan extended with third-person profile patterns (a pronoun followed by a habit or preference verb, \"the user\" followed by a preference verb, and similar; the list is `PROFILE_PHRASE_PATTERNS` in the tool) over every tracked Markdown file; `.gitignore` lists `USER_PROFILE.md`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-PROF-001"
+    },
+    {
+      "id": "REQ-DOC-004",
+      "title": "Balanced code fences",
+      "requirement": "Every Markdown document shall have an even number of lines starting with a code fence, so no document renders as one unterminated code block; documents awaiting re-fencing are listed in `fence_parity_pending` in config and reported as warnings until fixed.",
+      "rationale": "Added for REV-003 (docs/300 phase 0e).",
+      "acceptance_test": "`python tools/package_structure_audit.py` counts fence lines per Markdown file: odd counts FAIL unless listed in `fence_parity_pending` (WARN), and a listed file that is already balanced FAILs so the list cannot go stale.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-DOC-004"
+    },
+    {
+      "id": "REQ-ENTRY-001",
+      "title": "Agent entry file",
+      "requirement": "`AGENTS.md` shall exist with a complete Normative document-control header, stay within `agents_file.budget_bytes` (8,192) including its GENERATED regions, cite only existing paths, name no package_id in its body, and state the normative rule and the mode selector (ORIENT, APPLY, MODIFY-AISOP, DOMAIN-LOOKUP).",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` checks size, header identity and status, the absence of other package_id tokens, both GENERATED regions, the mode names, and the requirements-source path; its reference check covers every cited path; `tests/smoke_test.py` checks presence.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-001"
+    },
+    {
+      "id": "REQ-ENTRY-002",
+      "title": "Pointer files",
+      "requirement": "A pointer file shall exist for each tool listed in `pointer_files` in `config/editions.json`; each is generated, carries a document-control header, names `AGENTS.md`, and stays within `pointer_budget_bytes`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` checks each declared pointer for presence, size, header, and the string `AGENTS.md`; `python tools/build_editions.py --check` checks it is fresh.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-002"
+    },
+    {
+      "id": "REQ-ENTRY-003",
+      "title": "Generated content is fresh",
+      "requirement": "Every GENERATED region and file (the `AGENTS.md` regions, pointer files, the card opener, the editions table, `docs/index.json`, `docs/000_DOCUMENTATION_INDEX.md`) shall equal a fresh render from its source, and a hand edit shall fail the audits with a message naming the source to edit.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` compares every generated target with a fresh render; `tests/smoke_test.py` edits the `rules` region in a copy of the tree and requires the check to exit 1 naming `docs/001_AISOP_CORE_RULES.md`, and validates `docs/index.json` (every document, documented keys, tier-then-path order).",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-003"
+    },
+    {
+      "id": "REQ-ENTRY-004",
+      "title": "Cold-agent verification per release",
+      "requirement": "Before each release, a cold agent given only the repository and the prompt 'Get up to speed on AISOP' shall reach a running audit within six tool calls and deliver the first-five-minutes report with mode ORIENT, the normative rule stated correctly, and no domain guide opened; the transcript summary is kept as `reports/baseline/cold_agent_test_<package_id>.txt`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1 and 4).",
+      "acceptance_test": "Manual, per release (one tool from Phase 1, two tools from Phase 4): run the prompt in a fresh clone with no other context; record tool and version, date, tool-call count, the minute-5 report, files opened, and a PASS/FAIL verdict in the log; `tools/edition_audit.py` warns when the log for the current package_id is missing.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ENTRY-004"
+    },
+    {
+      "id": "REQ-ED-001",
+      "title": "Tier and summary in every header",
+      "requirement": "Every Markdown document outside `.github/` shall declare `tier` (0-3) and a one-line `summary` of at most 200 characters in its document-control header; domain guides also declare `topics`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/package_structure_audit.py` requires both keys and validates them; `tests/smoke_test.py` deletes `tier:` from one header in a copy of the tree and requires the audit to exit 1 naming that file.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-001"
+    },
+    {
+      "id": "REQ-ED-002",
+      "title": "Editions declared and built by one tool",
+      "requirement": "Editions shall be declared only in `config/editions.json` (tier cutoff, byte budget, `max_files`, include globs, opener) and staged by one standard-library tool; each staged edition shall stay within budget and the staged Method Kit shall pass its own audits.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` stages every edition in memory and fails on a budget or `max_files` breach or a duplicate Chat Kit basename; `tests/smoke_test.py` stages the Method Kit to a folder and requires `run_all_audits.py` to pass inside it.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-002"
+    },
+    {
+      "id": "REQ-ED-003",
+      "title": "One source for the core rules",
+      "requirement": "`docs/001_AISOP_CORE_RULES.md` shall be the single source of the core rules: Normative, rendered as the card within `card.budget_bytes` (8,192), with a rules block within `card.rules_block_budget_bytes` (4,096) that is generated into `AGENTS.md`, and report labels equal to those of `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/build_editions.py --check` measures the rendered card; `python tools/edition_audit.py` measures the rules block, checks Normative status, and compares the card's fifteen report labels with the template's.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-003"
+    },
+    {
+      "id": "REQ-LINK-001",
+      "title": "References resolve in every edition",
+      "requirement": "Every relative Markdown link and every backticked path under the docs, tools, templates, or examples folders shall resolve in the tree, and in each staged edition except on lines carrying an edition marker for a higher edition; downstream-project paths are written with a leading `./`.",
+      "rationale": "Added for REV-003 (docs/300 phase 1).",
+      "acceptance_test": "`python tools/edition_audit.py` resolves references in the tree being audited; `python tools/build_editions.py --check` resolves them inside each lower staged edition, honouring edition markers and the planning and history lists in `config/editions.json`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-LINK-001"
+    },
+    {
+      "id": "REQ-BEG-001",
+      "title": "Beginner on-ramp",
+      "requirement": "The package shall include a beginner's guide (`docs/002`, at most 12,288 bytes), a glossary (`docs/003`, at most 6,144 bytes) that defines every ID family used in tiers 0-2 and the seeded terms, and an editions guide (`docs/004`, at most 5,120 bytes); the staged Chat Kit shall contain only tier 0-1 documents plus its fixed files, exactly as its EDITION_INFO.md lists.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/edition_audit.py` checks the size caps and glossary coverage; `tests/smoke_test.py` stages the Chat Kit and compares its files with EDITION_INFO.md, rejects documents above tier 1, and confirms AISOP's own changelog and limitations are absent. The scripted cold-chat session (GATE-2 of the REV-003 gameplan) is manual and owner-run.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-BEG-001"
+    },
+    {
+      "id": "REQ-TPL-001",
+      "title": "Templates",
+      "requirement": "Templates under `templates/` shall declare `derived_from` when they come from an SOP, match the `## Required sections` list that SOP gives for them, use placeholder IDs only (`REQ-XXX-NNN`, `FEAT-NNN`, `TEST-XXX-NNN`), and stay within their size caps; `templates/MANUAL_AUDIT_CHECKLIST.md` is generated from the CHECKS table of `tools/aisop_check.py`.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/edition_audit.py` resolves every `derived_from`, compares template headings with the SOP's Required sections, rejects concrete REQ/FEAT/TEST IDs in templates, and checks the caps; `python tools/build_editions.py --check` confirms the manual checklist matches the CHECKS table.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-TPL-001"
+    },
+    {
+      "id": "REQ-EX-001",
+      "title": "Registered example package",
+      "requirement": "Example packages shall be registered in `example_packages` in `config/package_metadata.json`, declare `package_role: example` and their own `package_id` in their README_START_HERE.md, use `DOC-EX-` document IDs, and pass `tools/aisop_check.py` (the standard-library lite audit for downstream packages) including their own smoke test.",
+      "rationale": "Added for REV-003 (docs/300 phase 2).",
+      "acceptance_test": "`python tools/package_structure_audit.py` fails on an unregistered folder under `examples/` or a registered root without its identity; `tests/smoke_test.py` runs `python tools/aisop_check.py --root examples/hello_aisop --run` and requires SUMMARY: PASS.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-EX-001"
+    },
+    {
+      "id": "REQ-ED-004",
+      "title": "Edition release assets",
+      "requirement": "Every edition zip shall be named `<package_id>` or `<package_id>_<edition>` with a single root folder of the same name, contain EDITION_INFO.md at that root, and reproduce the content checksum recorded in EDITIONS_CHECKSUMS.txt when rebuilt from the same tree.",
+      "rationale": "Added for REV-003 (docs/300 phase 3).",
+      "acceptance_test": "`tests/smoke_test.py` builds the release assets twice into temporary folders, requires identical content checksums, and checks each zip's single root and EDITION_INFO.md; `python tools/release_package.py --edition all` runs `archive_name_audit.py` on each zip it writes.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-ED-004"
+    },
+    {
+      "id": "REQ-REL-003",
+      "title": "Assets only from a green audit",
+      "requirement": "Release assets shall be built only from a green `run_all_audits.py` run of the tagged commit, and the tag shall equal `v` plus the configured `version`.",
+      "rationale": "Added for REV-003 (docs/300 phase 3).",
+      "acceptance_test": "`python tools/repo_health_audit.py` verifies that `.github/workflows/release.yml` runs on `v*` tags, checks the tag against the configured version, and runs `run_all_audits.py` before `build_editions.py zips`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-REL-003"
     }
   ]
 }

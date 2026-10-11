@@ -11,4 +11,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - run: python tools/release_package.py --dry-run
+      - run: python tools/release_package.py --dry-run --edition all

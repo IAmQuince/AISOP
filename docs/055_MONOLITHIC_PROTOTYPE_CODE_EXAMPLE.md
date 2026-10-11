@@ -1,18 +1,32 @@
 ---
 document_id: DOC-055
 title: "Monolithic Prototype Code Example"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-055
 normative_status: Informative
+tier: 3
+summary: "Long annotated example of a monolithic Python prototype that follows docs/050."
+topics: [prototype, python, example, diagnostics, DEBT-PROTO-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # Monolithic Prototype Code Example
 
+## TL;DR
+
+- This is a long annotated example of a monolithic Python prototype that follows `docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md`; it is intentionally monolithic for early testing and is not the final architecture.
+- Its header records purpose, status, and limitations, and lists what not to remove without approval: workflows, UI controls, data fields, settings/state persistence, diagnostics, and safe-state/shutdown behavior.
+- The code is split into ten numbered sections, from imports/compatibility to the entry point, each with an extraction target module.
+- Settings (user preferences) are kept separate from state (what the app last did), and JSON is written via a temp file and replace, with a backup.
+- `--smoke-test` and `--diagnostics` give a non-destructive smoke test and a copy/pasteable diagnostic report.
+- Hardware projects must start and fail safe: no auto-enabled outputs, and the placeholder safe-state hook, called on KeyboardInterrupt or unhandled exceptions, must be replaced with real behavior.
+- A debt register and an extraction map close the file: do not extract until a feature inventory, frozen interfaces, smoke tests, diagnostics, and a rollback baseline exist.
+
+```python
 from __future__ import print_function
 
 # =============================================================================
@@ -52,7 +66,7 @@ from __future__ import print_function
 #
 # EXTRACTION TARGETS:
 # - compatibility helpers      -> project/compat.py
-# - paths/settings/logging     -> project/paths.py, project/settings.py, project/logging.py
+# - paths/settings/logging     -> project/paths.py, project/settings.py, project/logging_utils.py
 # - data model/defaults        -> project/model.py
 # - storage/load/save          -> project/storage.py
 # - scanning/import/parsing    -> project/scanner.py
@@ -353,9 +367,14 @@ def atomic_write_text(path, text):
             except Exception:
                 pass
 
-        if IS_PY2 and os.path.exists(path):
-            os.remove(path)
-        os.rename(temp_path, path)
+        if hasattr(os, "replace"):
+            # Python 3.3+: atomic overwrite on every platform, including Windows.
+            os.replace(temp_path, path)
+        else:
+            # Python 2: os.rename cannot overwrite an existing file on Windows.
+            if os.path.exists(path):
+                os.remove(path)
+            os.rename(temp_path, path)
     finally:
         if fd is not None:
             try:
@@ -1129,7 +1148,7 @@ def main(argv=None):
 #
 # Section 1  Imports and compatibility       -> project/compat.py
 # Section 2  Constants/version info          -> project/constants.py
-# Section 3  Paths/settings/logging          -> project/paths.py, settings.py, logging.py
+# Section 3  Paths/settings/logging          -> project/paths.py, settings.py, logging_utils.py
 # Section 4  Data model/defaults             -> project/model.py
 # Section 5  Storage/load/save               -> project/storage.py
 # Section 6  Scanning/import/parsing         -> project/scanner.py
@@ -1148,3 +1167,4 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
+```

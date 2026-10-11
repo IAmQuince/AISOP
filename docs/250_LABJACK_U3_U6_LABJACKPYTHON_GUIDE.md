@@ -1,19 +1,32 @@
 ---
 document_id: DOC-250
 title: "LabJack U3/U6 LabJackPython Guide"
-version: 0.2.0
-revision: REV-002
+version: 0.3.0
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
-package_id: 20260516_00_seed
+last_updated: 2026-10-11
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-250
 normative_status: Informative
+tier: 3
+summary: "Domain guide: using LabJack U3 and U6 devices from Python with the legacy UD driver stack."
+topics: [labjack, u3, u6, daq, RULE-LJ-*]
 source: "Generalized AI-assisted coding SOP source text"
 ---
 
 # LabJack U3/U6 LabJackPython Guide
 
-250_LABJACK_U3_U6_LABJACKPYTHON_GUIDE
+## TL;DR
+
+- Purpose: use LabJack U3 and U6 devices, especially the U6, from Python with the legacy stack: UD driver on Windows, LabJackPython, and import u3 / import u6.
+- U3/U6/UE9 use UD + LabJackPython, not LJM; T4/T7/T8/Digit use LJM + labjack-ljm, not LabJackPython.
+- Verify the device in LJControlPanel before debugging Python, read one analog input before scanning many, and use named channel maps for serious DAQ work.
+- Use the smallest range that safely contains the signal; a higher resolution index improves resolution but slows readings; U6 differential inputs normally use adjacent even/odd pairs (AIN0-AIN1).
+- Thermocouples need differential measurement (for example AIN0-AIN1 on the +/-0.1 V range) and cold junction compensation; the rough Type K estimate of about 40 uV per degree C is not a calibrated conversion.
+- Test DAC outputs with a meter or AIN loopback before they control anything important, and return outputs to safe values on exit.
+- Do not connect unknown voltages to AIN or use DAC outputs as power supplies.
+- Section 20 gives a diagnostic script for `./tools/u6_diagnostic.py`, and section 23 lists the minimal acceptance tests.
+
 0. Purpose
 This guide explains how to use LabJack U3 and U6 devices from Python, especially the U6, using the correct legacy-device stack:
 U3 / U6 / UE9
@@ -1035,5 +1048,3 @@ wiring
 calibration
 diagnostics
 safe output state
-
-Microcontrollers
