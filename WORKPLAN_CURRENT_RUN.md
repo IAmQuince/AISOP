@@ -88,9 +88,9 @@ Purpose: Execute `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`, phase by phase, 
 |---|---|---|
 | 0a-0e | Done | GATE-0 local checks pass on fresh clones named `AISOP` and otherwise (`reports/baseline/baseline_rev003_phase0_run_all_audits_report.txt`). |
 | 1 | Done | `run_all_audits.py` includes `edition_audit.py` and `build_editions.py --check`; negative cases in the smoke test; TEST-ENTRY-004 log under `reports/baseline/`. |
-| 2 | Done except owner-run items | Automated GATE-2 parts pass (budgets, markers, parity, glossary, Chat Kit contents, example lite audit). A simulated cold-chat session is logged; the real owner-run session and per-product facts (QUESTION-001) are pending. |
+| 2 | Done except owner-run items | Automated GATE-2 parts pass (budgets, markers, parity, glossary, Chat Kit contents, example lite audit). A simulated cold-chat session completed docs/002 steps 1-3 with zero interventions, and its prototype passed its own smoke test (`reports/baseline/cold_chat_simulation_20261011_00_aisop.txt`). The real owner-run session and per-product facts (QUESTION-001) are pending. |
 | 3 | Done except the tag | Edition zips, checksums, `bump_release.py`, `release.yml`; identity moved to `20261011_00_aisop` 0.3.0 in its own commit. Pushing the `v0.3.0` tag is the owner's step. |
-| 4 | Partly done | One tool logged per release (Claude Code) plus a Method Kit run; the second tool is pending QUESTION-002; quarterly routine in `docs/160`. The optional scaffold was not built (no evidence yet that beginners stall at scaffolding). |
+| 4 | Partly done | TEST-ENTRY-004 passes on Claude Code (`reports/baseline/cold_agent_test_20261011_00_aisop.txt`), and a Method Kit run passed its audits inside the unzipped kit; the second tool is pending QUESTION-002; quarterly routine in `docs/160`. The optional scaffold was not built: the simulated beginner session did not stall at scaffolding. |
 | 5 | Done except optional items | `docs/170`-`195` re-fenced; TL;DR and topics for every domain guide; RULE namespace settled (EXEC-010). Not done: the "AISOP applied" practice branch (this run could push one branch only), a runnable prototype template (templates/monolithic_prototype_template.py), and skills packaging (QUESTION-002). |
 
 ### Owner actions
