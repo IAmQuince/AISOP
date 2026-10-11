@@ -1576,5 +1576,3 @@ add diagnostics
 add panic/safety handling
 
 That is the repeatable workflow to carry forward.
-
-I2C

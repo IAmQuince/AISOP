@@ -1466,6 +1466,3 @@ recoverable failures
 maintainable structure
 
 If any one of those fails, the system is not finished.
-
-DAQ and Safety Examples
-I’d make this a companion appendix to the hardware-control doctrine:

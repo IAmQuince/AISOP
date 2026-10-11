@@ -13,7 +13,6 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Windows Software Download and Installation Guide
 
-230_WINDOWS_SOFTWARE_DOWNLOAD_AND_INSTALLATION_GUIDE
 0. Purpose
 This guide explains how to download, install, and verify the major Windows programs, drivers, runtimes, and vendor tools commonly needed for Python, Raspberry Pi, Arduino, ESP32, Visual Basic/.NET, laboratory instruments, serial devices, LabJack devices, and hardware-control projects.
 This guide focuses on software that is not installed only through pip.

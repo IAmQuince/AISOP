@@ -1800,5 +1800,3 @@ Core rule:
 Do not treat embedded setup as incidental.
 
 For these projects, the setup is part of the engineering system.
-
-DAQ and Safety

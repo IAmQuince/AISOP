@@ -13,10 +13,6 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # SOP: Monolith-to-Package Migration
 
-I’d add this as a new section between Preliminary Code and ZIP Workflow, because it formalizes the missing handoff step: turning a working monolithic prototype into a professional package without losing behavior, scrambling architecture, or pretending the first extraction is already the final design.
-This fits the existing AISOP rules: freeze the baseline, identify the current feature set, define module boundaries, avoid broad rewrites, extract lowest-risk layers first, and run smoke tests/diagnostics after each phase.
-# SOP: Transferring a Monolithic Prototype into a Formal Zip Package
-
 ## 0. Purpose
 
 This SOP defines the formal process for converting a working monolithic prototype into a professional zipped software package.
@@ -149,6 +145,7 @@ prototype/
 │   ├── BASELINE_RUN_NOTES.md
 │   ├── BASELINE_TEST_NOTES.md
 │   └── BASELINE_DIAGNOSTIC_REPORT.txt
+```
 
 The frozen baseline is the behavioral reference.
 If the formal package later behaves differently, the question becomes:

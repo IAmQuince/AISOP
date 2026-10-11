@@ -804,10 +804,6 @@ For quick use, every run should follow this checklist:
 
 This SOP is what turns a pile of AI-generated code into a maintainable engineering project.
 
-Appendix
-
-Lessona Learned
-
 ## REV-002 Extension: GitHub-Compatible Zip Handoff
 
 Zip handoff remains valid after GitHub adoption. The release package should be generated from the repository root and verified with `tools/release_package.py` so that the zip basename and internal root folder match.

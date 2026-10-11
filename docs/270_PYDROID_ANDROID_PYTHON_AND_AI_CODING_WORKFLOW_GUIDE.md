@@ -1181,5 +1181,3 @@ diagnostics included
 
 Once that is clear, a phone can become a surprisingly capable Python lab for games, simulations, dashboa
 ds, sensor viewers, and experimental tools.
-
-Networking

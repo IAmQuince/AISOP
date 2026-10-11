@@ -46,6 +46,7 @@ Do not start with:
 
 ```text
 What file do I click?
+```
 
 Start with:
 What machine is this for?
@@ -1056,5 +1057,3 @@ Troubleshooting:
 8. Run diagnostics before running complex apps.
 9. Keep installers, wheels, drivers, and instructions together for offline machines.
 10. Record what worked so the install can be repeated later.
-
-Python Libraries

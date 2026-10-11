@@ -14,7 +14,6 @@ source: "Generalized AI-assisted coding SOP source text"
 # Inline QC, Defect Detection, and Analysis Doctrine
 
 This should follow the same AISOP principles: define requirements before implementation, use stable IDs, preserve data, include diagnostics, define schema/persistence explicitly, and make the package independently reviewable without chat history.
-# 190_INLINE_QC_DEFECT_DETECTION_AND_ANALYSIS_DOCTRINE
 
 ## 0. Purpose
 
@@ -1338,6 +1337,3 @@ QC data without performance linkage is incomplete.
 Performance data without QC history loses explanatory power.
 The goal is not just to detect defects.
 The goal is to build a traceable quality memory that gets more valuable as more production, inspection, and performance data accumulate.
-
-QC and Defect Examples
-Recommended companion file:

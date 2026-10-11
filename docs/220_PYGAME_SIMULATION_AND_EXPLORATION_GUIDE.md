@@ -1489,5 +1489,3 @@ the visual result teaches intuition
 the saved data supports comparison
 
 That is the model to reuse.
-
-LabJackPython

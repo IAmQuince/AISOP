@@ -725,5 +725,3 @@ Example for 192.168.1.x:
 1..254 | ForEach-Object {
     $ip = "192.168.1.$_"
     if (Test-Connection
-
-GUI Development

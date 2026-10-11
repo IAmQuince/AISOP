@@ -14,7 +14,6 @@ source: "Generalized AI-assisted coding SOP source text"
 # QC/Defect Code Patterns and Database Examples
 
 This is the code-specific appendix to the QC doctrine: detection queues, evidence capture, SQLite schema, defect/review records, performance linking, audits, and safe threading patterns. It follows the AISOP style of making diagnostics, schema, persistence, acceptance tests, and package structure explicit rather than relying on memory.
-# 195_QC_DEFECT_CODE_PATTERNS_AND_DATABASE_EXAMPLES
 
 ## 0. Purpose
 
@@ -2102,6 +2101,3 @@ analysis
 
 The system is not finished when it detects defects.
 It is finished only when it can preserve evidence, support review, survive audits, and explain later performance outcomes.
-
-MIDI
-I checked the current official/reference docs before writing this. The modern baseline remains: Mido is the main high-level Python MIDI library for MIDI 1.0 messages, ports, and files; python-rtmidi/RtMidi is the preferred backend for many live-port workflows; pygame.midi remains a useful fallback/legacy-style MIDI I/O layer based on PortMidi; and loopMIDI is still a common Windows virtual loopback-port tool. (Mido)

@@ -1195,5 +1195,3 @@ sensor or peripheral
         → Raspberry Pi / Arduino / ESP32 / Pico
             → Python or firmware layer
                 → logging / graphing / control / diagnostics
-
-Python on Android

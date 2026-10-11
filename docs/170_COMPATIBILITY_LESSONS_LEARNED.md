@@ -1208,8 +1208,6 @@ Status: Open
 9. Embedded systems need packet validation, heartbeat, and timestamp discipline.
 10. Every solved compatibility problem should become a reusable prevention rule.
 
-Software Package Installs
-
 ## REV-002 Compatibility Lessons
 
 - Keep local audit commands and CI commands aligned so offline users and GitHub users test the same thing.

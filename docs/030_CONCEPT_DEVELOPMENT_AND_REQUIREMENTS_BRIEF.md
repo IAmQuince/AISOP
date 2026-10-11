@@ -13,7 +13,6 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Concept Development and Requirements Brief
 
-000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
 Purpose
 This document captures the project concept before implementation begins.
 It exists to prevent rushed coding, feature drift, vague requirements, and context loss. Before any code is written or modified, the project team should use this document to define the intended product, user workflows, constraints, acceptance criteria, risks, and boundaries.

@@ -14,7 +14,6 @@ source: "Generalized AI-assisted coding SOP source text"
 # DAQ/Control Code Patterns and Threading
 
 It should be explicitly code-oriented: not a full application, but a library of proven patterns for acquisition threads, command queues, GUI-safe updates, historian writes, shutdown, safe-state handling, and diagnostics. This directly supports the AISOP rules that engineering GUIs should keep diagnostics/logs accessible, persist settings, handle device disconnects, preserve data integrity, and start/fail safe for hardware-control software.
-# 185_DAQ_CONTROL_CODE_PATTERNS_AND_THREADING
 
 ## 0. Purpose
 
@@ -2217,7 +2216,3 @@ shutdown
     → write diagnostic report if abnormal
 
 That is the architecture we should keep returning to for DAQ/control work.
-
-QC and Defect Detection
-Yes. I’d make this a dedicated document because inline QC / defect detection is its own software doctrine. It overlaps with DAQ and historian design, but it has different core problems: defect taxonomy, evidence capture, review/adjudication, database traceability, algorithm versioning, and later correlation with performance data.
-Recommended file:

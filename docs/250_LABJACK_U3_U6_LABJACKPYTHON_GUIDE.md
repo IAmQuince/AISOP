@@ -1035,5 +1035,3 @@ wiring
 calibration
 diagnostics
 safe output state
-
-Microcontrollers

@@ -271,5 +271,3 @@ multiprocessing — Separate processes where threads are not appropriate.
 enum — Named constants and state definitions; modern Python only unless backported.
 
 dataclasses — Lightweight structured data classes; modern Python only.
-
-Pygame
