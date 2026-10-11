@@ -95,6 +95,7 @@ Purpose: Execute `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`, phase by phase, 
 
 ### Owner actions
 
+0. Decide the Method Kit budget soon: it ends this run at 99% of 524,288 bytes (about 3 KB headroom), so the next sizeable addition to a tier 0-2 file fails `build_editions.py --check`. Options under the RISK-002 policy: (a) move the human-readable `docs/000_DOCUMENTATION_INDEX.md` to tier 3 (agents use `docs/index.json`), (b) stop shipping the history records in the Method Kit (needs a change to the required-file lists), or (c) raise the budget again, with a CHANGELOG entry and a changed TEST-ED-002 text.
 1. Review the branch and merge it into `master`; CI on the pull request is the first GitHub run of the new audits (GATE-0 "Actions green on the default branch").
 2. Decide the two Dependabot pull requests (`actions/checkout` and `actions/setup-python` major bumps) once CI is green; the workflows currently pin `@v4` and `@v5`.
 3. Cut the first tiered release: confirm `version` 0.3.0 in config, set `date-released` in `CITATION.cff`, then `git tag v0.3.0 && git push origin v0.3.0`. `release.yml` publishes the assets; check them per `docs/100` (GATE-3).
