@@ -162,3 +162,9 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 ### Budget change (DECISION-014, RISK-002 process)
 
 - The Phase 2 dry build put the Method Kit at 473,970 bytes, 116% of its 409,600-byte budget. As DECISION-014 pre-approved, the budget is raised to 524,288 bytes in `config/editions.json`, and the TEST-ED-002 acceptance text records the new figures. The Chat Kit is at about 76% of 122,880 bytes with 32 of 40 files.
+
+## Unreleased / REV-003 Phase 5 (part 1): domain-guide re-fencing - 2026-10-11
+
+- `docs/170`, `180`, `185`, `190`, and `195` re-fenced, one guide per isolated change: every code sample, record template, folder tree, and diagram is now in a closed, language-tagged fence (17, 53, 42, 62, and 45 blocks), numbered section titles became Markdown headings (13, 59, 40, 66, and 44), and each guide gained a `## TL;DR`. `170`, `180`, and `185` gained one sentence saying their named projects or hardware are examples, not requirements. No other wording changed: a word-level comparison against the previous revision, excluding the TL;DR, shows zero removed words and only those label sentences added (21, 6, and 23 words; 0 for `190` and `195`).
+- `fence_parity_pending` is now empty: every Markdown file has balanced fences (REQ-DOC-004 without exceptions).
+- The `170` TL;DR names the downstream harness as `./tools/diagnostic_harness.py`.

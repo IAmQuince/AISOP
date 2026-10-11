@@ -49,13 +49,7 @@
     "docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md",
     "docs/165_AI_AGENT_HANDOFF_PROTOCOL.md"
   ],
-  "fence_parity_pending": [
-    "docs/170_COMPATIBILITY_LESSONS_LEARNED.md",
-    "docs/180_HARDWARE_DAQ_CONTROL_INTERFACE_DOCTRINE.md",
-    "docs/185_DAQ_CONTROL_CODE_PATTERNS_AND_THREADING.md",
-    "docs/190_INLINE_QC_DEFECT_DETECTION_AND_ANALYSIS_DOCTRINE.md",
-    "docs/195_QC_DEFECT_CODE_PATTERNS_AND_DATABASE_EXAMPLES.md"
-  ],
+  "fence_parity_pending": [],
   "required_repository_files": [
     "README.md",
     "README_START_HERE.md",

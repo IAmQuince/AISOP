@@ -16,9 +16,20 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Compatibility Lessons Learned
 
+## TL;DR
+
+- This guide records compatibility, environment, hardware, GUI, and deployment lessons so the same failures are not rediscovered; use it before writing code, choosing libraries, packaging, and refactoring.
+- Do not assume the development machine represents the target machine: define the target OS, runtime, GUI toolkit, hardware, allowed and forbidden dependencies, and offline/online assumptions before coding.
+- Record each lesson in the `LESSON-000` format, including root cause, working solution, fallback, prevention rule, and diagnostic check.
+- Every package should include `./tools/diagnostic_harness.py` (in your project), and diagnostics must still run from the command line when the GUI or main app fails.
+- Use the standard library first; no new dependency without target-environment justification, import diagnostics, and a fallback if missing. XP projects stay on Python 2.7-compatible syntax and the known XP stack.
+- Treat hardware disconnects as normal events, provide degraded modes, start and fail safe, and give embedded links packet validation, heartbeat, and timestamp discipline.
+- Keep raw data separate from display-decimated data, and test GUI layouts on the actual display class with fallback screen values.
+- Sections 12 to 14 list unresolved problems, the compatibility checklist for future projects, and standard `RISK-COMPAT` entries for project risk registers.
+
 ## 0. Purpose
 
-This document records practical compatibility, environment, hardware, GUI, and deployment lessons learned across prior projects.
+This document records practical compatibility, environment, hardware, GUI, and deployment lessons learned across prior projects. The specific projects named in these lessons, such as the garage monitor or the XP finance planner, are examples, not requirements.
 
 It exists because many of our projects run in constrained or unusual environments:
 
@@ -94,10 +105,17 @@ Applies to:
 Related risks:
 Related debt:
 Last verified:
+```
 
 This prevents vague notes like:
+
+```text
 Python issue on Raspberry Pi.
+```
+
 Instead, we want:
+
+```text
 LESSON-PI-001
 Title: Avoid assuming modern Python packages install cleanly on Raspberry Pi
 Environment: Raspberry Pi / Linux / Python
@@ -117,8 +135,10 @@ Diagnostic check:
 tools/dependency_audit.py and tools/diagnostic_harness.py must report import availability and versions.
 Applies to:
 Raspberry Pi DAQ, garage monitor, LabJack GUI, uDAQ-style tools.
+```
 
-3. Solved / Reliable Patterns
+## 3. Solved / Reliable Patterns
+
 LESSON-GEN-001 — Diagnostic harnesses are not optional for remote/hardware testing
 Environment:
 All serious projects.
@@ -154,7 +174,10 @@ Prevention rule:
 Every package should include tools/diagnostic_harness.py.
 Diagnostic check:
 Run:
+
+```bash
 python tools/diagnostic_harness.py
+```
 
 Applies to:
 All projects.
@@ -202,6 +225,8 @@ Working solution:
 Use standard library first. Add dependencies only when they clearly justify their maintenance burden.
 Prevention rule:
 Every dependency must be classified:
+
+```text
 Dependency:
 Required or optional:
 Why needed:
@@ -209,6 +234,7 @@ Target environment support:
 Install method:
 Fallback if missing:
 Diagnostic check:
+```
 
 Fallback:
 Disable optional feature and report missing dependency clearly.
@@ -235,7 +261,8 @@ tools/feature_inventory_check.py.
 Applies to:
 All package formalization work.
 
-4. Windows XP / Python 2.7 Lessons
+## 4. Windows XP / Python 2.7 Lessons
+
 LESSON-XP-001 — Python 2.7 syntax must be enforced deliberately
 Environment:
 Windows XP / Python(x,y) 2.7.6.1.
@@ -261,7 +288,10 @@ Use Python 2.7-compatible syntax.
 Prevention rule:
 For XP projects, include a Python 2 syntax/import smoke test.
 Diagnostic check:
+
+```bash
 python tools/compat_smoke_test.py
+```
 
 Applies to:
 XP finance planner, XP retro tools, XP LabJack tests.
@@ -385,6 +415,8 @@ Identify exact hardware model and driver version before coding against it.
 Prevention rule:
 Create a driver verification step before application testing.
 Diagnostic check:
+
+```text
 Device model:
 USB VID/PID if available:
 Driver installed:
@@ -392,11 +424,13 @@ Driver version:
 Device Manager status:
 Vendor utility works? Yes/No:
 Application can see device? Yes/No:
+```
 
 Applies to:
 MIDI interfaces, audio interfaces, LabJack, USB devices.
 
-5. Raspberry Pi / Linux Lessons
+## 5. Raspberry Pi / Linux Lessons
+
 LESSON-PI-001 — Raspberry Pi projects need degraded mode
 Environment:
 Raspberry Pi / Python / hardware devices.
@@ -528,7 +562,8 @@ Run replay test with large synthetic dataset and verify:
 Applies to:
 DAQ graphing, LabJack viewer, SQLite viewer.
 
-6. LabJack / Instrument-Control Lessons
+## 6. LabJack / Instrument-Control Lessons
+
 LESSON-LJ-001 — LabJack imports and versions must match the environment
 Environment:
 LabJack U3/U6 / Python.
@@ -542,14 +577,20 @@ Root cause:
 Different LabJackPython installs expose different modules and APIs.
 Known working pattern in prior work:
 Use:
+
+```python
 import u6
+```
 
 for U6-focused code where that is the installed module.
 Prevention rule:
 Do not assume from labjack import u6 unless verified on the target.
 Diagnostic check:
 Diagnostic harness should attempt:
+
+```python
 import u6
+```
 
 and report success/failure.
 Applies to:
@@ -571,6 +612,8 @@ Create an explicit channel map and verify each channel with known stimulus.
 Prevention rule:
 No DAQ package should treat channel names as trusted until channel verification is complete.
 Diagnostic check:
+
+```text
 Channel:
 Physical wire:
 Expected signal:
@@ -579,6 +622,7 @@ Units:
 Calibration:
 Verified by:
 Date:
+```
 
 Applies to:
 LabJack U6/MUX80, multi-sensor DAQ.
@@ -609,7 +653,8 @@ Manual safe-state test.
 Applies to:
 Genesys+, LabJack, uDAQ, motors, heaters.
 
-7. Arduino / ESP32 / Embedded C++ Lessons
+## 7. Arduino / ESP32 / Embedded C++ Lessons
+
 LESSON-EMB-001 — Timestamps should be captured at the device when measurement truth matters
 Environment:
 Arduino / ESP32 / Raspberry Pi sensor network.
@@ -723,6 +768,8 @@ Use level shifting or voltage divider where needed.
 Prevention rule:
 Every serial hardware doc must include a wiring table and voltage-level note.
 Diagnostic check:
+
+```text
 TX device:
 RX device:
 TX voltage:
@@ -730,11 +777,13 @@ RX tolerance:
 Level shifting used:
 Ground common:
 Verified:
+```
 
 Applies to:
 Pi / ESP32 / Arduino UART chains.
 
-8. Android / Pydroid / Kivy Lessons
+## 8. Android / Pydroid / Kivy Lessons
+
 LESSON-ANDROID-001 — Pydroid is useful but not a normal desktop Python environment
 Environment:
 Android / Pydroid.
@@ -809,7 +858,8 @@ Report:
 Applies to:
 Kivy visualizers, CD explorer, 3D/gesture projects.
 
-9. GUI / Display / Screen-Size Lessons
+## 9. GUI / Display / Screen-Size Lessons
+
 LESSON-GUI-001 — Auto screen detection must have fallback values
 Environment:
 Tkinter, PyQt, Kivy, Raspberry Pi touchscreens, Windows XP.
@@ -911,7 +961,8 @@ Change settings, restart, verify restoration.
 Applies to:
 PyQt, Tkinter, Kivy, engineering GUIs.
 
-10. Data Logging / Plotting Lessons
+## 10. Data Logging / Plotting Lessons
+
 LESSON-DATA-001 — Raw data must remain separate from display-decimated data
 Environment:
 DAQ, plotting, SQLite viewer, CSV logs.
@@ -977,7 +1028,8 @@ CSV validator verifies:
 Applies to:
 Sensor networks and DAQ logs.
 
-11. OpenFOAM / CAD / Engineering Toolchain Lessons
+## 11. OpenFOAM / CAD / Engineering Toolchain Lessons
+
 LESSON-ENG-001 — External engineering tools require version-specific generated files
 Environment:
 OpenFOAM, Gmsh, WSL, CAD/export workflows.
@@ -1025,7 +1077,8 @@ After run, verify original file still exists unchanged.
 Applies to:
 Meshing and simulation setup tools.
 
-12. Problems Without Great General Solutions Yet
+## 12. Problems Without Great General Solutions Yet
+
 These are not fully solved. They require project-specific handling.
 OPEN-COMPAT-001 — Perfect cross-platform GUI behavior
 Status:
@@ -1045,10 +1098,13 @@ There is no reliable way to choose one Python dependency stack that works across
 Current best approach:
 Use environment-specific dependency profiles.
 Example:
+
+```text
 profile_xp_py27
 profile_modern_py3
 profile_raspberry_pi
 profile_android_pydroid
+```
 
 Prevention:
 Do not design one package install process until target profiles are defined.
@@ -1099,7 +1155,8 @@ Separate raw data from display data, use sliding windows, decimate full-history 
 Prevention:
 Every plotting app needs replay/stress tests before trusting overnight behavior.
 
-13. Required Compatibility Checklist for Future Projects
+## 13. Required Compatibility Checklist for Future Projects
+
 Before coding:
 [ ] Target OS defined.
 [ ] Target Python/runtime defined.
@@ -1137,8 +1194,11 @@ Before refactoring:
 [ ] Environment-specific tests exist.
 [ ] Rollback plan exists.
 
-14. Standard Compatibility Risk Entries
+## 14. Standard Compatibility Risk Entries
+
 Use these in project risk registers when applicable.
+
+```text
 RISK-COMPAT-001
 Title: Target runtime incompatibility
 Likelihood: Medium
@@ -1150,7 +1210,9 @@ Freeze target runtime early. Avoid unsupported language features.
 Fallback:
 Revert to known-good runtime-compatible baseline.
 Status: Open
+```
 
+```text
 RISK-COMPAT-002
 Title: Optional dependency unavailable on target machine
 Likelihood: Medium
@@ -1162,7 +1224,9 @@ Make dependency optional or provide degraded mode.
 Fallback:
 Disable feature and report missing dependency clearly.
 Status: Open
+```
 
+```text
 RISK-COMPAT-003
 Title: GUI layout unusable on target display
 Likelihood: Medium
@@ -1174,7 +1238,9 @@ Resizable layout, scrollable panels, UI scale setting, reset layout option.
 Fallback:
 Safe-mode/simple layout.
 Status: Open
+```
 
+```text
 RISK-COMPAT-004
 Title: Hardware disconnect corrupts state or data
 Likelihood: Medium
@@ -1186,7 +1252,9 @@ Heartbeat, reconnect logic, safe-state handling, buffered writes.
 Fallback:
 Enter safe degraded state and preserve data.
 Status: Open
+```
 
+```text
 RISK-COMPAT-005
 Title: Offline target cannot install dependencies
 Likelihood: Medium
@@ -1198,8 +1266,10 @@ Bundle required installers or avoid external dependencies.
 Fallback:
 Use standard-library-only mode or older known-good package.
 Status: Open
+```
 
-15. Core Takeaways
+## 15. Core Takeaways
+
 1. Compatibility is a design requirement, not a cleanup task.
 2. The target environment must be defined before code.
 3. Diagnostics must run even when the main app fails.
