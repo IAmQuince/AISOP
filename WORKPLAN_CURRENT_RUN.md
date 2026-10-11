@@ -82,10 +82,25 @@ Run name: 20261011_00_rev003_expansion_execution
 Date: 2026-10-11
 Purpose: Execute `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`, phase by phase, keeping `run_all_audits.py` green after every slice.
 
-### Phase 0 (complete)
+### Status by phase
 
-- 0a license gate retired and CI on the default branch; 0b release root from config, runtime reports untracked, manifest checked; 0c interim `AGENTS.md` and canonical report; 0d person-neutral `docs/020`; 0e fences, orphan lines, content fixes, fence parity.
-- Not done by this run (owner actions): merging or closing the Dependabot pull requests once CI is green on `master`.
+| Phase | Status | Evidence |
+|---|---|---|
+| 0a-0e | Done | GATE-0 local checks pass on fresh clones named `AISOP` and otherwise (`reports/baseline/baseline_rev003_phase0_run_all_audits_report.txt`). |
+| 1 | Done | `run_all_audits.py` includes `edition_audit.py` and `build_editions.py --check`; negative cases in the smoke test; TEST-ENTRY-004 log under `reports/baseline/`. |
+| 2 | Done except owner-run items | Automated GATE-2 parts pass (budgets, markers, parity, glossary, Chat Kit contents, example lite audit). A simulated cold-chat session is logged; the real owner-run session and per-product facts (QUESTION-001) are pending. |
+| 3 | Done except the tag | Edition zips, checksums, `bump_release.py`, `release.yml`; identity moved to `20261011_00_aisop` 0.3.0 in its own commit. Pushing the `v0.3.0` tag is the owner's step. |
+| 4 | Partly done | One tool logged per release (Claude Code) plus a Method Kit run; the second tool is pending QUESTION-002; quarterly routine in `docs/160`. The optional scaffold was not built (no evidence yet that beginners stall at scaffolding). |
+| 5 | Done except optional items | `docs/170`-`195` re-fenced; TL;DR and topics for every domain guide; RULE namespace settled (EXEC-010). Not done: the "AISOP applied" practice branch (this run could push one branch only), a runnable prototype template (templates/monolithic_prototype_template.py), and skills packaging (QUESTION-002). |
+
+### Owner actions
+
+1. Review the branch and merge it into `master`; CI on the pull request is the first GitHub run of the new audits (GATE-0 "Actions green on the default branch").
+2. Decide the two Dependabot pull requests (`actions/checkout` and `actions/setup-python` major bumps) once CI is green; the workflows currently pin `@v4` and `@v5`.
+3. Cut the first tiered release: confirm `version` 0.3.0 in config, set `date-released` in `CITATION.cff`, then `git tag v0.3.0 && git push origin v0.3.0`. `release.yml` publishes the assets; check them per `docs/100` (GATE-3).
+4. Run the scripted cold-chat session in a real chat product (GATE-2) and record upload facts in `docs/004` (QUESTION-001).
+5. Name the agentic tools you use (QUESTION-002): it sets the pointer files and the second tool for TEST-ENTRY-004.
+6. Confirm or override the adopted decisions above, especially DECISION-012 (six root files demoted), EXEC-003 (`AGENTS.md` tier 2), DECISION-014 (Method Kit budget raised), and the move of `docs/000_USER_GUIDE_OVERVIEW.md` to tier 3. The Method Kit is near its budget; further growth needs another re-tier or budget decision.
 
 ## Decision Log
 

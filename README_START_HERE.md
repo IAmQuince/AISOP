@@ -32,14 +32,19 @@ The first message to give your AI, per edition:
 
 ## Reading order
 
-1. `docs/001_AISOP_CORE_RULES.md`: the card, the rules on one page.
-2. `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md`: if you are new to AI coding.
-3. `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`: what the AI follows.
-4. `templates/README.md`: which template to use at each stage.
-5. `examples/hello_aisop/README_START_HERE.md`: a complete small package.
-6. `AGENTS.md`: the entry file for coding agents (method edition).
-7. `docs/005_PRODUCT_REQUIREMENTS.md` with `FEATURE_INVENTORY.md`, `ACCEPTANCE_TEST_PLAN.md`, and `CHANGELOG.md`: this package's own requirements and history (method edition).
-8. `docs/000_DOCUMENTATION_INDEX.md`: every document by tier (method edition).
+<!-- GENERATED:BEGIN reading-order | by tools/build_editions.py from entry_read_order in config/editions.json and document summaries; edit the source, not this region -->
+1. `AGENTS.md`: Entry file for coding agents: what is binding, the first-five-minutes protocol, modes and reading sets, hard rules, and the delivery shape (method edition).
+2. `docs/001_AISOP_CORE_RULES.md`: The AISOP card: what AISOP is, the core rules, the minimum package, ID discipline, and the fifteen-field delivery report.
+3. `docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md`: For people new to AI coding: chat versus agent, why files beat memory, which edition to pick, and a five-step first project with checks.
+4. `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`: Operating instructions for the AI assistant: collaboration style, coding principles, feature preservation, diagnostics, delivery.
+5. `templates/README.md`: Which template to use at each stage of a project, and what each one is for.
+6. `examples/hello_aisop/README_START_HERE.md`: Start here: what hello_aisop does, how to run and test it, and what must not break.
+7. `docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md`: SOP for a single-file prototype that stays disciplined: numbered sections, --smoke-test, --diagnostics, safe state.
+8. `docs/003_GLOSSARY.md`: Short definitions of AISOP's terms, modes, header fields, and every ID family used in tiers 0-2.
+9. `docs/004_EDITIONS_AND_UPGRADE_PATH.md`: The four AISOP editions, their sizes and openers, what each adds, and how zips, releases, and the repository relate.
+10. `docs/005_PRODUCT_REQUIREMENTS.md`: The authoritative list of REQ-* requirements for this package; the only requirements source besides the JSON catalog (method edition).
+11. `docs/000_DOCUMENTATION_INDEX.md`: Generated map of every AISOP document by tier, with status, size class, and a one-line summary (method edition).
+<!-- GENERATED:END reading-order -->
 
 ## Package rules
 

@@ -125,6 +125,22 @@ def render_start_here_openers(tree, cfg, eds):
     return '\n'.join(lines) + '\n'
 
 
+EDITION_MARKER_FOR_TIER = {2: ' (method edition)', 3: ' (full edition)'}
+
+
+def render_reading_order(tree, cfg, eds):
+    """README_START_HERE.md reading order from entry_read_order; files above tier 1 carry an edition marker."""
+    lines = []
+    for rel in eds.data['entry_read_order']:
+        if rel == 'README_START_HERE.md' or rel not in tree.files:
+            continue
+        head = tree.header(rel)
+        tier = tree.tier(rel) if head else 2
+        summary = head.get('summary', '') if head else ''
+        lines.append('%d. `%s`: %s%s' % (len(lines) + 1, rel, summary.rstrip('.'), EDITION_MARKER_FOR_TIER.get(tier, '') + '.'))
+    return '\n'.join(lines) + '\n'
+
+
 MANUAL_CHECKLIST = 'templates/MANUAL_AUDIT_CHECKLIST.md'
 
 
@@ -253,6 +269,8 @@ def targets(eds):
     result.append(Target('README.md', 'chooser', 'config/editions.json and config/package_metadata.json', 'entry',
                          render_readme_chooser))
     result.append(Target('README_START_HERE.md', 'openers', 'config/editions.json', 'entry', render_start_here_openers))
+    result.append(Target('README_START_HERE.md', 'reading-order', 'entry_read_order in config/editions.json and document summaries',
+                         'index', render_reading_order))
     result.append(Target(MANUAL_CHECKLIST, None, 'the CHECKS table in tools/aisop_check.py', 'entry',
                          render_manual_checklist))
     for pointer in eds.data['pointer_files']:

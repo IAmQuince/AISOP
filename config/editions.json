@@ -119,10 +119,13 @@
     "docs/001_AISOP_CORE_RULES.md",
     "docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md",
     "docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md",
-    "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md",
     "templates/README.md",
+    "examples/hello_aisop/README_START_HERE.md",
+    "docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md",
     "docs/003_GLOSSARY.md",
-    "docs/004_EDITIONS_AND_UPGRADE_PATH.md"
+    "docs/004_EDITIONS_AND_UPGRADE_PATH.md",
+    "docs/005_PRODUCT_REQUIREMENTS.md",
+    "docs/000_DOCUMENTATION_INDEX.md"
   ],
   "cold_agent_log": "reports/baseline/cold_agent_test_{package_id}.txt",
   "link_check": {
