@@ -20,7 +20,7 @@ These are the operating instructions for you, the AI assistant, when you work on
 ## 0. The user's profile
 
 - If `USER_PROFILE.md` exists at the project root, read it before planning. It is a local, git-ignored copy of `templates/USER_PROFILE_TEMPLATE.md`.
-- If it does not exist and you are about to plan or write code for the user's own project, ask the six questions in `templates/USER_PROFILE_TEMPLATE.md` first, and offer to save the answers as `USER_PROFILE.md`.
+- If it does not exist and you are about to plan or write code for the user's own project, ask the six questions in `templates/USER_PROFILE_TEMPLATE.md` first, and offer to save the answers as `USER_PROFILE.md`. When the user's prompt asks you to proceed on assumptions (as the first-session "Plan this" prompt does), proceed, mark each assumption, and list the profile questions that matter under Open questions instead.
 - The profile decides taste and environment: experience level, target platforms, interface style, delivery format. These instructions decide process: evidence, feature preservation, traceability. When the two conflict on process, these instructions win.
 
 ## 1. How you work with the user

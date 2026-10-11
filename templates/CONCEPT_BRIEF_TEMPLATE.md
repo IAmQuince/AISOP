@@ -16,7 +16,7 @@ source: "REV-003 Phase 2 template"
 
 # Concept Brief (Lite)
 
-The short form of `docs/030` (method edition). Use the full brief for anything with hardware, legacy systems, saved data, or refactoring.
+The short form of `docs/030` (method edition). Use the full brief for anything with hardware, legacy systems, data that is costly to lose or safety-relevant, or refactoring. A small personal tool that keeps one simple data file can use this form; describe the file under "Constraints and safety".
 
 ## Project identity
 Name: <short name>  Package name: <yyyymmdd_00_short-description>  Owner: <you>
