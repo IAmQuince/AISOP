@@ -1,0 +1,49 @@
+SIMULATED COLD-CHAT SESSION (GATE-2 PRE-CHECK)
+========================================================================
+package_id: 20261011_00_aisop   version: 0.3.0 (REV-003)   date: 2026-10-11
+status: SIMULATION. Both sides are AI: a fresh Claude agent plays the chat
+        model, limited to reading the staged Chat Kit files (no code execution,
+        no other files); the session operator plays the owner. This is a
+        pre-check of the kit, not the owner-run GATE-2 session in a real chat
+        product, which remains an owner action.
+kit: 20261011_00_aisop_chatkit/ staged from commit d3f1844 (32 files)
+rule: the operator sends only (a) the Chat Kit opener verbatim, (b) the
+      first-session prompts verbatim with their <...> slots filled, and
+      (c) one sentence of idea. Any other message is a logged intervention.
+idea sentence: "A small program where I type how many glasses of water I drank
+      today, and it remembers each day and shows my total for the last seven days."
+
+STEP 1  docs/002 step 1 (start the session)
+------------------------------------------------------------------------
+sent: the Chat Kit opener, verbatim
+reply: AISOP 0.3.0, package_id 20261011_00_aisop, all 32 files listed (matching
+  EDITION_INFO.md), the word ORIENT, "What is your idea?". It noted that the
+  "(method edition)" files are not in the kit and that it would not ask for them.
+result: PASS. No file outside EDITION_INFO.md requested.
+finding: README_START_HERE.md and EDITION_INFO.md gave different reading orders.
+  Fixed in 34adc05 (the README_START_HERE reading order is generated from the
+  same source as EDITION_INFO.md).
+
+STEP 2  docs/002 step 2 (plan it)
+------------------------------------------------------------------------
+sent: first-session prompt 1, verbatim, with the idea sentence in its slot
+reply: mode APPLY; a complete Concept Brief Lite (all ten template sections),
+  FEAT-001 to FEAT-005, every guess marked "Assumption:", nine open questions,
+  boundaries for the next run, a first CHANGELOG entry, and the fifteen-field
+  final package report. No code. No file outside the kit requested.
+result: PASS (every section filled; features listed with FEAT IDs).
+findings (fixed in dad5597):
+  - The concept template sent any data-saving idea to the full brief (docs/030),
+    which only the Method Kit has. Now only data that is costly to lose or
+    safety-relevant does.
+  - docs/020 section 0 (ask the profile questions first) conflicted with prompt 1
+    (proceed on assumptions). docs/020 now defers to a prompt that asks for
+    assumptions.
+
+STEP 3  docs/002 step 3 (build a first version)
+------------------------------------------------------------------------
+sent: first-session prompt 2, verbatim, with the target slot filled
+  ("Windows 11 laptop, Python 3.12")
+result: in progress at the time of this entry.
+
+INTERVENTIONS: 0 so far.

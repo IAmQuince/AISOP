@@ -190,3 +190,11 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - The bare repeated-filename lines under the H1 of `docs/210`-`290` were deleted (pure deletions; the same kind of stale line removed from `docs/010` and `docs/030` in Phase 0).
 - `docs/055`'s 1,140-line Python example is now inside one `python` fence, so its comments no longer render as headings.
 - Domain-guide-local ID families (for example `RULE-GUI-`, `LESSON-`, `ACCEPT-QC-`, `THREAD-RULE-`) are listed in each guide's `topics` and so in `docs/index.json`; `docs/003` registers the `RULE-`, `LESSON-`, and `ACCEPT-` namespaces (decision: keep, not rename; EXEC-010).
+
+## Unreleased / REV-003 Phase 4 and validation - 2026-10-11
+
+- Identity moved to `20261011_00_aisop` version 0.3.0 in one dedicated commit produced by `bump_release.py` (DECISION-004).
+- TEST-ENTRY-004 run on Claude Code and logged as `reports/baseline/cold_agent_test_20261011_00_aisop.txt`: the official run passes (5 tool calls, audit PASS at call 1, ORIENT, normative rule stated, no domain guide opened). A run on the unzipped Method Kit confirmed that its audits pass inside the kit. The second tool for Phase 4 waits on QUESTION-002.
+- A simulated cold-chat session (an AI playing the chat model with only the Chat Kit files; the opener, the prompts, and one idea sentence as the only messages) is logged as `reports/baseline/cold_chat_simulation_20261011_00_aisop.txt`. It is a pre-check, not the owner-run GATE-2 session.
+- Fixes from those runs: `AGENTS.md` step 2 says what the audits write (git-ignored reports and caches, temporary copies), and step 5 asks for the normative rule in the minute-5 report; the README_START_HERE reading order is generated from `entry_read_order`, so it matches EDITION_INFO.md; first-session prompt 1 records assumptions and open questions instead of asking; the concept brief template no longer sends every data-saving idea to the full brief; `docs/020` section 0 lets a prompt that asks for assumptions proceed.
+- `docs/160` gained the quarterly routine; `docs/166` lists every generated target and check owner.
