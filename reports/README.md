@@ -16,7 +16,7 @@ source: "Generalized AI-assisted coding SOP source text"
 Generated audit and smoke-test reports are written here at run time.
 
 - `reports/*.txt` are runtime output. They are git-ignored (REQ-RPT-001) and rewritten on every run, so running the audits never dirties the working tree. Paste them into a conversation or issue as evidence; do not commit them.
-- `reports/baseline/` is committed evidence: one snapshot per release or revision, named `baseline_<revision>_<report>.txt`. `baseline_rev002_run_all_audits_report.txt` is the REV-002 release run; `baseline_rev003_*` files record REV-003 gates.
+- `reports/baseline/` is committed evidence: one snapshot per release or revision, named `baseline_<revision>_<report>.txt`. `baseline_rev002_run_all_audits_report.txt` is the REV-002 release run; `baseline_rev003_*` files record REV-003 gates (for example `baseline_rev003_phase0_run_all_audits_report.txt`, the GATE-0 run).
 
 ## REV-002 Reports
 
