@@ -284,6 +284,16 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-PROF-001"
+    },
+    {
+      "id": "REQ-DOC-004",
+      "title": "Balanced code fences",
+      "requirement": "Every Markdown document shall have an even number of lines starting with a code fence, so no document renders as one unterminated code block; documents awaiting re-fencing are listed in `fence_parity_pending` in config and reported as warnings until fixed.",
+      "rationale": "Added for REV-003 (docs/300 phase 0e).",
+      "acceptance_test": "`python tools/package_structure_audit.py` counts fence lines per Markdown file: odd counts FAIL unless listed in `fence_parity_pending` (WARN), and a listed file that is already balanced FAILs so the list cannot go stale.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-DOC-004"
     }
   ]
 }

@@ -2,9 +2,9 @@
 document_id: DOC-030
 title: "Concept Development and Requirements Brief"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-030
 normative_status: Informative
@@ -384,7 +384,7 @@ pass/fail summary
 
 13. Acceptance Criteria
 Define success before code.
-ACCEPT-001
+TEST-XXX-001
 Requirement linked:
 Test:
 Expected result:
@@ -392,7 +392,7 @@ Manual or automated:
 Pass/fail:
 
 Example:
-ACCEPT-001
+TEST-UI-001
 Requirement linked:
 REQ-UI-001
 
@@ -648,10 +648,10 @@ This concept document answers:
 What do we do before creating or changing a package?
 
 Recommended file name
-I would use:
 000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
 
 And every serious package should include the latest version in:
 docs/000_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
 
 For smaller projects, a shortened version can be used, but for anything involving architecture, hardware, legacy systems, GUIs, data persistence, or refactoring, the full document is worth it.

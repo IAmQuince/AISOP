@@ -99,3 +99,10 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 ### 0d. Operating instructions
 
 - DRIFT-005: `docs/020` rewritten in the second person (about 10.5 KB, down from 13.4 KB) with no biography; it now reads `USER_PROFILE.md` when present and otherwise asks the six questions in the new `templates/USER_PROFILE_TEMPLATE.md`, whose labelled fictional example keeps the earlier preferences (legacy targets, dark interface theme, zipped deliverables) available to anyone who wants them (RISK-006). The personal-reference scan gained third-person profile patterns. REQ-PROF-001 / TEST-PROF-001 (FEAT-033).
+
+### 0e. Source hygiene
+
+- Mechanical commit (deletions and exact fence lines only, verified with `git diff -U0`): closed the unclosed fences in `docs/060` and `docs/200`; removed the orphan next-document headings and chat-reply tails at the end of `docs/170`-`280`, the empty appendix stub in `docs/070`, the stale filename lines in `docs/010` and `docs/030`, and the duplicate H1s in `docs/060`, `185`, `190`, `195`.
+- Content commit (revisioned): repaired the four sentences in `docs/270` corrupted by citation-tool residue and a split word; finished the truncated ping-sweep example in `docs/280`; fixed the `os.rename` overwrite bug on Windows in `docs/055` (uses `os.replace` where available); `project/logging.py` renamed to `logging_utils.py` in `docs/050` and `055` (the old name shadows the standard library); removed chat phrasing from `docs/030`, `070`, `185`, `190`; DRIFT-008 reconciled in the method documents (`FEATURE-nnn` to `FEAT-nnn`, `ACCEPT-nnn` to `TEST-XXX-nnn`, `test_reports/` to `reports/`, and a numbering note in `030`, `040`, `060`, `070` separating a project's own `docs/NNN` numbers from AISOP's); `docs/205` marked "proposed, not shipped".
+- Added the fence-parity check to `package_structure_audit.py` (REQ-DOC-004 / TEST-DOC-004). The five domain guides that still need full re-fencing (`docs/170`, `180`, `185`, `190`, `195`) are listed in `fence_parity_pending` and reported as WARN until Phase 5.
+- Revisions bumped on every touched document.

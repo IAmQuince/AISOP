@@ -2,9 +2,9 @@
 document_id: DOC-260
 title: "I2C Communication Guide"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-260
 normative_status: Informative

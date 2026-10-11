@@ -190,3 +190,6 @@ REQ-RPT-002 One canonical final package report
 
 REQ-PROF-001 No personal profile in operating instructions
 : The AI operating instructions (`docs/020`) shall address the assistant in the second person and contain no biography or personal preference of a specific user; user-specific facts live in `templates/USER_PROFILE_TEMPLATE.md` (fill-in fields plus a labelled fictional example) and an optional git-ignored `USER_PROFILE.md`. Priority: Must. Status: Implemented. Verification: TEST-PROF-001.
+
+REQ-DOC-004 Balanced code fences
+: Every Markdown document shall have an even number of lines starting with a code fence, so no document renders as one unterminated code block; documents awaiting re-fencing are listed in `fence_parity_pending` in config and reported as warnings until fixed. Priority: Must. Status: Implemented. Verification: TEST-DOC-004.

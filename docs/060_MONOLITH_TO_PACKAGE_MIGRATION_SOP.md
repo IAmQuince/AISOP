@@ -154,6 +154,7 @@ If not, it is a regression.
 5. Phase 1 — Create the Transfer Workplan
 Before moving code, create:
 docs/005_MONOLITH_TO_PACKAGE_TRANSFER_PLAN.md
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
 
 This document defines the transfer scope.
 Required contents:
@@ -228,7 +229,7 @@ docs/020_CURRENT_FEATURE_INVENTORY.md
 
 This is one of the most important anti-feature-loss tools.
 Format:
-FEATURE-001
+FEAT-001
 Name:
 Category:
 Current behavior:
@@ -360,8 +361,8 @@ yyyymmdd_00_description-of-run/
 ├── tests/
 │   └── README_TESTS.md
 │
-├── test_reports/
-│   └── README_TEST_REPORTS.md
+├── reports/
+│   └── README.md
 │
 ├── examples/
 │   └── README_EXAMPLES.md
@@ -813,7 +814,7 @@ It should eventually verify:
 * diagnostics still include required sections.
 Manual checks are acceptable early, but they must be recorded.
 Create report:
-test_reports/feature_inventory_check_report.txt
+reports/feature_inventory_check_report.txt
 
 Report format:
 Feature inventory check

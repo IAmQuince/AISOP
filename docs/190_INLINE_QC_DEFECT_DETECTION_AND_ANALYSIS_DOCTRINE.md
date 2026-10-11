@@ -2,9 +2,9 @@
 document_id: DOC-190
 title: "Inline QC, Defect Detection, and Analysis Doctrine"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-190
 normative_status: Informative
@@ -13,7 +13,7 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # Inline QC, Defect Detection, and Analysis Doctrine
 
-This should follow the same AISOP principles: define requirements before implementation, use stable IDs, preserve data, include diagnostics, define schema/persistence explicitly, and make the package independently reviewable without chat history.
+This doctrine follows the same AISOP principles: define requirements before implementation, use stable IDs, preserve data, include diagnostics, define schema/persistence explicitly, and make the package independently reviewable without chat history.
 
 ## 0. Purpose
 

@@ -240,7 +240,7 @@ Typical future extraction map:
 |---|---|
 | Imports and compatibility | `project/compat.py` |
 | Constants and version info | `project/constants.py` |
-| Paths/settings/logging | `project/paths.py`, `project/settings.py`, `project/logging.py` |
+| Paths/settings/logging | `project/paths.py`, `project/settings.py`, `project/logging_utils.py` (not `logging.py`, which would shadow the standard library module) |
 | Data model/defaults | `project/model.py` or `project/schema.py` |
 | Storage/load/save | `project/storage.py` |
 | Scanning/import/parsing | `project/scanner.py`, `project/parser.py`, or `project/importer.py` |

@@ -2,9 +2,9 @@
 document_id: DOC-280
 title: "Networking, IP Addresses, Command Line, and File Transfer Guide"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-280
 normative_status: Informative
@@ -724,4 +724,7 @@ You may need to ping the subnet first.
 Example for 192.168.1.x:
 1..254 | ForEach-Object {
     $ip = "192.168.1.$_"
-    if (Test-Connection
+    if (Test-Connection -ComputerName $ip -Count 1 -Quiet) { $ip }
+}
+
+Each address that does not answer costs about a second, so a full sweep takes a few minutes. Run `arp -a` afterwards to see the MAC addresses of the devices that replied. Some devices ignore ping by design; a missing reply does not prove a device is absent.

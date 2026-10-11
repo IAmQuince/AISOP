@@ -2,9 +2,9 @@
 document_id: DOC-185
 title: "DAQ/Control Code Patterns and Threading"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-185
 normative_status: Informative
@@ -13,7 +13,7 @@ source: "Generalized AI-assisted coding SOP source text"
 
 # DAQ/Control Code Patterns and Threading
 
-It should be explicitly code-oriented: not a full application, but a library of proven patterns for acquisition threads, command queues, GUI-safe updates, historian writes, shutdown, safe-state handling, and diagnostics. This directly supports the AISOP rules that engineering GUIs should keep diagnostics/logs accessible, persist settings, handle device disconnects, preserve data integrity, and start/fail safe for hardware-control software.
+This document is explicitly code-oriented: not a full application, but a library of proven patterns for acquisition threads, command queues, GUI-safe updates, historian writes, shutdown, safe-state handling, and diagnostics. This directly supports the AISOP rules that engineering GUIs should keep diagnostics/logs accessible, persist settings, handle device disconnects, preserve data integrity, and start/fail safe for hardware-control software.
 
 ## 0. Purpose
 

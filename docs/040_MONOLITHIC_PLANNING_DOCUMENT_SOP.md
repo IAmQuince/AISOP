@@ -230,7 +230,7 @@ Prototype lessons:
 Do-not-break behaviors:
 
 Use a feature inventory format:
-FEATURE-001
+FEAT-001
 Name:
 Current behavior:
 Evidence:
@@ -569,7 +569,7 @@ docs/110_IMPLEMENTATION_PLAN.md
 19. Acceptance Criteria
 Purpose: define done.
 Use requirement-linked acceptance items.
-ACCEPT-001
+TEST-XXX-001
 Linked requirement:
 Test:
 Expected result:
@@ -623,6 +623,8 @@ Appendix G: Historical package timeline
 
 Avoid burying core requirements in appendices.
 
+Numbering note: `docs/NNN_*` names in this SOP are your project's own documentation numbers. They are unrelated to AISOP's own `docs/` numbering (AISOP's `docs/050` is not your project's `docs/050`).
+
 7. Writing Rules for the Monolithic Document
 Use stable IDs
 Every important item gets an ID:
@@ -637,7 +639,8 @@ DEBT-001
 DECISION-001
 QUESTION-001
 PHASE-001
-ACCEPT-001
+FEAT-001
+TEST-XXX-001
 
 Stable IDs allow later references across documents.
 

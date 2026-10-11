@@ -148,3 +148,6 @@ TEST-RPT-002 Delivery documents cite the canonical report
 
 TEST-PROF-001 Personal-reference and profile-phrase scan
 : `python tools/package_structure_audit.py` runs the personal-reference scan extended with third-person profile patterns (a pronoun followed by a habit or preference verb, "the user" followed by a preference verb, and similar; the list is `PROFILE_PHRASE_PATTERNS` in the tool) over every tracked Markdown file; `.gitignore` lists `USER_PROFILE.md`. Requirement: REQ-PROF-001.
+
+TEST-DOC-004 Fence parity
+: `python tools/package_structure_audit.py` counts fence lines per Markdown file: odd counts FAIL unless listed in `fence_parity_pending` (WARN), and a listed file that is already balanced FAILs so the list cannot go stale. Requirement: REQ-DOC-004.

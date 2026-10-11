@@ -76,6 +76,40 @@ def parse_frontmatter(text):
     return result
 
 
+def fence_count(text):
+    return sum(1 for line in text.splitlines() if line.startswith('```'))
+
+
+def check_fence_parity(lines, errors, warnings):
+    """Every Markdown file has an even number of fence lines; config lists known Phase 5 exceptions."""
+    try:
+        pending = set(json.loads(read_text(PACKAGE_ROOT / 'config' / 'package_metadata.json')).get('fence_parity_pending', []))
+    except Exception:
+        pending = set()
+    odd = []
+    for path in sorted(PACKAGE_ROOT.rglob('*.md')):
+        rel = path.relative_to(PACKAGE_ROOT).as_posix()
+        if rel.startswith(('.git/', 'dist/')):
+            continue
+        count = fence_count(read_text(path))
+        if count % 2:
+            odd.append(rel)
+            if rel in pending:
+                msg = 'unbalanced code fences (%d fence lines) in %s; listed in fence_parity_pending until re-fenced' % (count, rel)
+                lines.append('WARN ' + msg)
+                warnings.append(msg)
+            else:
+                msg = 'FAIL unbalanced code fences (%d fence lines) in %s' % (count, rel)
+                lines.append(msg)
+                errors.append(msg)
+    for rel in sorted(pending - set(odd)):
+        msg = 'FAIL %s is balanced now; remove it from fence_parity_pending in config' % rel
+        lines.append(msg)
+        errors.append(msg)
+    if not odd:
+        lines.append('PASS every Markdown file has balanced code fences')
+
+
 def main():
     REPORT_DIR.mkdir(exist_ok=True)
     lines = []
@@ -191,6 +225,11 @@ def main():
     else:
         msg = 'FAIL no TEST-* IDs found in ACCEPTANCE_TEST_PLAN.md'
         lines.append(msg); errors.append(msg)
+
+    lines.append('')
+    lines.append('CODE FENCE PARITY (REQ-DOC-004)')
+    lines.append('-' * 72)
+    check_fence_parity(lines, errors, warnings)
 
     lines.append('')
     lines.append('PERSONAL REFERENCE SCAN')

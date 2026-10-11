@@ -2,9 +2,9 @@
 document_id: DOC-055
 title: "Monolithic Prototype Code Example"
 version: 0.2.0
-revision: REV-002
+revision: REV-003
 status: DRAFT-REFERENCE
-last_updated: 2026-05-16
+last_updated: 2026-10-11
 package_id: 20260516_00_seed
 machine_reference_prefix: DOC-055
 normative_status: Informative
@@ -52,7 +52,7 @@ from __future__ import print_function
 #
 # EXTRACTION TARGETS:
 # - compatibility helpers      -> project/compat.py
-# - paths/settings/logging     -> project/paths.py, project/settings.py, project/logging.py
+# - paths/settings/logging     -> project/paths.py, project/settings.py, project/logging_utils.py
 # - data model/defaults        -> project/model.py
 # - storage/load/save          -> project/storage.py
 # - scanning/import/parsing    -> project/scanner.py
@@ -353,9 +353,14 @@ def atomic_write_text(path, text):
             except Exception:
                 pass
 
-        if IS_PY2 and os.path.exists(path):
-            os.remove(path)
-        os.rename(temp_path, path)
+        if hasattr(os, "replace"):
+            # Python 3.3+: atomic overwrite on every platform, including Windows.
+            os.replace(temp_path, path)
+        else:
+            # Python 2: os.rename cannot overwrite an existing file on Windows.
+            if os.path.exists(path):
+                os.remove(path)
+            os.rename(temp_path, path)
     finally:
         if fd is not None:
             try:
@@ -1129,7 +1134,7 @@ def main(argv=None):
 #
 # Section 1  Imports and compatibility       -> project/compat.py
 # Section 2  Constants/version info          -> project/constants.py
-# Section 3  Paths/settings/logging          -> project/paths.py, settings.py, logging.py
+# Section 3  Paths/settings/logging          -> project/paths.py, settings.py, logging_utils.py
 # Section 4  Data model/defaults             -> project/model.py
 # Section 5  Storage/load/save               -> project/storage.py
 # Section 6  Scanning/import/parsing         -> project/scanner.py

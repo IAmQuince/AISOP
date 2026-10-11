@@ -33,7 +33,7 @@ Verification: TEST-DOC-003
 
 FEAT-003
 Name: Document-control metadata
-Description: Adds a machine-readable document-control header to each markdown document.
+Description: Adds a machine-readable document-control header to each markdown document. Extended in REV-003: code-fence parity is audited (TEST-DOC-004).
 Status: Current
 Preserve: Yes
 Verification: TEST-DOC-001

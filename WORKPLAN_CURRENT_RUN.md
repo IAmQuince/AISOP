@@ -73,6 +73,18 @@ Convert the package from a local-only SOP seed into a dual-use artifact: a GitHu
 - Release dry run passes.
 - Final package zip has matching zip basename and internal root folder.
 
+## REV-003 Run: Expansion Gameplan Execution
+
+RUN-003
+Run name: 20261011_00_rev003_expansion_execution
+Date: 2026-10-11
+Purpose: Execute `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`, phase by phase, keeping `run_all_audits.py` green after every slice.
+
+### Phase 0 (complete)
+
+- 0a license gate retired and CI on the default branch; 0b release root from config, runtime reports untracked, manifest checked; 0c interim `AGENTS.md` and canonical report; 0d person-neutral `docs/020`; 0e fences, orphan lines, content fixes, fence parity.
+- Not done by this run (owner actions): merging or closing the Dependabot pull requests once CI is green on `master`.
+
 ## Decision Log
 
 Decisions from `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md` section 14. The plan proceeds on each recommendation unless the owner says otherwise; "Adopted (recommendation)" means the recommendation was applied during execution and stands until the owner overrides it.
