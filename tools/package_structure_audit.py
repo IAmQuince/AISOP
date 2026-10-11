@@ -39,6 +39,15 @@ PERSONAL_REFERENCE_PATTERNS = [
     r'ScottXY',
     r'C:\\Users\\Scott',
 ]
+# Third-person descriptions of a specific user (REQ-PROF-001). Operating
+# instructions address the AI in the second person; anything personal belongs
+# in a local, git-ignored USER_PROFILE.md built from the profile template.
+PROFILE_PHRASE_PATTERNS = [
+    r'\b(He|She) (often|usually|frequently|prefers|cares|works|values|strongly|dislikes|is an?)\b',
+    r'(?i)\bthe user (is an?|strongly|prefers|dislikes|values|has been|cares about)\b',
+    r'\bTreat (him|her) as\b',
+    r'(?i)\b(his|her) (background|preferences|working context)\b',
+]
 
 
 def read_text(path):
@@ -192,7 +201,7 @@ def main():
         if rel.startswith('.github/'):
             continue
         text = read_text(path)
-        for pat in PERSONAL_REFERENCE_PATTERNS:
+        for pat in PERSONAL_REFERENCE_PATTERNS + PROFILE_PHRASE_PATTERNS:
             if re.search(pat, text):
                 hits.append((rel, pat))
     if hits:
@@ -201,7 +210,7 @@ def main():
             lines.append(msg)
             errors.append(msg)
     else:
-        lines.append('PASS no configured personal-reference patterns found')
+        lines.append('PASS no configured personal-reference or profile-phrase patterns found')
 
     lines.append('')
     lines.append('SUMMARY')

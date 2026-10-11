@@ -145,3 +145,6 @@ TEST-MAN-001 Manifest freshness check
 
 TEST-RPT-002 Delivery documents cite the canonical report
 : `python tools/repo_health_audit.py` verifies the template exists, every file in `report_template_citers` (config) cites it, and no other document has a package-report title without citing it. Requirement: REQ-RPT-002.
+
+TEST-PROF-001 Personal-reference and profile-phrase scan
+: `python tools/package_structure_audit.py` runs the personal-reference scan extended with third-person profile patterns (a pronoun followed by a habit or preference verb, "the user" followed by a preference verb, and similar; the list is `PROFILE_PHRASE_PATTERNS` in the tool) over every tracked Markdown file; `.gitignore` lists `USER_PROFILE.md`. Requirement: REQ-PROF-001.

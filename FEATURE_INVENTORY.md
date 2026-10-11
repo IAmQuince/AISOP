@@ -122,3 +122,6 @@ FEAT-031 Checked package manifest
 
 FEAT-032 Canonical final package report
 : `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md` is the single fifteen-field delivery report, cited by `AGENTS.md`, `docs/020`, `050`, `060`, `070`, and `165`. Verification: TEST-RPT-002.
+
+FEAT-033 Person-neutral operating instructions and profile template
+: `docs/020` rewritten in the second person; preferences moved to `templates/USER_PROFILE_TEMPLATE.md` (six questions plus a fictional example); local `USER_PROFILE.md` git-ignored. Verification: TEST-PROF-001.

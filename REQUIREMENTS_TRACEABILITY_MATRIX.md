@@ -56,3 +56,4 @@ This matrix links package requirements to features, tests, and files. It is inte
 | REQ-RPT-001 | FEAT-008 (extended) | TEST-RPT-001 | `.gitignore`, `reports/README.md`, `reports/baseline/` | 0b |
 | REQ-MAN-001 | FEAT-031 | TEST-MAN-001 | `tools/manifest_update.py`, `tools/run_all_audits.py`, `PACKAGE_MANIFEST.md` | 0b |
 | REQ-RPT-002 | FEAT-032 | TEST-RPT-002 | `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`, `docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md`, `config/package_metadata.json` | 0c |
+| REQ-PROF-001 | FEAT-033 | TEST-PROF-001 | `docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md`, `templates/USER_PROFILE_TEMPLATE.md`, `tools/package_structure_audit.py`, `.gitignore` | 0d |

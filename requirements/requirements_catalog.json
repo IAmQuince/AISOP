@@ -274,6 +274,16 @@
       "priority": "Must",
       "status": "Implemented",
       "verification": "TEST-RPT-002"
+    },
+    {
+      "id": "REQ-PROF-001",
+      "title": "No personal profile in operating instructions",
+      "requirement": "The AI operating instructions (`docs/020`) shall address the assistant in the second person and contain no biography or personal preference of a specific user; user-specific facts live in `templates/USER_PROFILE_TEMPLATE.md` (fill-in fields plus a labelled fictional example) and an optional git-ignored `USER_PROFILE.md`.",
+      "rationale": "Added for REV-003 (docs/300 phase 0d).",
+      "acceptance_test": "`python tools/package_structure_audit.py` runs the personal-reference scan extended with third-person profile patterns (a pronoun followed by a habit or preference verb, \"the user\" followed by a preference verb, and similar; the list is `PROFILE_PHRASE_PATTERNS` in the tool) over every tracked Markdown file; `.gitignore` lists `USER_PROFILE.md`.",
+      "priority": "Must",
+      "status": "Implemented",
+      "verification": "TEST-PROF-001"
     }
   ]
 }

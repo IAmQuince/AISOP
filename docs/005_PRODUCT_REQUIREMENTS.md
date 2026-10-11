@@ -187,3 +187,6 @@ REQ-MAN-001 Manifest verified against the tree
 
 REQ-RPT-002 One canonical final package report
 : There shall be one final package report format, the fifteen fields of `docs/070` section 18, provided as `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; every document that describes delivery shall cite that template rather than define its own format. Priority: Must. Status: Implemented. Verification: TEST-RPT-002.
+
+REQ-PROF-001 No personal profile in operating instructions
+: The AI operating instructions (`docs/020`) shall address the assistant in the second person and contain no biography or personal preference of a specific user; user-specific facts live in `templates/USER_PROFILE_TEMPLATE.md` (fill-in fields plus a labelled fictional example) and an optional git-ignored `USER_PROFILE.md`. Priority: Must. Status: Implemented. Verification: TEST-PROF-001.

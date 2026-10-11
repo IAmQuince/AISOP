@@ -95,3 +95,7 @@ Executes Phase 0 of `docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md`. Slices were d
 - DRIFT-006: added an interim `AGENTS.md` (Normative, full header, marked INTERIM; replaced in Phase 1) and a `CLAUDE.md` pointer that imports it.
 - DRIFT-008 / DECISION-003: `docs/070` section 18 declared the canonical fifteen-field final package report; added `templates/FINAL_PACKAGE_REPORT_TEMPLATE.md`; `docs/020` (ten-item list removed), `050` (new section 8), `060` (section 21 now extends the canonical report with transfer fields), `165`, `040`, and `AGENTS.md` cite it. REQ-RPT-002 / TEST-RPT-002 (FEAT-032), checked by `repo_health_audit.py` with the citer list in config.
 - `WORKPLAN_CURRENT_RUN.md` gained a `## Decision Log` with every section-14 decision and two execution notes.
+
+### 0d. Operating instructions
+
+- DRIFT-005: `docs/020` rewritten in the second person (about 10.5 KB, down from 13.4 KB) with no biography; it now reads `USER_PROFILE.md` when present and otherwise asks the six questions in the new `templates/USER_PROFILE_TEMPLATE.md`, whose labelled fictional example keeps the earlier preferences (legacy targets, dark interface theme, zipped deliverables) available to anyone who wants them (RISK-006). The personal-reference scan gained third-person profile patterns. REQ-PROF-001 / TEST-PROF-001 (FEAT-033).
