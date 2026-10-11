@@ -50,7 +50,7 @@ Domain guides are informative reference, never requirements: `docs/010`, `docs/0
 ## 5. First-five-minutes protocol
 
 1. This file is loaded; note the package_id and version in its header.
-2. Run `python tools/run_all_audits.py --quiet`; it writes only git-ignored `reports/*.txt` and temporary copies outside the tree, so it is safe in every mode. PASS: trust the tree. FAIL: report the failing tool verbatim and stop structural work; a red audit on a fresh copy is a bug to report, not to work around. If you cannot run commands, say so, apply `templates/MANUAL_AUDIT_CHECKLIST.md` by hand, and do not claim the tree is audited.
+2. Run `python tools/run_all_audits.py --quiet`; it writes only git-ignored files (`reports/*.txt`, Python caches) and temporary copies outside the tree, so it is safe in every mode. PASS: trust the tree. FAIL: report the failing tool verbatim and stop structural work; a red audit on a fresh copy is a bug to report, not to work around. If you cannot run commands, say so, apply `templates/MANUAL_AUDIT_CHECKLIST.md` by hand, and do not claim the tree is audited.
 3. Read `README_START_HERE.md`, then the leading tier 0-1 records of `docs/index.json` (they come first).
 4. Choose the mode (section 6), load its reading set, and read `USER_PROFILE.md` if it exists.
 5. Report back: AISOP version loaded; audit result (or "could not run"); mode; the normative rule (section 3) in one sentence; files read; files intentionally not read; first proposed acceptance-gated step.

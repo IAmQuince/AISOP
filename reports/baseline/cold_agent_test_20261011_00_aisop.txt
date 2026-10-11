@@ -1,0 +1,61 @@
+COLD-AGENT TEST LOG (TEST-ENTRY-004)
+========================================================================
+package_id: 20261011_00_aisop
+version: 0.3.0 (REV-003)
+date: 2026-10-11
+tool: Claude Code (one tool for this release; the second tool required from
+      Phase 4 is pending the owner's answer to QUESTION-002)
+method: each run is a fresh Claude Code agent with no other context, working
+        in a fresh clone (or an unzipped edition). The repository's CLAUDE.md,
+        with its @AGENTS.md import inlined, is supplied as the auto-loaded
+        project memory. Tool-call lists are the agent's own log of its calls.
+prompt: "Get up to speed on AISOP"
+expected (docs/300 section 8.3): reaches a running audit within six tool calls;
+        minute-5 report with mode ORIENT; states the normative rule (only
+        docs/005 and the catalog define REQ-*; Normative governance documents
+        bind process; domain guides are informative); opens no domain guide.
+
+RUN C2 (OFFICIAL)  commit 34adc05, fresh clone named AISOP
+------------------------------------------------------------------------
+tool calls before the report: 5
+  1 Bash  python tools/run_all_audits.py --quiet      -> SUMMARY: PASS (9 of 9), exit 0
+  2 Bash  ls -la; ls docs
+  3 Read  README_START_HERE.md
+  4 Bash  print docs/index.json records (tier, path, summary)
+  5 Bash  git status --short --branch; git log --oneline -5; ls EDITION_INFO.md USER_PROFILE.md
+minute-5 report:
+  version: 0.3.0, REV-003, 20261011_00_aisop, Full edition (no EDITION_INFO.md)
+  audit: PASS 9/9
+  mode: ORIENT
+  normative rule: "Normative documents are binding on anyone changing the package,
+    but only docs/005_PRODUCT_REQUIREMENTS.md and requirements/requirements_catalog.json
+    define REQ-* requirements. Informative SOPs are followed for the steps they're
+    routed to, and docs/001 and docs/005 win on conflict."
+  files read: AGENTS.md and CLAUDE.md (auto-loaded), README_START_HERE.md, docs/index.json summaries
+  not read: docs/001, the APPLY and MODIFY-AISOP sets, docs/005, CHANGELOG, WORKPLAN,
+    every domain guide including docs/185 and docs/195
+  first step: offered per mode (APPLY: profile questions then concept brief; MODIFY-AISOP:
+    read docs/165, 160, 166, 120)
+domain guide opened: none
+verdict: PASS. Calls 5 (<= 6), audit at call 1, ORIENT, requirements-source and
+  binding rules stated, no domain guide opened. One item partial: the report did
+  not restate that domain guides are informative (it listed them as tier-3
+  reference it chose not to read).
+
+EARLIER AND SUPPLEMENTARY RUNS (same day; findings fixed before run C2)
+------------------------------------------------------------------------
+Run A  commit 654f0a1. Mistaken setup: no auto-loaded memory and a "modify nothing"
+       instruction. 9 calls; found AGENTS.md through CLAUDE.md on disk; ran only the
+       read-only checks. Finding: AGENTS.md did not say the audits are safe to run.
+       Fixed in Phase 2 (step 2 now says what the audits write).
+Run B  commit 654f0a1. Auto-loaded memory, but the same "modify nothing / stay inside
+       the clone" constraint; 15 calls, full audit not run. ORIENT and the normative
+       rule were correct; no domain guide opened. Not counted (setup flaw).
+Run C  commit d3f1844. Official setup. 5 calls, audit PASS 9/9 at call 2, ORIENT,
+       no domain guide; normative rule not stated. Finding: AGENTS.md step 5 did not
+       ask for it. Fixed in 34adc05; re-run as C2.
+Run D  Unzipped Method Kit staged from d3f1844, opener "Read AGENTS.md and follow its
+       first-five-minutes protocol." Audit PASS 9/9 inside the unzipped kit (call 8,
+       after reading the audit code first); ORIENT; EDITION_INFO.md identified the
+       edition. Finding: the audits also create git-ignored __pycache__ folders;
+       AGENTS.md step 2 wording made precise.
