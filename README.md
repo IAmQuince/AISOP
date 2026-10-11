@@ -1,11 +1,11 @@
 ---
 document_id: DOC-000-GITHUB-README
 title: "AISOP"
-version: 0.2.0
+version: 0.3.0
 revision: REV-003
 status: DRAFT-REFERENCE
 last_updated: 2026-10-11
-package_id: 20260516_00_seed
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-000-GITHUB-README
 normative_status: Informative
 tier: 2
@@ -23,9 +23,9 @@ AISOP is a set of working procedures for building software with an AI assistant 
 | If you use | Get | Size budget | Then type |
 |---|---|---|---|
 | Any chat product, including free plans and custom-instruction boxes. | **Card**: [AISOP_CARD.md](https://github.com/IAmQuince/AISOP/releases/latest/download/AISOP_CARD.md) | 8,192 bytes | Use the AISOP card above as your operating rules. Reply with the AISOP version it names and the word ORIENT, then ask me for my idea. |
-| Chat-only plans with file upload but no filesystem or shell; beginners. | **Chat Kit**: [20260516_00_seed_chatkit.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20260516_00_seed_chatkit.zip) | 122,880 bytes, at most 40 files | I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'. |
-| Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides. | **Method Kit**: [20260516_00_seed_method.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20260516_00_seed_method.zip) | 524,288 bytes | Read AGENTS.md and follow its first-five-minutes protocol. |
-| Maintainers, contributors, and projects that need the domain guides. | **Full**: `git clone https://github.com/IAmQuince/AISOP.git` or [20260516_00_seed.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20260516_00_seed.zip) | unbudgeted | Read AGENTS.md and follow its first-five-minutes protocol. |
+| Chat-only plans with file upload but no filesystem or shell; beginners. | **Chat Kit**: [20261011_00_aisop_chatkit.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20261011_00_aisop_chatkit.zip) | 122,880 bytes, at most 40 files | I have uploaded the AISOP Chat Kit. Read EDITION_INFO.md, then README_START_HERE.md, then the card. Work in ORIENT or APPLY mode only and never ask for a file that EDITION_INFO.md does not list. Reply with: the AISOP version and package_id, the files you can see, the word ORIENT, and the question 'what is your idea?'. |
+| Agentic tools with a filesystem (Claude Code, Codex CLI, Cursor, Copilot agents, Gemini CLI); practitioners who want the full method and audit tooling without the domain guides. | **Method Kit**: [20261011_00_aisop_method.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20261011_00_aisop_method.zip) | 524,288 bytes | Read AGENTS.md and follow its first-five-minutes protocol. |
+| Maintainers, contributors, and projects that need the domain guides. | **Full**: `git clone https://github.com/IAmQuince/AISOP.git` or [20261011_00_aisop.zip](https://github.com/IAmQuince/AISOP/releases/latest/download/20261011_00_aisop.zip) | unbudgeted | Read AGENTS.md and follow its first-five-minutes protocol. |
 <!-- GENERATED:END chooser -->
 
 The download links work from the first tiered release (v0.3.0) on the GitHub Releases page. Until then, clone the repository, or build the files yourself with `python tools/build_editions.py zips` (they land in `dist/`).

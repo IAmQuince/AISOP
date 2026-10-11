@@ -1,11 +1,11 @@
 ---
 document_id: DOC-100
 title: "Release Versioning and Zip Handoff SOP"
-version: 0.2.0
+version: 0.3.0
 revision: REV-003
 status: DRAFT-REFERENCE
 last_updated: 2026-10-11
-package_id: 20260516_00_seed
+package_id: 20261011_00_aisop
 machine_reference_prefix: DOC-100
 normative_status: Normative
 tier: 2
