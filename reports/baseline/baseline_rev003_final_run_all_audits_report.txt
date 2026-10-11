@@ -1,0 +1,530 @@
+RUN ALL AUDITS REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:03
+package_root: /home/user/AISOP
+python: 3.13.16
+
+COMMAND: python tools/package_structure_audit.py
+PACKAGE STRUCTURE AUDIT REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:03
+package_root: /home/user/AISOP
+edition: full
+
+REQUIRED ROOT FILES
+------------------------------------------------------------------------
+PASS README_START_HERE.md
+PASS CHANGELOG.md
+PASS FEATURE_INVENTORY.md
+PASS ACCEPTANCE_TEST_PLAN.md
+PASS KNOWN_LIMITATIONS.md
+PASS WORKPLAN_CURRENT_RUN.md
+PASS PACKAGE_MANIFEST.md
+PASS REQUIREMENTS_TRACEABILITY_MATRIX.md
+PASS README.md
+PASS CONTRIBUTING.md
+PASS SECURITY.md
+PASS SAFETY.md
+PASS SUPPORT.md
+PASS LICENSE.txt
+PASS NOTICE.md
+PASS CODE_OF_CONDUCT.md
+
+REQUIRED DIRECTORIES
+------------------------------------------------------------------------
+PASS docs/
+PASS tools/
+PASS tests/
+PASS reports/
+PASS src/
+PASS requirements/
+PASS config/
+PASS .github/
+
+MARKDOWN DOCUMENT CONTROL
+------------------------------------------------------------------------
+PASS ACCEPTANCE_TEST_PLAN.md -> DOC-000-ACCEPTANCE-TEST-PLAN (tier 2)
+PASS AGENTS.md -> DOC-AGENTS (tier 2)
+PASS CHANGELOG.md -> DOC-000-CHANGELOG (tier 2)
+PASS CLAUDE.md -> DOC-POINTER-CLAUDE (tier 2)
+PASS CODE_OF_CONDUCT.md -> DOC-000-CODE-OF-CONDUCT (tier 2)
+PASS CONTRIBUTING.md -> DOC-000-CONTRIBUTING (tier 2)
+PASS FEATURE_INVENTORY.md -> DOC-000-FEATURE-INVENTORY (tier 2)
+PASS GEMINI.md -> DOC-POINTER-GEMINI (tier 2)
+PASS KNOWN_LIMITATIONS.md -> DOC-000-KNOWN-LIMITATIONS (tier 2)
+PASS NOTICE.md -> DOC-000-NOTICE (tier 1)
+PASS PACKAGE_MANIFEST.md -> DOC-000-MANIFEST (tier 2)
+PASS README.md -> DOC-000-GITHUB-README (tier 2)
+PASS README_START_HERE.md -> DOC-000-README (tier 1)
+PASS REQUIREMENTS_TRACEABILITY_MATRIX.md -> DOC-000-TRACEABILITY (tier 2)
+PASS SAFETY.md -> DOC-000-SAFETY (tier 2)
+PASS SECURITY.md -> DOC-000-SECURITY (tier 2)
+PASS SUPPORT.md -> DOC-000-SUPPORT (tier 2)
+PASS WORKPLAN_CURRENT_RUN.md -> DOC-000-WORKPLAN-CURRENT-RUN (tier 2)
+PASS docs/000_DOCUMENTATION_INDEX.md -> DOC-000 (tier 2)
+PASS docs/000_USER_GUIDE_OVERVIEW.md -> DOC-000-010 (tier 3)
+PASS docs/001_AISOP_CORE_RULES.md -> DOC-001 (tier 0)
+PASS docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md -> DOC-002 (tier 1)
+PASS docs/003_GLOSSARY.md -> DOC-003 (tier 1)
+PASS docs/004_EDITIONS_AND_UPGRADE_PATH.md -> DOC-004 (tier 1)
+PASS docs/005_PRODUCT_REQUIREMENTS.md -> DOC-005 (tier 2)
+PASS docs/010_WINDOWS_SOFTWARE_DOWNLOAD_AND_INSTALLATION_GUIDE.md -> DOC-010 (tier 3)
+PASS docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md -> DOC-020 (tier 1)
+PASS docs/030_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md -> DOC-030 (tier 2)
+PASS docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md -> DOC-040 (tier 2)
+PASS docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md -> DOC-050 (tier 1)
+PASS docs/055_MONOLITHIC_PROTOTYPE_CODE_EXAMPLE.md -> DOC-055 (tier 3)
+PASS docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md -> DOC-060 (tier 2)
+PASS docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md -> DOC-070 (tier 2)
+PASS docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md -> DOC-080 (tier 2)
+PASS docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md -> DOC-090 (tier 2)
+PASS docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md -> DOC-100 (tier 2)
+PASS docs/110_SECURITY_AND_SAFETY_BASELINE_SOP.md -> DOC-110 (tier 2)
+PASS docs/120_CONTRIBUTION_REVIEW_AND_ISSUE_WORKFLOW_SOP.md -> DOC-120 (tier 2)
+PASS docs/130_PRODUCT_LAUNCH_READINESS_CHECKLIST.md -> DOC-130 (tier 2)
+PASS docs/140_LICENSE_IP_AND_ATTRIBUTION_DECISION_GUIDE.md -> DOC-140 (tier 2)
+PASS docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md -> DOC-150 (tier 2)
+PASS docs/160_MAINTAINER_PLAYBOOK.md -> DOC-160 (tier 2)
+PASS docs/165_AI_AGENT_HANDOFF_PROTOCOL.md -> DOC-165 (tier 2)
+PASS docs/166_EDITIONS_AND_TIERS_SOP.md -> DOC-166 (tier 2)
+PASS docs/170_COMPATIBILITY_LESSONS_LEARNED.md -> DOC-170 (tier 3)
+PASS docs/180_HARDWARE_DAQ_CONTROL_INTERFACE_DOCTRINE.md -> DOC-180 (tier 3)
+PASS docs/185_DAQ_CONTROL_CODE_PATTERNS_AND_THREADING.md -> DOC-185 (tier 3)
+PASS docs/190_INLINE_QC_DEFECT_DETECTION_AND_ANALYSIS_DOCTRINE.md -> DOC-190 (tier 3)
+PASS docs/195_QC_DEFECT_CODE_PATTERNS_AND_DATABASE_EXAMPLES.md -> DOC-195 (tier 3)
+PASS docs/200_FILE_DOWNLOAD_INSTALLATION_AND_COMMAND_SHELL_GUIDE.md -> DOC-200 (tier 3)
+PASS docs/205_PYTHON_LIBRARY_REFERENCE_AND_ENVIRONMENT_BUNDLE.md -> DOC-205 (tier 3)
+PASS docs/210_RASPBERRY_PI_ARDUINO_ESP32_SETUP_AND_LIBRARY_GUIDE.md -> DOC-210 (tier 3)
+PASS docs/220_PYGAME_SIMULATION_AND_EXPLORATION_GUIDE.md -> DOC-220 (tier 3)
+PASS docs/240_MIDI_PYTHON_AND_COMPUTER_INSTRUMENT_CONTROL_GUIDE.md -> DOC-240 (tier 3)
+PASS docs/250_LABJACK_U3_U6_LABJACKPYTHON_GUIDE.md -> DOC-250 (tier 3)
+PASS docs/260_I2C_COMMUNICATION_GUIDE.md -> DOC-260 (tier 3)
+PASS docs/270_PYDROID_ANDROID_PYTHON_AND_AI_CODING_WORKFLOW_GUIDE.md -> DOC-270 (tier 3)
+PASS docs/280_NETWORKING_IP_ADDRESSES_COMMAND_LINE_FILE_TRANSFER_GUIDE.md -> DOC-280 (tier 3)
+PASS docs/290_GUI_DEVELOPMENT_PLATFORM_AND_DESIGN_GUIDE.md -> DOC-290 (tier 3)
+PASS docs/300_AISOP_EXPANSION_GAMEPLAN_REV003.md -> DOC-300 (tier 3)
+PASS docs/999_SOURCE_CLEANUP_NOTES.md -> DOC-999 (tier 3)
+PASS examples/hello_aisop/000_PLANNING_DOCUMENT.md -> DOC-EX-PLAN (tier 1)
+PASS examples/hello_aisop/ACCEPTANCE_TEST_PLAN.md -> DOC-EX-TESTS (tier 1)
+PASS examples/hello_aisop/CHANGELOG.md -> DOC-EX-CHANGELOG (tier 1)
+PASS examples/hello_aisop/FEATURE_INVENTORY.md -> DOC-EX-FEATURES (tier 1)
+PASS examples/hello_aisop/KNOWN_LIMITATIONS.md -> DOC-EX-LIMITS (tier 1)
+PASS examples/hello_aisop/README_START_HERE.md -> DOC-EX-README (tier 1)
+PASS examples/hello_aisop/tools/README.md -> DOC-EX-TOOLS (tier 1)
+PASS reports/README.md -> DOC-README-REPORTS (tier 2)
+PASS src/README.md -> DOC-README-SRC (tier 2)
+PASS templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md -> DOC-TPL-HANDOFF (tier 1)
+PASS templates/CHANGELOG_TEMPLATE.md -> DOC-TPL-CHANGELOG (tier 1)
+PASS templates/CONCEPT_BRIEF_TEMPLATE.md -> DOC-TPL-CONCEPT (tier 1)
+PASS templates/FEATURE_INVENTORY_TEMPLATE.md -> DOC-TPL-FEATURES (tier 1)
+PASS templates/FINAL_PACKAGE_REPORT_TEMPLATE.md -> DOC-TPL-FINAL-REPORT (tier 1)
+PASS templates/FIRST_SESSION_PROMPTS.md -> DOC-TPL-PROMPTS (tier 1)
+PASS templates/ID_RECORD_FORMATS.md -> DOC-TPL-ID-FORMATS (tier 1)
+PASS templates/KNOWN_LIMITATIONS_TEMPLATE.md -> DOC-TPL-LIMITS (tier 1)
+PASS templates/MANUAL_AUDIT_CHECKLIST.md -> DOC-TPL-MANUAL-AUDIT (tier 1)
+PASS templates/PLANNING_DOCUMENT_TEMPLATE.md -> DOC-TPL-PLAN (tier 1)
+PASS templates/README.md -> DOC-TPL-INDEX (tier 1)
+PASS templates/README_START_HERE_TEMPLATE.md -> DOC-TPL-START-HERE (tier 1)
+PASS templates/USER_PROFILE_TEMPLATE.md -> DOC-TPL-USER-PROFILE (tier 1)
+PASS tests/README.md -> DOC-README-TESTS (tier 2)
+
+REQUIREMENT CATALOG
+------------------------------------------------------------------------
+PASS requirements_catalog.json contains 42 requirements
+
+FEATURE AND TEST IDS
+------------------------------------------------------------------------
+PASS feature IDs found: 32
+PASS acceptance test IDs found: 42
+
+CODE FENCE PARITY (REQ-DOC-004)
+------------------------------------------------------------------------
+PASS every Markdown file has balanced code fences
+
+EXAMPLE PACKAGES
+------------------------------------------------------------------------
+PASS examples/hello_aisop registered as an example package with its own package_id 20261011_00_hello_aisop
+
+PERSONAL REFERENCE SCAN
+------------------------------------------------------------------------
+PASS no configured personal-reference or profile-phrase patterns found
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/repo_health_audit.py
+REPO HEALTH AUDIT REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:04
+package_root: /home/user/AISOP
+
+REQUIRED REPOSITORY FILES
+------------------------------------------------------------------------
+PASS README.md
+PASS README_START_HERE.md
+PASS CONTRIBUTING.md
+PASS SECURITY.md
+PASS SAFETY.md
+PASS SUPPORT.md
+PASS CODE_OF_CONDUCT.md
+PASS NOTICE.md
+PASS CITATION.cff
+PASS .gitignore
+PASS .gitattributes
+PASS .editorconfig
+PASS .github/PULL_REQUEST_TEMPLATE.md
+PASS .github/dependabot.yml
+PASS .github/workflows/ci.yml
+PASS .github/workflows/package_audit.yml
+PASS .github/workflows/release_dry_run.yml
+PASS .github/workflows/release.yml
+PASS .github/ISSUE_TEMPLATE/bug_report.yml
+PASS .github/ISSUE_TEMPLATE/feature_request.yml
+PASS .github/ISSUE_TEMPLATE/documentation_update.yml
+PASS .github/ISSUE_TEMPLATE/safety_or_security_review.yml
+PASS .github/ISSUE_TEMPLATE/package_regression.yml
+PASS .github/ISSUE_TEMPLATE/first_session_report.yml
+PASS docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md
+PASS docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md
+PASS docs/100_RELEASE_VERSIONING_AND_ZIP_HANDOFF_SOP.md
+PASS docs/110_SECURITY_AND_SAFETY_BASELINE_SOP.md
+PASS docs/120_CONTRIBUTION_REVIEW_AND_ISSUE_WORKFLOW_SOP.md
+PASS docs/130_PRODUCT_LAUNCH_READINESS_CHECKLIST.md
+PASS docs/140_LICENSE_IP_AND_ATTRIBUTION_DECISION_GUIDE.md
+PASS docs/150_CI_TESTING_AND_REPO_HEALTH_AUDIT_GUIDE.md
+PASS docs/160_MAINTAINER_PLAYBOOK.md
+PASS docs/165_AI_AGENT_HANDOFF_PROTOCOL.md
+
+CONTENT CHECKS
+------------------------------------------------------------------------
+PASS README.md contains 'README_START_HERE.md'
+PASS README.md contains 'space of practices'
+PASS README.md contains 'GitHub'
+PASS docs/080_AISOP_AS_A_SPACE_OF_PRACTICES.md contains 'practice space'
+PASS docs/090_GITHUB_REPOSITORY_BOOTSTRAP_SOP.md contains 'zip package'
+PASS .github/workflows/ci.yml contains 'run_all_audits.py'
+PASS SECURITY.md contains 'No-secrets'
+PASS SAFETY.md contains 'SAFE-CLASS-3'
+
+LICENSE
+------------------------------------------------------------------------
+PASS config names license_file and license_name
+PASS LICENSE.txt contains 'MIT License'
+PASS NOTICE.md names 'MIT License' and LICENSE.txt
+
+CI DEFAULT BRANCH
+------------------------------------------------------------------------
+PASS ci.yml on.push.branches ['master', 'main'] contains default_branch 'master'
+
+CANONICAL FINAL PACKAGE REPORT
+------------------------------------------------------------------------
+PASS canonical report template exists: templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS AGENTS.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/001_AISOP_CORE_RULES.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+PASS docs/165_AI_AGENT_HANDOFF_PROTOCOL.md cites templates/FINAL_PACKAGE_REPORT_TEMPLATE.md
+
+RELEASE WORKFLOW
+------------------------------------------------------------------------
+PASS release.yml runs on v* tags
+PASS release.yml runs run_all_audits.py before build_editions.py zips
+PASS release.yml checks the tag against the configured version
+
+RUNTIME REPORTS
+------------------------------------------------------------------------
+PASS .gitignore ignores reports/*.txt
+PASS no runtime reports/*.txt are tracked
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/edition_audit.py
+EDITION AUDIT REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:04
+package_root: /home/user/AISOP
+edition: full
+
+REFERENCES IN THIS TREE (TEST-LINK-001)
+------------------------------------------------------------------------
+PASS every link and backticked repo path resolves (full tree)
+
+AGENTS.md (TEST-ENTRY-001)
+------------------------------------------------------------------------
+PASS AGENTS.md is 7833 of 8192 bytes (headroom 359)
+PASS header package_id/version equal config (20261011_00_aisop 0.3.0)
+PASS normative_status is Normative
+PASS body names no package_id-shaped token (found: none)
+PASS GENERATED region 'rules' present
+PASS GENERATED region 'commands' present
+PASS states ORIENT
+PASS states APPLY
+PASS states MODIFY-AISOP
+PASS states DOMAIN-LOOKUP
+PASS states docs/005_PRODUCT_REQUIREMENTS.md
+
+CARD (TEST-ED-003)
+------------------------------------------------------------------------
+PASS rules block is 1779 of 4096 bytes
+PASS docs/001_AISOP_CORE_RULES.md is Normative
+PASS card report labels equal templates/FINAL_PACKAGE_REPORT_TEMPLATE.md (15 labels)
+
+POINTER FILES (TEST-ENTRY-002)
+------------------------------------------------------------------------
+PASS CLAUDE.md is 538 of 1024 bytes
+PASS CLAUDE.md has a document-control header
+PASS CLAUDE.md names AGENTS.md
+PASS GEMINI.md is 536 of 1024 bytes
+PASS GEMINI.md has a document-control header
+PASS GEMINI.md names AGENTS.md
+
+PACKAGE IDENTITY
+------------------------------------------------------------------------
+PASS every header package_id equals 20261011_00_aisop
+
+TEMPLATES (TEST-TPL-001)
+------------------------------------------------------------------------
+PASS templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md derived_from DOC-165 resolves to docs/165_AI_AGENT_HANDOFF_PROTOCOL.md
+PASS templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/CHANGELOG_TEMPLATE.md derived_from DOC-070 resolves to docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md
+PASS templates/CHANGELOG_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/CONCEPT_BRIEF_TEMPLATE.md derived_from DOC-030 resolves to docs/030_CONCEPT_DEVELOPMENT_AND_REQUIREMENTS_BRIEF.md
+PASS templates/CONCEPT_BRIEF_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/FEATURE_INVENTORY_TEMPLATE.md derived_from DOC-060 resolves to docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md
+PASS templates/FEATURE_INVENTORY_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/FINAL_PACKAGE_REPORT_TEMPLATE.md derived_from DOC-070 resolves to docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md
+PASS templates/FINAL_PACKAGE_REPORT_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/FIRST_SESSION_PROMPTS.md uses placeholder IDs only (found: none)
+PASS templates/ID_RECORD_FORMATS.md uses placeholder IDs only (found: none)
+PASS templates/KNOWN_LIMITATIONS_TEMPLATE.md derived_from DOC-070 resolves to docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md
+PASS templates/KNOWN_LIMITATIONS_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/MANUAL_AUDIT_CHECKLIST.md uses placeholder IDs only (found: none)
+PASS templates/PLANNING_DOCUMENT_TEMPLATE.md derived_from DOC-040 resolves to docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md
+PASS templates/PLANNING_DOCUMENT_TEMPLATE.md headings equal the Required sections in docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md (23 sections)
+PASS templates/PLANNING_DOCUMENT_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/README.md uses placeholder IDs only (found: none)
+PASS templates/README_START_HERE_TEMPLATE.md derived_from DOC-070 resolves to docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md
+PASS templates/README_START_HERE_TEMPLATE.md headings equal the Required sections in docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md (8 sections)
+PASS templates/README_START_HERE_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS templates/USER_PROFILE_TEMPLATE.md derived_from DOC-020 resolves to docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md
+PASS templates/USER_PROFILE_TEMPLATE.md uses placeholder IDs only (found: none)
+PASS docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md lists Required sections for templates/PLANNING_DOCUMENT_TEMPLATE.md, which exists
+PASS docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md lists Required sections for templates/README_START_HERE_TEMPLATE.md, which exists
+
+ID CITATIONS IN TIER 0-1 DOCUMENTS
+------------------------------------------------------------------------
+PASS every cited REQ/FEAT/TEST ID exists
+
+GLOSSARY (TEST-BEG-001)
+------------------------------------------------------------------------
+PASS 24 ID families defined
+PASS 22 seeded terms defined
+
+SIZE CAPS
+------------------------------------------------------------------------
+PASS docs/001_AISOP_CORE_RULES.md 5146 of 8192 bytes
+PASS docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md 7362 of 12288 bytes
+PASS docs/003_GLOSSARY.md 5188 of 6144 bytes
+PASS docs/004_EDITIONS_AND_UPGRADE_PATH.md 4210 of 5120 bytes
+PASS templates/AGENT_HANDOFF_BUNDLE_TEMPLATE.md 1093 of 4096 bytes
+PASS templates/CHANGELOG_TEMPLATE.md 782 of 4096 bytes
+PASS templates/CONCEPT_BRIEF_TEMPLATE.md 1615 of 4096 bytes
+PASS templates/FEATURE_INVENTORY_TEMPLATE.md 721 of 4096 bytes
+PASS templates/FINAL_PACKAGE_REPORT_TEMPLATE.md 3359 of 4096 bytes
+PASS templates/FIRST_SESSION_PROMPTS.md 1628 of 4096 bytes
+PASS templates/KNOWN_LIMITATIONS_TEMPLATE.md 581 of 4096 bytes
+PASS templates/MANUAL_AUDIT_CHECKLIST.md 2141 of 4096 bytes
+PASS templates/PLANNING_DOCUMENT_TEMPLATE.md 2045 of 4096 bytes
+PASS templates/README.md 1580 of 4096 bytes
+PASS templates/README_START_HERE_TEMPLATE.md 1186 of 4096 bytes
+PASS templates/USER_PROFILE_TEMPLATE.md 3040 of 4096 bytes
+PASS templates/ID_RECORD_FORMATS.md 1911 of 6144 bytes
+PASS templates/** total 21682 of 24576 bytes
+PASS examples/hello_aisop/** total 10691 of 12288 bytes
+PASS tools/aisop_check.py 8868 of 10240 bytes
+
+WARNINGS
+------------------------------------------------------------------------
+PASS cold-agent log present: reports/baseline/cold_agent_test_20261011_00_aisop.txt
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/build_editions.py --check
+BUILD EDITIONS CHECK
+========================================================================
+package_id: 20261011_00_aisop
+tree edition: full
+
+GENERATED FILES
+------------------------------------------------------------------------
+PASS every generated file and region is fresh
+
+EDITIONS
+------------------------------------------------------------------------
+PASS card AISOP_CARD.md: 4592 of 8192 bytes (56%)
+WARN chatkit: 32 files, 95337 of 122880 bytes (78%), headroom 27543 bytes
+    largest:    11245  docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md
+    largest:    10931  docs/020_AI_COLLABORATION_OPERATING_INSTRUCTIONS.md
+    largest:     8868  tools/aisop_check.py
+    largest:     7362  docs/002_BEGINNERS_GUIDE_TO_AI_AGENTS.md
+    largest:     5188  docs/003_GLOSSARY.md
+PASS chatkit: 32 files (max_files 40)
+PASS chatkit: basenames unique (flat upload safe; example packages upload separately)
+PASS chatkit: every link and backticked repo path resolves inside the edition
+WARN method: 103 files, 520955 of 524288 bytes (99%), headroom 3333 bytes
+    largest:    29069  docs/060_MONOLITH_TO_PACKAGE_MIGRATION_SOP.md
+    largest:    27232  requirements/requirements_catalog.json
+    largest:    21627  docs/040_MONOLITHIC_PLANNING_DOCUMENT_SOP.md
+    largest:    21127  docs/index.json
+    largest:    20117  docs/070_ZIP_PACKAGE_REVIEW_AND_HANDOFF_SOP.md
+PASS method: every link and backticked repo path resolves inside the edition
+PASS full: 129 files, 1265527 bytes (unbudgeted)
+PASS full: same file set as this tree; its references are checked by tools/edition_audit.py
+
+SUMMARY: PASS
+WARNING: chatkit: 32 files, 95337 of 122880 bytes (78%), headroom 27543 bytes
+WARNING: method: 103 files, 520955 of 524288 bytes (99%), headroom 3333 bytes
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tests/smoke_test.py
+PACKAGE SMOKE TEST REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:04
+python: 3.13.16
+package_root: /home/user/AISOP
+
+REQUIRED DOCUMENTS
+------------------------------------------------------------------------
+PASS exists and non-empty: README_START_HERE.md
+PASS exists and non-empty: docs/005_PRODUCT_REQUIREMENTS.md
+PASS exists and non-empty: FEATURE_INVENTORY.md
+PASS exists and non-empty: ACCEPTANCE_TEST_PLAN.md
+PASS exists and non-empty: requirements/requirements_catalog.json
+
+ID COUNTS
+------------------------------------------------------------------------
+PASS requirement catalog loaded with 42 entries
+PASS feature IDs counted: 32
+PASS acceptance test IDs counted: 42
+
+ENTRY FILE AND INDEX
+------------------------------------------------------------------------
+PASS AGENTS.md present
+PASS docs/index.json lists every document (84 of 84)
+PASS every index record has the documented keys
+PASS index records are ordered by tier, then path
+
+EXAMPLE PACKAGE (TEST-EX-001)
+------------------------------------------------------------------------
+PASS aisop_check.py --root examples/hello_aisop --run passes
+
+RELEASE ROOT FROM PACKAGE_ID (TEST-REL-002)
+------------------------------------------------------------------------
+PASS release from folder 'Renamed_Working_Copy' writes 20261011_00_aisop.zip
+PASS archive internal root is 20261011_00_aisop/
+PASS archive_name_audit passes on the built archive
+PASS release tool warns that the working-copy folder differs from the release root
+
+NEGATIVE CASES (TEST-ENTRY-003, TEST-ED-001)
+------------------------------------------------------------------------
+PASS edited_generated_region: tools/build_editions.py --check exits 1
+PASS edited_generated_region: failure message names docs/001_AISOP_CORE_RULES.md
+PASS missing_tier_key: tools/package_structure_audit.py exits 1
+PASS missing_tier_key: failure message names docs/050_MONOLITHIC_PROTOTYPE_CODE_SOP.md
+
+METHOD KIT SELF-AUDIT (TEST-ED-002)
+------------------------------------------------------------------------
+PASS stage the method edition
+PASS run_all_audits.py passes inside 20261011_00_aisop_method/
+
+CHAT KIT CONTENTS (TEST-BEG-001)
+------------------------------------------------------------------------
+PASS EDITION_INFO.md lists exactly the 32 staged files
+PASS every document is tier 0-1 (found higher: none)
+PASS AISOP's own CHANGELOG.md and KNOWN_LIMITATIONS.md are not in the kit
+
+EDITION ZIPS (TEST-ED-004)
+------------------------------------------------------------------------
+PASS build run a writes the release assets
+PASS build run b writes the release assets
+PASS content checksums reproduce (4 assets)
+PASS 20261011_00_aisop.zip: single root 20261011_00_aisop/ with EDITION_INFO.md
+PASS 20261011_00_aisop_chatkit.zip: single root 20261011_00_aisop_chatkit/ with EDITION_INFO.md
+PASS 20261011_00_aisop_method.zip: single root 20261011_00_aisop_method/ with EDITION_INFO.md
+
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/requirements_trace_audit.py
+REQUIREMENTS TRACE AUDIT REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:07
+
+PASS all 42 requirements have product doc, acceptance-test, and traceability references
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/secret_scan_lite.py
+SECRET SCAN LITE REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:07
+package_root: /home/user/AISOP
+
+PASS no configured secret-like patterns found
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/release_package.py --dry-run
+RELEASE PACKAGE REPORT
+========================================================================
+timestamp: 2026-10-11 02:17:07
+package_root: /home/user/AISOP
+package_id: 20261011_00_aisop
+editions: full
+output: /home/user/AISOP/dist
+dry_run: True
+
+PASS dry run: naming resolved without writing archives
+PASS archive 20261011_00_aisop.zip would unpack to 20261011_00_aisop/
+
+SUMMARY
+------------------------------------------------------------------------
+SUMMARY: PASS
+WARNING: working-copy folder 'AISOP' differs from the release root '20261011_00_aisop'; the archive uses '20261011_00_aisop' (clone folder names are a working-copy convention, the package_id is the handoff identity)
+RETURN_CODE: 0
+------------------------------------------------------------------------
+COMMAND: python tools/manifest_update.py --check
+PASS PACKAGE_MANIFEST.md matches the tree (127 files)
+SUMMARY: PASS
+RETURN_CODE: 0
+------------------------------------------------------------------------
+
+RESULTS
+------------------------------------------------------------------------
+PASS python tools/package_structure_audit.py
+PASS python tools/repo_health_audit.py
+PASS python tools/edition_audit.py
+PASS python tools/build_editions.py --check
+PASS python tests/smoke_test.py
+PASS python tools/requirements_trace_audit.py
+PASS python tools/secret_scan_lite.py
+PASS python tools/release_package.py --dry-run
+PASS python tools/manifest_update.py --check
+
+SUMMARY: PASS
